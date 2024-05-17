@@ -17,10 +17,10 @@
 package com.scottlogic.datahelix.generator.profile.dtos;
 
 import com.scottlogic.datahelix.generator.profile.dtos.constraints.ConstraintType;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 class ConstraintTypeTest{
     @Test
@@ -28,13 +28,13 @@ class ConstraintTypeTest{
         String greaterThanString = ConstraintType.GREATER_THAN_OR_EQUAL_TO.propertyName;
         ConstraintType greaterThanOrEqualTo = ConstraintType.fromName(greaterThanString);
 
-        Assert.assertThat(greaterThanOrEqualTo, is(ConstraintType.GREATER_THAN_OR_EQUAL_TO));
+        assertThat(greaterThanOrEqualTo, is(ConstraintType.GREATER_THAN_OR_EQUAL_TO));
     }
 
     @Test
     void fromTextLowerCase() {
         ConstraintType greaterThanOrEqualTo = ConstraintType.fromName("shorterthan");
 
-        Assert.assertThat(greaterThanOrEqualTo, is(ConstraintType.SHORTER_THAN));
+        assertThat(greaterThanOrEqualTo, is(ConstraintType.SHORTER_THAN));
     }
 }

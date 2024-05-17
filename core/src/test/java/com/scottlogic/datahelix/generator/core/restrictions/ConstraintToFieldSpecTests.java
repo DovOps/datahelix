@@ -24,7 +24,7 @@ import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.OfLeng
 import org.junit.jupiter.api.Test;
 
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ConstraintToFieldSpecTests {
     private Field testField = createField("Test");

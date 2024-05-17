@@ -77,12 +77,12 @@ class CsvDataSetWriter implements DataSetWriter {
             return null;
         }
 
-        if (value instanceof BigDecimal) {
-            return ((BigDecimal) value).toPlainString();
+        if (value instanceof BigDecimal decimal) {
+            return decimal.toPlainString();
         }
 
-        if (value instanceof OffsetDateTime) {
-            return standardDateFormat.format((OffsetDateTime) value);
+        if (value instanceof OffsetDateTime time) {
+            return standardDateFormat.format(time);
         }
 
         return value;

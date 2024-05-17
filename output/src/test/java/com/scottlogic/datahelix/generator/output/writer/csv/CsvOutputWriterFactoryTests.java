@@ -23,7 +23,6 @@ import com.scottlogic.datahelix.generator.common.profile.ProfileFields;
 import com.scottlogic.datahelix.generator.output.writer.DataSetWriter;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -37,7 +36,8 @@ import java.util.stream.Collectors;
 
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createInternalField;
-import static org.mockito.Matchers.eq;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -126,7 +126,7 @@ class CsvOutputWriterFactoryTests {
         String generatedCsv = generateCsv(fields, mockGeneratedObject);
 
         // Assert
-        Assert.assertThat(generatedCsv, matcher);
+        assertThat(generatedCsv, matcher);
     }
 
     private static String generateCsv(Fields fields, GeneratedObject generatedObject) throws IOException {

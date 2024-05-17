@@ -18,10 +18,9 @@ package com.scottlogic.datahelix.generator.core.generation.databags;
 
 import com.scottlogic.datahelix.generator.common.profile.Field;
 import com.scottlogic.datahelix.generator.core.builders.DataBagBuilder;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
 
@@ -35,7 +34,7 @@ class DataBagTests {
         DataBag objectUnderTest = new DataBagBuilder().set(idField, 3).build();
 
         // ASSERT
-        Assert.assertThat(
+        assertThat(
             objectUnderTest.getFormattedValue(idField),
             equalTo(3));
     }
@@ -80,11 +79,11 @@ class DataBagTests {
         DataBag mergedDataBag = DataBag.merge(dataBag1, dataBag2);
 
         // ASSERT
-        Assert.assertThat(
+        assertThat(
             mergedDataBag.getFormattedValue(idField),
             equalTo(3));
 
-        Assert.assertThat(
+        assertThat(
             mergedDataBag.getFormattedValue(priceField),
             equalTo(4));
     }

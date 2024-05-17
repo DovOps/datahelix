@@ -22,7 +22,6 @@ import com.scottlogic.datahelix.generator.core.generation.fieldvaluesources.Line
 import com.scottlogic.datahelix.generator.core.restrictions.linear.Limit;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestrictions;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestrictionsFactory;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -35,6 +34,7 @@ import java.util.*;
 import static com.scottlogic.datahelix.generator.common.util.Defaults.ISO_MIN_DATE;
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.DATETIME_MAX_LIMIT;
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.DATETIME_MIN_LIMIT;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -75,7 +75,7 @@ public class DateTimeFieldValueSourceTests {
 
         Iterator<OffsetDateTime> iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(date.atTime(LocalTime.of(12, 0, 0)), ZoneOffset.UTC)));
 
         rng.setNextDouble(ALMOST_ONE);
@@ -84,14 +84,14 @@ public class DateTimeFieldValueSourceTests {
         // the new "random" value we have re-create the iterator
         iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(date.atTime(LocalTime.of(17, 59, 59, 999_000_000)), ZoneOffset.UTC)));
 
         rng.setNextDouble(0.5);
 
         iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(date.atTime(LocalTime.of(15, 0, 0)), ZoneOffset.UTC)));
 
     }
@@ -112,7 +112,7 @@ public class DateTimeFieldValueSourceTests {
 
         Iterator<OffsetDateTime> iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(date.atTime(LocalTime.of(12, 0, 0)), ZoneOffset.UTC)));
 
         rng.setNextDouble(ALMOST_ONE);
@@ -121,14 +121,14 @@ public class DateTimeFieldValueSourceTests {
         // the new "random" value we have re-create the iterator
         iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(date.atTime(LocalTime.of(18, 0, 0)), ZoneOffset.UTC)));
 
         rng.setNextDouble(0.5);
 
         iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(date.atTime(LocalTime.of(15, 0, 0)), ZoneOffset.UTC)));
     }
 
@@ -147,7 +147,7 @@ public class DateTimeFieldValueSourceTests {
 
         Iterator<OffsetDateTime> iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(date.atTime(LocalTime.of(12, 0, 0, 1_000_000)), ZoneOffset.UTC)));
 
         rng.setNextDouble(ALMOST_ONE);
@@ -156,14 +156,14 @@ public class DateTimeFieldValueSourceTests {
         // the new "random" value we have re-create the iterator
         iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(date.atTime(LocalTime.of(18, 0, 0)), ZoneOffset.UTC)));
 
         rng.setNextDouble(0.5);
 
         iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(date.atTime(LocalTime.of(15, 0, 0, 1_000_000)), ZoneOffset.UTC)));
     }
 
@@ -180,7 +180,7 @@ public class DateTimeFieldValueSourceTests {
 
         Iterator<OffsetDateTime> iterator = fieldSource.generateRandomValues(rng).iterator();
 
-        Assert.assertThat(iterator.next(),
+        assertThat(iterator.next(),
             equalTo(OffsetDateTime.of(9999, 12, 31, 23, 59, 59, 999_000_000, ZoneOffset.UTC)));
     }
 
@@ -193,8 +193,8 @@ public class DateTimeFieldValueSourceTests {
             restrictions("2001-02-03", "2010-11-12"),
             new HashSet<>(Arrays.asList(OffsetDateTime.MIN, OffsetDateTime.MAX)));
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -206,8 +206,8 @@ public class DateTimeFieldValueSourceTests {
             restrictions("2001-02-03", "2010-11-12"),
             new HashSet<>(Arrays.asList(OffsetDateTime.MAX, OffsetDateTime.MIN)));
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -219,8 +219,8 @@ public class DateTimeFieldValueSourceTests {
             restrictions("2001-02-03", "2010-11-12"),
             Collections.emptySet());
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -232,7 +232,7 @@ public class DateTimeFieldValueSourceTests {
             restrictions("2001-02-03", "2010-11-12"),
             new HashSet<>(Arrays.asList(OffsetDateTime.MIN, OffsetDateTime.MAX)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -244,7 +244,7 @@ public class DateTimeFieldValueSourceTests {
             restrictions("2001-02-03", "2010-11-12"),
             new HashSet<>(Arrays.asList(OffsetDateTime.MIN, OffsetDateTime.MAX)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -256,7 +256,7 @@ public class DateTimeFieldValueSourceTests {
             restrictions("2001-02-03", "2010-11-12"),
             new HashSet<>(Collections.singletonList(OffsetDateTime.MIN)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -268,7 +268,7 @@ public class DateTimeFieldValueSourceTests {
             restrictions("2001-02-03", "2010-11-12"),
             new HashSet<>(Arrays.asList(OffsetDateTime.MIN, OffsetDateTime.MAX)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -280,7 +280,7 @@ public class DateTimeFieldValueSourceTests {
             restrictions("2001-02-03", "2010-11-12"),
             new HashSet<>(Collections.singletonList(OffsetDateTime.MIN)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -296,7 +296,7 @@ public class DateTimeFieldValueSourceTests {
         //Act
         Iterator<OffsetDateTime> iterator = datesAfterLastPermittedDate.generateAllValues().iterator();
         //Assert
-        Assert.assertThat(iterator.hasNext(), is(false));
+        assertThat(iterator.hasNext(), is(false));
     }
 
     @Test
@@ -311,7 +311,7 @@ public class DateTimeFieldValueSourceTests {
         //Act
         Iterator<OffsetDateTime> iterator = datesBeforeFirstPermittedDate.generateAllValues().iterator();
         //Assert
-        Assert.assertThat(iterator.hasNext(), is(false));
+        assertThat(iterator.hasNext(), is(false));
     }
 
     private LinearRestrictions<OffsetDateTime> restrictions(String min, String max){
@@ -346,6 +346,6 @@ public class DateTimeFieldValueSourceTests {
 
         fieldSource.generateAllValues().forEach(actualValues::add);
 
-        Assert.assertThat(actualValues, equalTo(expectedValues));
+        assertThat(actualValues, equalTo(expectedValues));
     }
 }

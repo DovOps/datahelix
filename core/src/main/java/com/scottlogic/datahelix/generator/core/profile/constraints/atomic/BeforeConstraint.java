@@ -71,6 +71,6 @@ public class BeforeConstraint implements AtomicConstraint {
 
     @Override
     public String toString() {
-        return String.format("`%s` < %s", field.getName(), referenceValue);
+        return "`%s` < %s".formatted(field.getName(), referenceValue);
     }
 }

@@ -23,7 +23,7 @@ import com.scottlogic.datahelix.generator.core.restrictions.linear.Limit;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestrictions;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestrictionsFactory;
 import com.scottlogic.datahelix.generator.core.restrictions.string.StringRestrictions;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -34,11 +34,12 @@ import java.util.Set;
 
 import static com.scottlogic.datahelix.generator.core.restrictions.string.StringRestrictionsFactory.forMaxLength;
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.NUMERIC_MAX_LIMIT;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,8 +51,8 @@ class FieldSpecTests {
         boolean result = fieldSpec.equals("Test");
 
         assertFalse(
-            "Expected that when the other object type is not FieldSpec a false value is returned but was true",
-            result
+            result,
+            "Expected that when the other object type is not FieldSpec a false value is returned but was true"
         );
     }
 
@@ -62,8 +63,8 @@ class FieldSpecTests {
         boolean result = fieldSpec.equals(FieldSpecFactory.fromType(FieldType.STRING));
 
         assertFalse(
-            "Expected that when the field spec has set restrictions and the other object set restrictions are null a false value should be returned but was true",
-            result
+            result,
+            "Expected that when the field spec has set restrictions and the other object set restrictions are null a false value should be returned but was true"
         );
     }
 
@@ -74,8 +75,8 @@ class FieldSpecTests {
         boolean result = fieldSpec.equals(FieldSpecFactory.fromSingleLegalValue("legalValue"));
 
         assertFalse(
-            "Expected that when the field spec does not have set restrictions and the other object has set restrictions a false value is returned but was true",
-            result
+            result,
+            "Expected that when the field spec does not have set restrictions and the other object has set restrictions a false value is returned but was true"
         );
     }
 
@@ -86,8 +87,8 @@ class FieldSpecTests {
         boolean result = fieldSpec.equals(FieldSpecFactory.fromLegalValuesList(Arrays.asList(1, 2, 3, 4)));
 
         assertFalse(
-            "Expected that when the items in the set restrictions are not equal a false value is returned but was true",
-            result
+            result,
+            "Expected that when the items in the set restrictions are not equal a false value is returned but was true"
         );
     }
 
@@ -106,8 +107,8 @@ class FieldSpecTests {
         );
 
         assertFalse(
-            "Expected that when the numeric restriction values differ a false value is returned but was true",
-            result
+            result,
+            "Expected that when the numeric restriction values differ a false value is returned but was true"
         );
     }
 
@@ -116,7 +117,7 @@ class FieldSpecTests {
         FieldSpec original = FieldSpecFactory.fromType(FieldType.STRING);
         FieldSpec augmentedFieldSpec = original.withNotNull();
 
-        Assert.assertNotSame(original, augmentedFieldSpec);
+        Assertions.assertNotSame(original, augmentedFieldSpec);
     }
 
     @Test
@@ -124,8 +125,8 @@ class FieldSpecTests {
         FieldSpec first = FieldSpecFactory.fromType(FieldType.STRING);
         FieldSpec second = FieldSpecFactory.fromType(FieldType.STRING);
 
-        Assert.assertThat(first, equalTo(second));
-        Assert.assertThat(first.hashCode(), equalTo(second.hashCode()));
+        assertThat(first, equalTo(second));
+        assertThat(first.hashCode(), equalTo(second.hashCode()));
     }
 
     @Test
@@ -133,8 +134,8 @@ class FieldSpecTests {
         FieldSpec a = FieldSpecFactory.fromSingleLegalValue("same");
         FieldSpec b = FieldSpecFactory.fromSingleLegalValue("same");
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -142,7 +143,7 @@ class FieldSpecTests {
         FieldSpec a = FieldSpecFactory.fromSingleLegalValue("not same");
         FieldSpec b = FieldSpecFactory.fromSingleLegalValue("different");
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -152,8 +153,8 @@ class FieldSpecTests {
         FieldSpec a = FieldSpecFactory.fromRestriction(aRestrictions);
         FieldSpec b = FieldSpecFactory.fromRestriction(bRestrictions);
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -163,7 +164,7 @@ class FieldSpecTests {
         FieldSpec a = FieldSpecFactory.fromRestriction(aRestrictions);
         FieldSpec b = FieldSpecFactory.fromRestriction(bRestrictions);
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -171,8 +172,8 @@ class FieldSpecTests {
         FieldSpec a = FieldSpecFactory.fromType(FieldType.STRING);
         FieldSpec b = FieldSpecFactory.fromType(FieldType.STRING);
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -180,8 +181,8 @@ class FieldSpecTests {
         FieldSpec a = FieldSpecFactory.fromType(FieldType.STRING).withNotNull();
         FieldSpec b = FieldSpecFactory.fromType(FieldType.STRING).withNotNull();
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -189,7 +190,7 @@ class FieldSpecTests {
         FieldSpec a = FieldSpecFactory.fromType(FieldType.STRING).withNotNull();
         FieldSpec b = FieldSpecFactory.nullOnly();
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -215,7 +216,7 @@ class FieldSpecTests {
         RestrictionsFieldSpec actual = FieldSpecFactory.fromType(FieldType.DATETIME);
         LinearRestrictions<OffsetDateTime> expected = LinearRestrictionsFactory.createDefaultDateTimeRestrictions();
 
-        Assert.assertEquals(expected, actual.getRestrictions());
+        Assertions.assertEquals(expected, actual.getRestrictions());
     }
 
     @Test
@@ -223,7 +224,7 @@ class FieldSpecTests {
         RestrictionsFieldSpec actual = FieldSpecFactory.fromType(FieldType.NUMERIC);
         LinearRestrictions<BigDecimal> expected = LinearRestrictionsFactory.createDefaultNumericRestrictions();
 
-        Assert.assertEquals(expected, actual.getRestrictions());
+        Assertions.assertEquals(expected, actual.getRestrictions());
     }
 
     @Test
@@ -231,7 +232,7 @@ class FieldSpecTests {
         RestrictionsFieldSpec actual = FieldSpecFactory.fromType(FieldType.STRING);
         StringRestrictions expected = forMaxLength(1000);
 
-        Assert.assertEquals(expected, actual.getRestrictions());
+        Assertions.assertEquals(expected, actual.getRestrictions());
     }
 
     @Test

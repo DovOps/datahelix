@@ -18,12 +18,12 @@ package com.scottlogic.datahelix.generator.core.restrictions;
 
 import com.scottlogic.datahelix.generator.core.restrictions.string.StringRestrictions;
 import com.scottlogic.datahelix.generator.core.restrictions.string.StringRestrictionsMerger;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,8 +39,8 @@ class StringRestrictionsMergerTests {
 
         Optional<StringRestrictions> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result.isPresent(), is(true));
-        Assert.assertThat(result.get(), is(sameInstance(merged)));
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get(), is(sameInstance(merged)));
     }
 
     @Test
@@ -53,6 +53,6 @@ class StringRestrictionsMergerTests {
 
         Optional<StringRestrictions> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, is(sameInstance(merged)));
+        assertThat(result, is(sameInstance(merged)));
     }
 }

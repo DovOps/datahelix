@@ -22,7 +22,6 @@ import com.scottlogic.datahelix.generator.common.profile.ProfileFields;
 import com.scottlogic.datahelix.generator.output.writer.DataSetWriter;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -33,7 +32,8 @@ import java.util.Collections;
 
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createInternalField;
-import static org.mockito.Matchers.eq;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -80,7 +80,7 @@ class JsonOutputWriterFactoryTest {
         String generateJson = generateJson(fields, mockGeneratedObject, streamOutput);
 
         // Assert
-        Assert.assertThat(generateJson, matcher);
+        assertThat(generateJson, matcher);
     }
 
     private static String generateJson(Fields fields, GeneratedObject generatedObject, boolean streamOutput) throws IOException {

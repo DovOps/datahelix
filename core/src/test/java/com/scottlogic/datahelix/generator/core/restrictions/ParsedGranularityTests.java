@@ -18,7 +18,6 @@ package com.scottlogic.datahelix.generator.core.restrictions;
 
 import com.scottlogic.datahelix.generator.common.ValidationException;
 import com.scottlogic.datahelix.generator.common.profile.NumericGranularity;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +25,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 class ParsedGranularityTests {
@@ -33,42 +33,42 @@ class ParsedGranularityTests {
     public void shouldBeAbleToParseBigDecimalGranularity(){
         NumericGranularity parsed = NumericGranularity.create(BigDecimal.valueOf(0.1));
 
-        Assert.assertThat(parsed, equalTo(new NumericGranularity(1)));
+        assertThat(parsed, equalTo(new NumericGranularity(1)));
     }
 
     @Test
     public void shouldPermitAGranularityOf1(){
         NumericGranularity parsed = NumericGranularity.create(BigDecimal.valueOf(1));
 
-        Assert.assertThat(parsed, equalTo(new NumericGranularity(0)));
+        assertThat(parsed, equalTo(new NumericGranularity(0)));
     }
 
     @Test
     public void shouldBeAbleToParseBigIntegerGranularity(){
         NumericGranularity parsed = NumericGranularity.create(BigInteger.ONE);
 
-        Assert.assertThat(parsed, equalTo(new NumericGranularity(0)));
+        assertThat(parsed, equalTo(new NumericGranularity(0)));
     }
 
     @Test
     public void shouldBeAbleToParseIntegerGranularity(){
         NumericGranularity parsed = NumericGranularity.create(1);
 
-        Assert.assertThat(parsed, equalTo(new NumericGranularity(0)));
+        assertThat(parsed, equalTo(new NumericGranularity(0)));
     }
 
     @Test
     public void shouldBeAbleToParseLongGranularity(){
         NumericGranularity parsed = NumericGranularity.create(1L);
 
-        Assert.assertThat(parsed, equalTo(new NumericGranularity(0)));
+        assertThat(parsed, equalTo(new NumericGranularity(0)));
     }
 
     @Test
     public void shouldBeAbleToParseDoubleGranularity(){
         NumericGranularity parsed = NumericGranularity.create(0.1d);
 
-        Assert.assertThat(parsed, equalTo(new NumericGranularity(1)));
+        assertThat(parsed, equalTo(new NumericGranularity(1)));
     }
 
     @Test

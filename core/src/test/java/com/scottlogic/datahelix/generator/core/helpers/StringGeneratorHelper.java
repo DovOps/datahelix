@@ -17,10 +17,10 @@
 package com.scottlogic.datahelix.generator.core.helpers;
 
 import com.scottlogic.datahelix.generator.core.generation.string.generators.StringGenerator;
-import org.junit.Assert;
 
 import java.util.Iterator;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class StringGeneratorHelper {
@@ -29,21 +29,21 @@ public class StringGeneratorHelper {
 
     public static void assertGeneratorCannotGenerateAnyStrings(StringGenerator generator) {
         Iterator<String> stringValueIterator = generator.generateAllValues().iterator();
-        Assert.assertThat(stringValueIterator.hasNext(), is(false));
+        assertThat(stringValueIterator.hasNext(), is(false));
     }
 
     public static void assertGeneratorCanGenerateAtLeastOneString(StringGenerator generator) {
         Iterator<String> stringValueIterator = generator.generateAllValues().iterator();
-        Assert.assertThat(stringValueIterator.hasNext(), is(true));
+        assertThat(stringValueIterator.hasNext(), is(true));
     }
 
     public static void assertGeneratorCanGenerateAtLeastOneStringWithinLengthBounds(StringGenerator generator, int minLength, int maxLength) {
         Iterator<String> stringValueIterator = generator.generateAllValues().iterator();
-        Assert.assertThat(stringValueIterator.hasNext(), is(true));
+        assertThat(stringValueIterator.hasNext(), is(true));
         String value = stringValueIterator.next();
 
-        Assert.assertThat(value.length(), greaterThanOrEqualTo(minLength));
-        Assert.assertThat(value.length(), lessThanOrEqualTo(maxLength));
+        assertThat(value.length(), greaterThanOrEqualTo(minLength));
+        assertThat(value.length(), lessThanOrEqualTo(maxLength));
     }
 
 }

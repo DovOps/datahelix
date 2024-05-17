@@ -19,9 +19,9 @@ package com.scottlogic.datahelix.generator.core.profile.constraints.grammatical;
 import com.scottlogic.datahelix.generator.common.profile.Field;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.IsNullConstraint;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AndConstraintTests {
     @Test
@@ -33,7 +33,7 @@ public class AndConstraintTests {
         Field field4 = createField("TestField");
         AndConstraint constraint1 = new AndConstraint(new IsNullConstraint(field1), new IsNullConstraint(field2));
         AndConstraint constraint2 = new AndConstraint(new IsNullConstraint(field3), new IsNullConstraint(field4));
-        Assert.assertThat(constraint1, Matchers.equalTo(constraint2));
+        assertThat(constraint1, Matchers.equalTo(constraint2));
     }
 
     @Test
@@ -45,6 +45,6 @@ public class AndConstraintTests {
         Field field4 = createField("TestField");
         AndConstraint constraint1 = new AndConstraint(new AndConstraint(new IsNullConstraint(field1), new IsNullConstraint(field2)));
         AndConstraint constraint2 = new AndConstraint(new AndConstraint(new IsNullConstraint(field3), new IsNullConstraint(field4)));
-        Assert.assertThat(constraint1, Matchers.equalTo(constraint2));
+        assertThat(constraint1, Matchers.equalTo(constraint2));
     }
 }

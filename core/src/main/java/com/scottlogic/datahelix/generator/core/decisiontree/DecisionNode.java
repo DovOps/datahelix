@@ -64,9 +64,9 @@ public final class DecisionNode implements Node {
     @Override
     public String toString(){
         return this.options.size() >= 5
-            ? String.format("Options: %d", this.options.size())
-            : String.format("Options [%d]: %s",
-                this.options.size(),
+            ? "Options: %d".formatted(this.options.size())
+            : "Options [%d]: %s".formatted(
+            this.options.size(),
             this.options.stream().map(ConstraintNode::toString).collect(Collectors.joining(" OR ")));
     }
 

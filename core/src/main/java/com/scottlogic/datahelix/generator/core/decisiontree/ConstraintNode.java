@@ -53,21 +53,21 @@ public class ConstraintNode implements Node {
     public String toString() {
         if (decisions.isEmpty())
             return atomicConstraints.size() > 5
-                ? String.format("%d constraints", atomicConstraints.size())
+                ? "%d constraints".formatted(atomicConstraints.size())
                 : Objects.toString(atomicConstraints);
 
         if (atomicConstraints.isEmpty())
             return decisions.size() > 5
-                ? String.format("%d decisions", decisions.size())
+                ? "%d decisions".formatted(decisions.size())
                 : Objects.toString(decisions);
 
-        return String.format(
-            "Decision: %s, Constraints: %s",
+        return 
+            "Decision: %s, Constraints: %s".formatted(
             decisions.size() > 5
-                ? String.format("%d decisions", decisions.size())
+                ? "%d decisions".formatted(decisions.size())
                 : Objects.toString(decisions),
             atomicConstraints.size() > 5
-                ? String.format("%d constraints", atomicConstraints.size())
+                ? "%d constraints".formatted(atomicConstraints.size())
                 : Objects.toString(atomicConstraints));
     }
 

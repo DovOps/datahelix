@@ -16,7 +16,7 @@
 
 package com.scottlogic.datahelix.generator.core.generation.fieldvaluesources.datetime;
 import com.scottlogic.datahelix.generator.common.profile.DateTimeGranularity;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static java.time.temporal.ChronoUnit.*;
@@ -24,16 +24,16 @@ import static java.time.temporal.ChronoUnit.*;
 class ChronoUnitGranularityTests {
     @Test
     public void mostCoarseTest() {
-        Assert.assertEquals(new DateTimeGranularity(DAYS), new DateTimeGranularity(MILLIS).merge(new DateTimeGranularity(DAYS)));
+        Assertions.assertEquals(new DateTimeGranularity(DAYS), new DateTimeGranularity(MILLIS).merge(new DateTimeGranularity(DAYS)));
     }
 
     @Test
     public void mostCoarseTestYear() {
-        Assert.assertEquals(new DateTimeGranularity(YEARS), new DateTimeGranularity(MINUTES).merge(new DateTimeGranularity(YEARS)));
+        Assertions.assertEquals(new DateTimeGranularity(YEARS), new DateTimeGranularity(MINUTES).merge(new DateTimeGranularity(YEARS)));
     }
 
     @Test
     public void mostCoarseTestSame() {
-        Assert.assertEquals(new DateTimeGranularity(MONTHS), new DateTimeGranularity(MONTHS).merge(new DateTimeGranularity(MONTHS)));
+        Assertions.assertEquals(new DateTimeGranularity(MONTHS), new DateTimeGranularity(MONTHS).merge(new DateTimeGranularity(MONTHS)));
     }
 }

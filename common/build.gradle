@@ -20,7 +20,7 @@ plugins {
 
 group "com.scottlogic.datahelix.generator"
 
-sourceCompatibility = 1.8
+sourceCompatibility = 21
 
 repositories {
     mavenCentral()
@@ -44,12 +44,11 @@ dependencies {
 
     implementation "org.threeten:threeten-extra:${THREE_TEN_VERSION}"
     testImplementation "org.junit.jupiter:junit-jupiter-api:${JUNIT_JUPITER_VERSION}"
-    testImplementation "junit:junit:${JUNIT_4_VERSION}"
     testImplementation "org.junit.platform:junit-platform-runner:${JUNIT_PLATFORM_RUNNER_VERSION}"
-    testImplementation "org.junit.vintage:junit-vintage-engine:${JUNIT_JUPITER_VERSION}"
     testImplementation "org.hamcrest:java-hamcrest:${HAMCREST_VERSION}"
     testImplementation "org.junit.jupiter:junit-jupiter-params:${JUNIT_JUPITER_VERSION}"
-    testImplementation "org.mockito:mockito-all:${MOCKITO_VERSION}"
+    testImplementation("org.mockito:mockito-core:")
+    testImplementation "org.mockito:mockito-junit-jupiter:3.12.4"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:${JUNIT_JUPITER_VERSION}"
     testImplementation("org.junit.jupiter:junit-jupiter:${JUNIT_JUPITER_VERSION}")
 }

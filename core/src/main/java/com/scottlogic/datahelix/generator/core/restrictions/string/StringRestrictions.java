@@ -316,10 +316,10 @@ public class StringRestrictions implements TypedRestrictions<String>
 
             if (lastExcludedLength == null) {
                 if (minLength < excludedLength - 1) {
-                    patterns.add(String.format(".{%d,%d}", minLength, excludedLength - 1));
+                    patterns.add(".{%d,%d}".formatted(minLength, excludedLength - 1));
                 }
             } else {
-                patterns.add(String.format(".{%d,%d}", lastExcludedLength + 1, excludedLength - 1));
+                patterns.add(".{%d,%d}".formatted(lastExcludedLength + 1, excludedLength - 1));
             }
 
             lastExcludedLength = excludedLength;
@@ -332,31 +332,31 @@ public class StringRestrictions implements TypedRestrictions<String>
         }
 
         if (maxLength != null && lastExcludedLength + 1 < maxLength - 1) {
-            patterns.add(String.format(".{%d,%d}", lastExcludedLength + 1, maxLength));
+            patterns.add(".{%d,%d}".formatted(lastExcludedLength + 1, maxLength));
         } else if (maxLength == null){
-            patterns.add(String.format(".{%d,}", lastExcludedLength + 1));
+            patterns.add(".{%d,}".formatted(lastExcludedLength + 1));
         }
 
-        return String.format(
-            patterns.size() == 1 ? "^%s$" : "^(%s)$",
+        return (
+            patterns.size() == 1 ? "^%s$" : "^(%s)$").formatted(
             String.join("|", patterns));
     }
 
     private String restrictStringLength(int length){
-        return String.format("^.{%d}$", length);
+        return "^.{%d}$".formatted(length);
     }
 
     private String restrictStringLength(int min, Integer max){
         if (max == null) {
-            return String.format("^.{%d,}$", min);
+            return "^.{%d,}$".formatted(min);
         }
 
-        return String.format("^.{%d,%d}$", min, max);
+        return "^.{%d,%d}$".formatted(min, max);
     }
 
     @Override
     public String toString() {
-        return String.format("Strings: %d..%s%s%s%s%s%s",
+        return "Strings: %d..%s%s%s%s%s%s".formatted(
             minLength != null ? minLength : 0,
             maxLength != null ? maxLength.toString() : "",
             excludedLengths.isEmpty() ? "" : " not lengths " + excludedLengths,

@@ -17,11 +17,11 @@
 package com.scottlogic.datahelix.generator.core.generation.fieldvaluesources;
 
 import com.scottlogic.datahelix.generator.common.RandomNumberGenerator;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.Stream;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 
@@ -31,8 +31,8 @@ class NullAppendingFieldValueSourceEqualityTests {
         NullAppendingValueSource a = new NullAppendingValueSource(source(1));
         NullAppendingValueSource b = new NullAppendingValueSource(source(1));
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -40,7 +40,7 @@ class NullAppendingFieldValueSourceEqualityTests {
         NullAppendingValueSource a = new NullAppendingValueSource(source(1));
         NullAppendingValueSource b = new NullAppendingValueSource(source(2));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     private FieldValueSource source(int hashCode){

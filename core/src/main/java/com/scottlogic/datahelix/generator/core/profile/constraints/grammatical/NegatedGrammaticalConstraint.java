@@ -37,9 +37,9 @@ public class NegatedGrammaticalConstraint implements GrammaticalConstraint {
     }
 
     public String toString(){
-        return String.format(
-                "NOT(%s)",
-                negatedConstraint);
+        return 
+            "NOT(%s)".formatted(
+            negatedConstraint);
     }
 
     @Override

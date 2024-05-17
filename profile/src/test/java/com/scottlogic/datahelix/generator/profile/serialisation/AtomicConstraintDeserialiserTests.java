@@ -40,10 +40,8 @@ import com.scottlogic.datahelix.generator.profile.dtos.constraints.atomic.textua
 import com.scottlogic.datahelix.generator.profile.dtos.constraints.atomic.textual.MatchesRegexConstraintDTO;
 import com.scottlogic.datahelix.generator.profile.dtos.constraints.relations.*;
 import com.scottlogic.datahelix.generator.profile.reader.FileReader;
-import org.junit.Assert;
-import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -54,8 +52,6 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 public class AtomicConstraintDeserialiserTests {
-    @Rule
-    public ExpectedException expectValidationException = ExpectedException.none();
 
     @Test
     public void shouldDeserialiseEqualToWithoutException() throws IOException {
@@ -80,7 +76,7 @@ public class AtomicConstraintDeserialiserTests {
 
         try {
             deserialiseJsonString(json);
-            Assert.fail("should have thrown an exception");
+            Assertions.fail("should have thrown an exception");
         } catch (JsonParseException e) {
             String expectedMessage = "Unexpected character ('}' (code 125)): expected a valid value (JSON String, Number, Array, Object or token 'null', 'true' or 'false')\n at [Source: (String)\"{\"field\": \"type\", \"equalTo\": }\"; line: 1, column: 31]";
             assertThat(e.getMessage(), sameBeanAs(expectedMessage));

@@ -85,7 +85,7 @@ public class ProfileValidator implements Validator<ProfileDTO>
 
         return duplicateFieldNames.isEmpty()
             ? ValidationResult.success()
-            : ValidationResult.failure(String.format("Field names must be unique | Duplicates: %s", ValidationResult.quote(duplicateFieldNames)));
+            : ValidationResult.failure("Field names must be unique | Duplicates: %s".formatted(ValidationResult.quote(duplicateFieldNames)));
     }
 
     private ValidationResult fieldsMustBeValid(List<FieldDTO> fields)
@@ -113,7 +113,7 @@ public class ProfileValidator implements Validator<ProfileDTO>
             .collect(Collectors.toSet());
 
         List<String> errors = uniqueFields.stream().filter(ifConstraintFields::contains)
-            .map(f -> String.format("Unique field %s cannot be referenced in IF statement", ValidationResult.quote(f)))
+            .map(f -> "Unique field %s cannot be referenced in IF statement".formatted(ValidationResult.quote(f)))
             .collect(Collectors.toList());
 
         return errors.isEmpty()

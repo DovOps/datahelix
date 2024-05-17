@@ -47,7 +47,7 @@ public class EqualToConstraint implements AtomicConstraint {
 
     @Override
     public String toString(){
-        return String.format("`%s` = %s", field.getName(), value);
+        return "`%s` = %s".formatted(field.getName(), value);
     }
 
     @Override

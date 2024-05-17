@@ -28,7 +28,7 @@ import com.scottlogic.datahelix.generator.profile.validators.ConfigValidator;
 
 import java.util.stream.Stream;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

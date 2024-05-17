@@ -108,7 +108,7 @@ public class JarExecuteTests {
         String fullErrorMessage = extraErrorMessage + errorMessageOnFailure;
         assertThat(fullErrorMessage, outputs.size(), is(greaterThanOrEqualTo(2)));
         assertEquals("foo", outputs.get(outputs.size() - 2), fullErrorMessage);
-        assertEquals(expectedFinalMessage, outputs.get(outputs.size() - 1), fullErrorMessage);
+        assertEquals(expectedFinalMessage, outputs.getLast(), fullErrorMessage);
     }
 
     private void assertJsonOutputs(List<String> outputs, String expectedJsonPropertyName, String expectedData, Process process) {
@@ -121,9 +121,9 @@ public class JarExecuteTests {
             "Command line used: '" + commandLine + "'\n" +
             outputs.stream().limit(5).collect(Collectors.joining("\n"));
         assertThat(errorMessageOnFailure, outputs.size(), is(greaterThanOrEqualTo(1)));
-        assertThat(errorMessageOnFailure, outputs.get(outputs.size() - 1), containsString("\"" + expectedJsonPropertyName + "\":"));
+        assertThat(errorMessageOnFailure, outputs.getLast(), containsString("\"" + expectedJsonPropertyName + "\":"));
         if (expectedData != null){
-            assertThat(errorMessageOnFailure, outputs.get(outputs.size() - 1), containsString(":" + expectedData));
+            assertThat(errorMessageOnFailure, outputs.getLast(), containsString(":" + expectedData));
         }
     }
 

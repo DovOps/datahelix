@@ -19,7 +19,7 @@ import com.scottlogic.datahelix.generator.common.profile.Field;
 import com.scottlogic.datahelix.generator.core.fieldspecs.FieldSpec;
 import com.scottlogic.datahelix.generator.core.fieldspecs.FieldSpecFactory;
 import com.scottlogic.datahelix.generator.core.generation.databags.DataBagValue;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +47,7 @@ class InMapRelationTest {
         FieldSpec expected = FieldSpecFactory.fromSingleLegalValue("bar");
         FieldSpec actual = testInstance.createModifierFromOtherValue(new DataBagValue(BigDecimal.valueOf(1)));
 
-        Assert.assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test

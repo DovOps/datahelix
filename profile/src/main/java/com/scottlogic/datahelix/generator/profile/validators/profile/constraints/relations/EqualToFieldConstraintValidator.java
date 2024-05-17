@@ -50,6 +50,6 @@ public class EqualToFieldConstraintValidator extends RelationalConstraintValidat
 
         return fieldType == otherFieldType
             ? ValidationResult.success()
-            : ValidationResult.failure(String.format("Field type %s doesn't match related field type %s%s", ValidationResult.quote(dto.field), ValidationResult.quote(dto.getOtherField()), getErrorInfo(dto)));
+            : ValidationResult.failure("Field type %s doesn't match related field type %s%s".formatted(ValidationResult.quote(dto.field), ValidationResult.quote(dto.getOtherField()), getErrorInfo(dto)));
     }
 }

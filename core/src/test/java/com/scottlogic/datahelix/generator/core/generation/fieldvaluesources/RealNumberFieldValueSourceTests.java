@@ -24,7 +24,7 @@ import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestric
 import com.scottlogic.datahelix.generator.core.utils.JavaUtilRandomNumberGenerator;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -39,6 +39,7 @@ import static com.scottlogic.datahelix.generator.core.restrictions.linear.Linear
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.NUMERIC_MAX_LIMIT;
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.NUMERIC_MIN_LIMIT;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 class RealNumberFieldValueSourceTests {
@@ -183,8 +184,8 @@ class RealNumberFieldValueSourceTests {
             numericRestrictions(1, 10, 1),
             toBlacklist(Arrays.asList(1, 2)));
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -196,8 +197,8 @@ class RealNumberFieldValueSourceTests {
             numericRestrictions(1, 10, 1),
             toBlacklist(Arrays.asList(2, 1)));
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -209,8 +210,8 @@ class RealNumberFieldValueSourceTests {
             numericRestrictions(1, 10, 1),
             Collections.emptySet());
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -222,7 +223,7 @@ class RealNumberFieldValueSourceTests {
             numericRestrictions(1, 10, 1),
             toBlacklist(Arrays.asList(1, 2)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     private Set<BigDecimal> toBlacklist(Collection<Object> asList) {
@@ -238,7 +239,7 @@ class RealNumberFieldValueSourceTests {
             numericRestrictions(1, 10, 1),
             toBlacklist(Arrays.asList(1, 2)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -250,7 +251,7 @@ class RealNumberFieldValueSourceTests {
             numericRestrictions(1, 10, 1),
             toBlacklist(Arrays.asList(3, 4)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -262,7 +263,7 @@ class RealNumberFieldValueSourceTests {
             numericRestrictions(1, 10, 2),
             toBlacklist(Arrays.asList(1, 2)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -274,7 +275,7 @@ class RealNumberFieldValueSourceTests {
             numericRestrictions(1, 10, 1),
             toBlacklist(Arrays.asList(1, 2)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -286,7 +287,7 @@ class RealNumberFieldValueSourceTests {
             numericRestrictions(1, 10, 2),
             toBlacklist(Arrays.asList(3, 4)));
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -376,7 +377,7 @@ class RealNumberFieldValueSourceTests {
         BigDecimal[] actualValues = values.toArray(BigDecimal[]::new);
 
         // ASSERT
-        Assert.assertThat(actualValues, arrayContainingInAnyOrder(expectedValuesMatchers));
+        assertThat(actualValues, arrayContainingInAnyOrder(expectedValuesMatchers));
     }
 
     private void expectNoValues() {
@@ -408,23 +409,23 @@ class RealNumberFieldValueSourceTests {
             {
                 // Not sure if this is the most efficient way to test all these values,
                 // I think it'll do for now though.
-                Assert.assertThat(
+                assertThat(
                     lowerLimit.getValue(),
                     lowerLimit.isInclusive()
                         ? lessThanOrEqualTo(value)
                         : lessThan(value));
 
-                Assert.assertThat(
+                assertThat(
                     value,
                     upperLimit.isInclusive()
                         ? lessThanOrEqualTo(upperLimit.getValue())
                         : lessThan(upperLimit.getValue()));
 
                 if (decimalBlacklist.size() != 0) {
-                    Assert.assertFalse(decimalBlacklist.contains(value));
+                    Assertions.assertFalse(decimalBlacklist.contains(value));
                 }
 
-                Assert.assertThat(value.scale(), equalTo(scale));
+                assertThat(value.scale(), equalTo(scale));
             });
     }
 }

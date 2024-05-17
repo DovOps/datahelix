@@ -18,7 +18,7 @@ package com.scottlogic.datahelix.generator.orchestrator.cucumber.testframework.u
 import com.scottlogic.datahelix.generator.profile.reader.CsvInputStreamReaderFactory;
 import com.scottlogic.datahelix.generator.profile.reader.FileReader;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.util.List;
 

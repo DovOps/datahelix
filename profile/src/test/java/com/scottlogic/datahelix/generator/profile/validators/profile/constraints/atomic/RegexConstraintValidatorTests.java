@@ -26,11 +26,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.scottlogic.datahelix.generator.profile.creation.AtomicConstraintDTOBuilder.atomicConstraintDTO;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.iterableWithSize;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RegexConstraintValidatorTests
 {
@@ -128,7 +128,7 @@ public class RegexConstraintValidatorTests
         // Assert
         assertFalse(validationResult.isSuccess);
         assertThat(validationResult.errors, iterableWithSize(1));
-        assertThat(validationResult.errors, hasItem(String.format("Regex is invalid | Dangling meta character '*' near index 2%s/*****/%s  ^", newLine, newLine)));
+        assertThat(validationResult.errors, hasItem("Regex is invalid | Dangling meta character '*' near index 2%s/*****/%s  ^".formatted(newLine, newLine)));
     }
 
     @Test

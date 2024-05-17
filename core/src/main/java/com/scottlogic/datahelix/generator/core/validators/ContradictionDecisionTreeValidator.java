@@ -57,7 +57,7 @@ public class ContradictionDecisionTreeValidator {
             node
         );
 
-        if (!nominalRowSpec.isPresent()) {
+        if (nominalRowSpec.isEmpty()) {
             return node.builder().markNode(NodeMarking.CONTRADICTORY).build();
         }
 
@@ -65,7 +65,7 @@ public class ContradictionDecisionTreeValidator {
             nominalRowSpec.get(),
             accumulatedSpec);
 
-        if (!mergedRowSpecOpt.isPresent()) {
+        if (mergedRowSpecOpt.isEmpty()) {
             return node.builder().markNode(NodeMarking.CONTRADICTORY).build();
         }
 

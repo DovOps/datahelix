@@ -98,7 +98,7 @@ public class BeforeRelation<T extends Comparable<T>> implements FieldSpecRelatio
 
     @Override
     public String toString() {
-        return String.format("%s is before %s%s %s %s", main, inclusive ? "or equal to " : "", other, offset >= 0 ? "plus" : "minus", Math.abs(offset));
+        return "%s is before %s%s %s %s".formatted(main, inclusive ? "or equal to " : "", other, offset >= 0 ? "plus" : "minus", Math.abs(offset));
     }
 
     @Override

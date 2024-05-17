@@ -26,7 +26,7 @@ import com.scottlogic.datahelix.generator.core.generation.fieldvaluesources.Null
 import com.scottlogic.datahelix.generator.core.restrictions.linear.Limit;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestrictions;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestrictionsFactory;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestrictionsFactory.createNumericRestrictions;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 
@@ -119,7 +120,7 @@ public class FieldSpecGetFieldValueSourceTests {
             new BigDecimal("15.00000000000000000008"),
             new BigDecimal("15.00000000000000000009")
             );
-        Assert.assertEquals(expectedValues, valuesFromResult);
+        Assertions.assertEquals(expectedValues, valuesFromResult);
     }
 
     @Test
@@ -145,7 +146,7 @@ public class FieldSpecGetFieldValueSourceTests {
             new BigDecimal("1E-20"),
             new BigDecimal("2E-20")
         );
-        Assert.assertEquals(expectedValues, valuesFromResult);
+        Assertions.assertEquals(expectedValues, valuesFromResult);
     }
 
     private void AssertLastSourceIsNullOnlySource(FieldValueSource<?> source) {
@@ -183,7 +184,7 @@ public class FieldSpecGetFieldValueSourceTests {
         };
 
         Iterator<?> shouldBeNullValueIterator = combi.generateRandomValues(rng).iterator();
-        Assert.assertThat(shouldBeNullValueIterator.hasNext(), is(true));
-        Assert.assertThat(shouldBeNullValueIterator.next(), is(nullValue()));
+        assertThat(shouldBeNullValueIterator.hasNext(), is(true));
+        assertThat(shouldBeNullValueIterator.next(), is(nullValue()));
     }
 }

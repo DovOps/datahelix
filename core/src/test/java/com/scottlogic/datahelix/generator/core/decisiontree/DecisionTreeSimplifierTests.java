@@ -22,7 +22,7 @@ import com.scottlogic.datahelix.generator.common.profile.ProfileFields;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.AtomicConstraint;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.InSetConstraint;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.IsNullConstraint;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -58,8 +58,8 @@ class DecisionTreeSimplifierTests {
 
         final DecisionTree result = simplifier.simplify(tree);
 
-        Assert.assertEquals(result.rootNode.getAtomicConstraints(), tree.getRootNode().getAtomicConstraints());
-        Assert.assertTrue(result.rootNode.getDecisions().isEmpty());
+        Assertions.assertEquals(result.rootNode.getAtomicConstraints(), tree.getRootNode().getAtomicConstraints());
+        Assertions.assertTrue(result.rootNode.getDecisions().isEmpty());
     }
 
     @Test
@@ -90,7 +90,7 @@ class DecisionTreeSimplifierTests {
             new IsNullConstraint(createField("Field 1")).negate(),
             new InSetConstraint(createField("Field 2"), inSetRecordsFrom("A", "B"))
         );
-        Assert.assertTrue(result.rootNode.getAtomicConstraints().containsAll(expectedConstraints));
-        Assert.assertTrue(result.rootNode.getDecisions().isEmpty());
+        Assertions.assertTrue(result.rootNode.getAtomicConstraints().containsAll(expectedConstraints));
+        Assertions.assertTrue(result.rootNode.getDecisions().isEmpty());
     }
 }

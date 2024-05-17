@@ -32,7 +32,6 @@ import com.scottlogic.datahelix.generator.profile.dtos.constraints.grammatical.C
 import com.scottlogic.datahelix.generator.profile.dtos.constraints.grammatical.NotConstraintDTO;
 import com.scottlogic.datahelix.generator.profile.reader.CsvInputStreamReaderFactory;
 import com.scottlogic.datahelix.generator.profile.reader.FileReader;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -48,11 +47,13 @@ public class GrammaticalConstraintDeserialiserTests {
     public void shouldDeserialiseAnyOfWithoutException() throws IOException {
         // Arrange
         final String json =
-            "{ \"anyOf\": [" +
-            "    { \"field\": \"foo\", \"equalTo\": \"0\" }," +
-            "    { \"field\": \"foo\", \"isNull\": \"true\" }" +
-            "  ]" +
-            "}";
+            """
+            { "anyOf": [\
+                { "field": "foo", "equalTo": "0" },\
+                { "field": "foo", "isNull": "true" }\
+              ]\
+            }\
+            """;
 
         // Act
         ConstraintDTO actual = deserialiseJsonString(json);
@@ -75,11 +76,13 @@ public class GrammaticalConstraintDeserialiserTests {
     public void shouldDeserialiseAnyOfAndThrowInvalidFieldException() {
         // Arrange
         final String json =
-            "{ \"anyOf\": [" +
-            "    { \"fild\": \"foo\", \"equalTo\": \"0\" }," +
-            "    { \"field\": \"foo\", \"isNull\": \"true\" }" +
-            "  ]" +
-            "}";
+            """
+            { "anyOf": [\
+                { "fild": "foo", "equalTo": "0" },\
+                { "field": "foo", "isNull": "true" }\
+              ]\
+            }\
+            """;
 
         // Assert
         Assertions.assertThrows(UnrecognizedPropertyException.class, () -> deserialiseJsonString(json));
@@ -89,25 +92,29 @@ public class GrammaticalConstraintDeserialiserTests {
     public void shouldDeserialiseAnyOfAndReturnInvalidConstraint() throws IOException {
         // Arrange
         final String json =
-            "{ \"ayOf\": [" +
-            "    { \"field\": \"foo\", \"equalTo\": \"0\" }," +
-            "    { \"field\": \"foo\", \"isNull\": \"true\" }" +
-            "  ]" +
-            "}";
+            """
+            { "ayOf": [\
+                { "field": "foo", "equalTo": "0" },\
+                { "field": "foo", "isNull": "true" }\
+              ]\
+            }\
+            """;
 
         ConstraintDTO constraintDTO = deserialiseJsonString(json);
-        Assert.assertTrue(constraintDTO instanceof InvalidConstraintDTO);
+        Assertions.assertTrue(constraintDTO instanceof InvalidConstraintDTO);
     }
 
     @Test
     public void shouldDeserialiseAllOfWithoutException() throws IOException {
         // Arrange
         final String json =
-            "{ \"allOf\": [" +
-            "    { \"field\": \"foo\", \"greaterThan\": \"0\" }," +
-            "    { \"field\": \"foo\", \"lessThan\": \"100\" }" +
-            "  ]" +
-            "}";
+            """
+            { "allOf": [\
+                { "field": "foo", "greaterThan": "0" },\
+                { "field": "foo", "lessThan": "100" }\
+              ]\
+            }\
+            """;
 
         // Act
         ConstraintDTO actual = deserialiseJsonString(json);
@@ -149,9 +156,11 @@ public class GrammaticalConstraintDeserialiserTests {
     public void shouldDeserialiseIfWithoutException() throws IOException {
         // Arrange
         final String json =
-            "{ \"if\":{ \"field\": \"foo\", \"lessThan\": \"100\" }," +
-            " \"then\":{ \"field\": \"bar\", \"greaterThan\": \"0\" }," +
-            " \"else\":{ \"field\": \"bar\", \"equalTo\": \"500\" }}";
+            """
+            { "if":{ "field": "foo", "lessThan": "100" },\
+             "then":{ "field": "bar", "greaterThan": "0" },\
+             "else":{ "field": "bar", "equalTo": "500" }}\
+            """;
 
         // Act
         ConstraintDTO actual = deserialiseJsonString(json);
@@ -180,13 +189,15 @@ public class GrammaticalConstraintDeserialiserTests {
     public void shouldDeserialiseIfAndThrowMissingColonException() throws IOException {
         // Arrange
         final String json =
-            "{ \"if\"{ \"field\": \"foo\", \"lessThan\": \"100\" }," +
-                " \"then\"{ \"field\": \"bar\", \"greaterThan\": \"0\" }," +
-                " \"else\"{ \"field\": \"bar\", \"equalTo\": \"500\" }}";
+            """
+            { "if"{ "field": "foo", "lessThan": "100" },\
+             "then"{ "field": "bar", "greaterThan": "0" },\
+             "else"{ "field": "bar", "equalTo": "500" }}\
+            """;
 
         try {
             deserialiseJsonString(json);
-            Assert.fail("should have thrown an exception");
+            Assertions.fail("should have thrown an exception");
         } catch (JsonParseException e) {
             String expectedMessage = "Unexpected character ('{' (code 123)): was expecting a colon to separate field name and value\n at [Source: (String)\"{ \"if\"{ \"field\": \"foo\", \"lessThan\": \"100\" }, \"then\"{ \"field\": \"bar\", \"greaterThan\": \"0\" }, \"else\"{ \"field\": \"bar\", \"equalTo\": \"500\" }}\"; line: 1, column: 8]";
             assertThat(e.getMessage(), sameBeanAs(expectedMessage));

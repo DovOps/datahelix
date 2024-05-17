@@ -25,13 +25,14 @@ import com.scottlogic.datahelix.generator.profile.dtos.constraints.ConstraintTyp
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 import org.hamcrest.Matcher;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class GeneralTestStep {
@@ -125,7 +126,7 @@ public class GeneralTestStep {
             .getProfileValidationErrors()
             .collect(Collectors.toList());
 
-        Assert.assertThat(
+        assertThat(
             "There were unexpected profile validation errors",
             errors,
             empty());
@@ -141,9 +142,9 @@ public class GeneralTestStep {
             .collect(Collectors.toList());
 
         if (errors.size() == 0) {
-            Assert.fail("No profile validation errors were raised");
+            Assertions.fail("No profile validation errors were raised");
         } else {
-            Assert.assertThat(
+            assertThat(
                 "Expected profile validation error",
                 errors,
                 hasItem(matchesPattern(expectedError)));
@@ -159,7 +160,7 @@ public class GeneralTestStep {
         List<String> errors = this.cucumberTestHelper
             .getProfileValidationErrors()
             .collect(Collectors.toList());
-        Assert.assertFalse(errors.isEmpty());
+        Assertions.assertFalse(errors.isEmpty());
 
     }
 
@@ -174,13 +175,13 @@ public class GeneralTestStep {
             .collect(Collectors.toList());
 
         if (errors.size() == 0) {
-            Assert.fail("No profile validation errors were raised");
+            Assertions.fail("No profile validation errors were raised");
         } else if (errors.size() != 1) {
-            Assert.fail("More than one profile validation errors were raised");
+            Assertions.fail("More than one profile validation errors were raised");
         } else {
-            Assert.assertThat(
+            assertThat(
                 "Expected profile validation error",
-                errors.get(0), equalTo(expectedError));
+                errors.getFirst(), equalTo(expectedError));
         }
     }
 
@@ -194,7 +195,7 @@ public class GeneralTestStep {
             .getProfileValidationErrors()
             .collect(Collectors.toList());
 
-        Assert.assertThat("Expected profile validation errors", errors, containsInAnyOrder(expectedErrors.toArray()));
+        assertThat("Expected profile validation errors", errors, containsInAnyOrder(expectedErrors.toArray()));
     }
 
     @But("^the profile is invalid with error containing \"(.+)\"$")
@@ -208,13 +209,13 @@ public class GeneralTestStep {
             .collect(Collectors.toList());
 
         if (errors.size() == 0) {
-            Assert.fail("No profile validation errors were raised");
+            Assertions.fail("No profile validation errors were raised");
         } else if (errors.size() != 1) {
-            Assert.fail("More than one profile validation errors were raised");
+            Assertions.fail("More than one profile validation errors were raised");
         } else {
-            Assert.assertThat(
+            assertThat(
                 "Expected profile validation error",
-                errors.get(0), containsString(expectedError));
+                errors.getFirst(), containsString(expectedError));
         }
     }
 
@@ -231,7 +232,7 @@ public class GeneralTestStep {
                     .collect(Collectors.joining(",")))
             .collect(Collectors.joining("\n"));
 
-        Assert.assertThat(
+        assertThat(
             "Some data was generated when none was expected:\n" + serialisedData,
             data,
             empty());
@@ -267,16 +268,16 @@ public class GeneralTestStep {
     private void assertOutputData(List<Map<String, Object>> data, Matcher<List<Map<String, Object>>> matcher) {
         assertNoGenerationErrors();
 
-        Assert.assertThat(data, matcher);
+        assertThat(data, matcher);
     }
 
     private void assertNoGenerationErrors() {
-        Assert.assertThat(
+        assertThat(
             "Exceptions thrown during generation",
             cucumberTestHelper.getThrownExceptions(),
             empty());
 
-        Assert.assertThat(
+        assertThat(
             "Validation errors thrown during generation",
             cucumberTestHelper.getProfileValidationErrors().collect(Collectors.toList()),
             empty());
@@ -315,7 +316,7 @@ public class GeneralTestStep {
         List<Map<String, Object>> data = cucumberTestHelper.generateAndGetData();
 
         assertNoGenerationErrors();
-        Assert.assertThat("No data was generated but some was expected", data, not(empty()));
+        assertThat("No data was generated but some was expected", data, not(empty()));
     }
 
     @Then("{long} row(s) of data is/are generated")
@@ -323,7 +324,7 @@ public class GeneralTestStep {
         List<Map<String, Object>> data = cucumberTestHelper.generateAndGetData();
 
         assertNoGenerationErrors();
-        Assert.assertThat(
+        assertThat(
             "Unexpected number of rows returned",
             (long) data.size(),
             equalTo(expectedNumberOfRows));

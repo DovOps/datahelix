@@ -90,7 +90,7 @@ public class WeightedLegalValuesFieldSpec extends FieldSpec implements ValuesFie
         if (legalValues.isEmpty()) {
             return "Null only";
         }
-        return (nullable ? "" : "Not Null ") + String.format("IN %s", legalValues);
+        return (nullable ? "" : "Not Null ") + "IN %s".formatted(legalValues);
     }
 
     public int hashCode() {

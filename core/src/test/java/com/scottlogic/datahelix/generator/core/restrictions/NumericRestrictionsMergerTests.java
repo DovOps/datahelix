@@ -18,8 +18,6 @@ package com.scottlogic.datahelix.generator.core.restrictions;
 
 import com.scottlogic.datahelix.generator.common.profile.NumericGranularity;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.*;
-
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -27,6 +25,7 @@ import java.util.Optional;
 
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.NUMERIC_MAX_LIMIT;
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.NUMERIC_MIN_LIMIT;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.core.Is.is;
@@ -47,11 +46,11 @@ class NumericRestrictionsMergerTests {
 
         Optional<LinearRestrictions<BigDecimal>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(true));
-        Assert.assertThat(result.get(), not(nullValue()));
-        Assert.assertThat(result.get().getMin(), is(greaterThan(BigDecimal.ONE)));
-        Assert.assertThat(result.get().getMax(), is(lessThan(BigDecimal.TEN)));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get(), not(nullValue()));
+        assertThat(result.get().getMin(), is(greaterThan(BigDecimal.ONE)));
+        assertThat(result.get().getMax(), is(lessThan(BigDecimal.TEN)));
     }
 
     @Test
@@ -62,11 +61,11 @@ class NumericRestrictionsMergerTests {
 
         Optional<LinearRestrictions<BigDecimal>> result = merger.merge(greaterThanOrEqual, lessThanOrEqual, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(true));
-        Assert.assertThat(result.get(), not(nullValue()));
-        Assert.assertThat(result.get().getMin(), is(equalTo(BigDecimal.TEN)));
-        Assert.assertThat(result.get().getMax(), is(equalTo(BigDecimal.TEN)));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get(), not(nullValue()));
+        assertThat(result.get().getMin(), is(equalTo(BigDecimal.TEN)));
+        assertThat(result.get().getMax(), is(equalTo(BigDecimal.TEN)));
     }
 
     @Test
@@ -81,8 +80,8 @@ class NumericRestrictionsMergerTests {
 
         Optional<LinearRestrictions<BigDecimal>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(false));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(false));
     }
 
     @Test
@@ -95,8 +94,8 @@ class NumericRestrictionsMergerTests {
 
         Optional<LinearRestrictions<BigDecimal>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(true));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(true));
     }
 
     @Test
@@ -110,8 +109,8 @@ class NumericRestrictionsMergerTests {
 
         Optional<LinearRestrictions<BigDecimal>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(true));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(true));
     }
 
     @Test
@@ -124,8 +123,8 @@ class NumericRestrictionsMergerTests {
 
         Optional<LinearRestrictions<BigDecimal>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(true));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(true));
     }
 
     @Test
@@ -138,8 +137,8 @@ class NumericRestrictionsMergerTests {
 
         Optional<LinearRestrictions<BigDecimal>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(false));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(false));
     }
 
     @Test
@@ -152,7 +151,7 @@ class NumericRestrictionsMergerTests {
 
         Optional<LinearRestrictions<BigDecimal>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(true));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(true));
     }
 }

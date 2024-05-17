@@ -69,7 +69,7 @@ public class NameRetrievalService
 
     private static InSetRecord mergeFrequencies(InSetRecord first,
                                                 InSetRecord last) {
-        String name = String.format("%s %s", first.getElement(), last.getElement());
+        String name = "%s %s".formatted(first.getElement(), last.getElement());
         double frequency = first.getWeightValueOrDefault() + last.getWeightValueOrDefault();
         return new InSetRecord(name, frequency);
     }

@@ -48,10 +48,10 @@ public class CsvStreamInputReader implements CsvInputReader {
     public List<String> retrieveLinesForColumn(String key) {
         List<CSVRecord> records = parse(stream);
 
-        int index = getIndexForKey(records.get(0), key);
+        int index = getIndexForKey(records.getFirst(), key);
 
         //Remove the header
-        records.remove(0);
+        records.removeFirst();
 
         return records.stream()
             .map(record -> record.get(index))

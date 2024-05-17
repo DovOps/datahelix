@@ -90,7 +90,7 @@ public class RelationshipService {
     private Constraint createConstraint(Fields fields, ConstraintDTO extent) {
         return constraintService.createConstraints(
             Collections.singletonList(extent),
-            new ExtentAugmentedFields(fields)).get(0);
+            new ExtentAugmentedFields(fields)).getFirst();
     }
 
     private Profile readProfile(Path profileDirectory, String profileFile) {

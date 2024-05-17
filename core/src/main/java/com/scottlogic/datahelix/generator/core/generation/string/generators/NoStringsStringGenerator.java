@@ -29,7 +29,7 @@ public class NoStringsStringGenerator implements StringGenerator {
 
     @Override
     public String toString() {
-        return String.format("No strings: %s", this.stringRepresentation);
+        return "No strings: %s".formatted(this.stringRepresentation);
     }
 
     public boolean matches(String subject) {

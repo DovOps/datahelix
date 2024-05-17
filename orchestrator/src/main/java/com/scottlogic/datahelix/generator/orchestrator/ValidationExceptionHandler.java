@@ -25,8 +25,8 @@ import java.io.IOException;
 public class  ValidationExceptionHandler implements CommandLine.IExecutionExceptionHandler {
     @Override
     public int handleExecutionException(Exception ex, CommandLine commandLine, CommandLine.ParseResult parseResult) throws Exception {
-        if (ex instanceof ValidationException)
-            new ErrorReporter().displayValidation((ValidationException) ex);
+        if (ex instanceof ValidationException exception)
+            new ErrorReporter().displayValidation(exception);
         else if (ex instanceof IOException)
             new ErrorReporter().displayException(ex);
         else throw ex;

@@ -28,7 +28,7 @@ import com.scottlogic.datahelix.generator.core.decisiontree.DecisionTree;
 import com.scottlogic.datahelix.generator.core.decisiontree.testutils.*;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.AtomicConstraint;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.InSetConstraint;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -343,7 +343,7 @@ class TreePartitionerTests {
 
         if (!match) {
             reporter.reportMessages(context);
-            Assert.fail("Trees do not match");
+            Assertions.fail("Trees do not match");
         }
     }
 

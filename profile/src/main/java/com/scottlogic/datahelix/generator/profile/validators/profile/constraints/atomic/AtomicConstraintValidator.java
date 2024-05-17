@@ -36,14 +36,14 @@ abstract class AtomicConstraintValidator<T extends AtomicConstraintDTO> extends 
     @Override
     protected String getErrorInfo(T atomicConstraint)
     {
-        return String.format(" | Field: %s%s", ValidationResult.quote(atomicConstraint.field), super.getErrorInfo(atomicConstraint));
+        return " | Field: %s%s".formatted(ValidationResult.quote(atomicConstraint.field), super.getErrorInfo(atomicConstraint));
     }
 
     ValidationResult fieldTypeMustMatchValueType(T dto, FieldType expectedFieldType)
     {
         FieldType fieldType = FieldValidator.getSpecificFieldType(getField(dto.field)).getFieldType();
         if (expectedFieldType != fieldType) {
-            return ValidationResult.failure(String.format("Expected field type %s doesn't match field type %s%s", ValidationResult.quote(expectedFieldType), ValidationResult.quote(fieldType), getErrorInfo(dto)));
+            return ValidationResult.failure("Expected field type %s doesn't match field type %s%s".formatted(ValidationResult.quote(expectedFieldType), ValidationResult.quote(fieldType), getErrorInfo(dto)));
         }
         return ValidationResult.success();
     }
@@ -55,8 +55,8 @@ abstract class AtomicConstraintValidator<T extends AtomicConstraintDTO> extends 
             return ValidationResult.failure("Field must be specified" + getErrorInfo(dto));
         }
         Optional<FieldDTO> field = findField(fieldName);
-        if (!field.isPresent()) {
-            return ValidationResult.failure(String.format("%s must be defined in fields%s", ValidationResult.quote(fieldName), getErrorInfo(dto)));
+        if (field.isEmpty()) {
+            return ValidationResult.failure("%s must be defined in fields%s".formatted(ValidationResult.quote(fieldName), getErrorInfo(dto)));
         }
         return ValidationResult.success();
     }

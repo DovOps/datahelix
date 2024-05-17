@@ -38,20 +38,20 @@ class RootLevelConstraint {
     }
 
     DecisionNode getDecisionNode() {
-        return constraint instanceof DecisionNode
-            ? (DecisionNode)constraint
+        return constraint instanceof DecisionNode dn
+            ? dn
             : null;
     }
 
     AtomicConstraint getAtomicConstraint() {
-        return constraint instanceof AtomicConstraint
-            ? (AtomicConstraint)constraint
+        return constraint instanceof AtomicConstraint ac
+            ? ac
             : null;
     }
 
     FieldSpecRelation getRelations() {
-        return constraint instanceof FieldSpecRelation
-            ? (FieldSpecRelation) constraint
+        return constraint instanceof FieldSpecRelation fsr
+            ? fsr
             : null;
     }
 

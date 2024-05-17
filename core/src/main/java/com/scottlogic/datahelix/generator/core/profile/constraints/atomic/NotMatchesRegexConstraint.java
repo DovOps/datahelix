@@ -61,5 +61,5 @@ public class NotMatchesRegexConstraint implements AtomicConstraint {
     }
 
     @Override
-    public String toString(){ return String.format("`%s` NOT matches /%s/", field.getName(), regex); }
+    public String toString(){ return "`%s` NOT matches /%s/".formatted(field.getName(), regex); }
 }

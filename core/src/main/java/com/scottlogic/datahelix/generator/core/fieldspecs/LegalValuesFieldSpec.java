@@ -52,8 +52,8 @@ public class LegalValuesFieldSpec extends FieldSpec implements ValuesFieldSpec {
     public Optional<FieldSpec> merge(FieldSpec other, boolean useFinestGranularityAvailable) {
         final boolean notNullable = !isNullable() || !other.isNullable();
 
-        final List<Object> newSet = other instanceof LegalValuesFieldSpec
-            ? mergeSets((LegalValuesFieldSpec) other)
+        final List<Object> newSet = other instanceof LegalValuesFieldSpec lvfs
+            ? mergeSets(lvfs)
             : combineSetWithRestrictions(other);
 
         if (newSet.isEmpty() && notNullable) {
@@ -99,7 +99,7 @@ public class LegalValuesFieldSpec extends FieldSpec implements ValuesFieldSpec {
         if (legalValues.isEmpty()) {
             return "Null only";
         }
-        return (nullable ? "" : "Not Null ") + String.format("IN %s", legalValues);
+        return (nullable ? "" : "Not Null ") + "IN %s".formatted(legalValues);
     }
 
     public int hashCode() {

@@ -21,7 +21,7 @@ import com.scottlogic.datahelix.generator.common.profile.FieldBuilder;
 import com.scottlogic.datahelix.generator.core.generation.databags.DataBagValue;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FieldSpecHelperTests {
     private FieldSpecHelper fieldSpecHelper = new FieldSpecHelper();

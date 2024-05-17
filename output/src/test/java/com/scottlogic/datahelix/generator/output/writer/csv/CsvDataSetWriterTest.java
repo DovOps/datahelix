@@ -20,12 +20,11 @@ package com.scottlogic.datahelix.generator.output.writer.csv;
 import com.scottlogic.datahelix.generator.common.output.GeneratedObject;
 import com.scottlogic.datahelix.generator.common.profile.*;
 import com.scottlogic.datahelix.generator.output.writer.DataSetWriter;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,9 +32,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static junit.framework.TestCase.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CsvDataSetWriterTest {
     private ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -58,10 +58,10 @@ public class CsvDataSetWriterTest {
             dataSetWriter = CsvDataSetWriter.open(outputStream, fields);
             dataSetWriter.writeRow(row);
             String output = outputStream.toString(StandardCharsets.UTF_8.toString());
-            Assert.assertEquals(
-                "If the actual and expected appear to be identical, check for null characters",
+            assertEquals(
                 "one,two\r\n\",,\",\",\"\"\"\r\n",
-                output);
+                output,
+                "If the actual and expected appear to be identical, check for null characters");
         } catch (IOException e) {
             fail(e.toString());
         }

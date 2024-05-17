@@ -18,12 +18,13 @@ package com.scottlogic.datahelix.generator.core.profile.constraints.atomic;
 
 import com.scottlogic.datahelix.generator.common.profile.Field;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Pattern;
 
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContainsRegexConstraintTests {
     @Test
@@ -32,7 +33,7 @@ public class ContainsRegexConstraintTests {
         Field field2 = createField("TestField");
         ContainsRegexConstraint constraint1 = new ContainsRegexConstraint(field1, Pattern.compile("[abc]"));
         ContainsRegexConstraint constraint2 = new ContainsRegexConstraint(field2, Pattern.compile("[abc]"));
-        Assert.assertThat(constraint1, Matchers.equalTo(constraint2));
+        assertThat(constraint1, Matchers.equalTo(constraint2));
     }
 
     @Test
@@ -41,7 +42,7 @@ public class ContainsRegexConstraintTests {
         Field field2 = createField("TestField2");
         ContainsRegexConstraint constraint1 = new ContainsRegexConstraint(field1, Pattern.compile("[abc]"));
         ContainsRegexConstraint constraint2 = new ContainsRegexConstraint(field2, Pattern.compile("[abc]"));
-        Assert.assertNotEquals(constraint1, constraint2);
+        Assertions.assertNotEquals(constraint1, constraint2);
     }
 
     @Test
@@ -50,7 +51,7 @@ public class ContainsRegexConstraintTests {
         Field field2 = createField("TestField");
         ContainsRegexConstraint constraint1 = new ContainsRegexConstraint(field1, Pattern.compile("[abc]"));
         ContainsRegexConstraint constraint2 = new ContainsRegexConstraint(field2, Pattern.compile("[abcd]"));
-        Assert.assertNotEquals(constraint1, constraint2);
+        Assertions.assertNotEquals(constraint1, constraint2);
     }
 
 }

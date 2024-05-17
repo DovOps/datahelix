@@ -21,8 +21,7 @@ import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import com.scottlogic.datahelix.generator.core.config.detail.MonitorType;
 import com.scottlogic.datahelix.generator.core.generation.*;
-
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class DataGeneratorProvider implements Provider<DataGenerator> {
     private final DataGenerator coreGenerator;

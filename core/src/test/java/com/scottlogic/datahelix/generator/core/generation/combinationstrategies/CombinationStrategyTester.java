@@ -19,11 +19,12 @@ package com.scottlogic.datahelix.generator.core.generation.combinationstrategies
 import com.scottlogic.datahelix.generator.core.builders.DataBagBuilder;
 import com.scottlogic.datahelix.generator.core.generation.databags.DataBag;
 import org.hamcrest.collection.IsArrayContainingInAnyOrder;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 class CombinationStrategyTester {
     private CombinationStrategy strategy;
@@ -46,13 +47,13 @@ class CombinationStrategyTester {
         DataBag[] results = strategy.permute(dataBags).toArray(DataBag[]::new);
         DataBag[] bagArray = bagSequence.toArray(DataBag[]::new);
 
-        Assert.assertThat(results, IsArrayContainingInAnyOrder.arrayContainingInAnyOrder(bagArray));
+        assertThat(results, IsArrayContainingInAnyOrder.arrayContainingInAnyOrder(bagArray));
     }
 
     void expectEmpty() {
         Stream<DataBag> results = strategy.permute(dataBags);
 
-        Assert.assertFalse(results.iterator().hasNext());
+        Assertions.assertFalse(results.iterator().hasNext());
     }
 
     static DataBag bag(String... fieldNames) {

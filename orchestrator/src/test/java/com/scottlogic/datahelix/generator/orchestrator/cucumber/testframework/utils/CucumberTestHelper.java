@@ -24,7 +24,6 @@ import com.scottlogic.datahelix.generator.common.ValidationException;
 import com.scottlogic.datahelix.generator.orchestrator.generate.GenerateExecute;
 import com.scottlogic.datahelix.generator.orchestrator.guice.AllModule;
 import com.scottlogic.datahelix.generator.profile.dtos.FieldDTO;
-import org.junit.Assert;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -32,6 +31,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Responsible for generating data in cucumber tests.
@@ -149,9 +150,9 @@ public class CucumberTestHelper {
 
     public void assertFieldContains(String fieldName, Function<Object, Boolean> predicate) {
         Optional<Integer> fieldIndex = getIndexOfField(fieldName);
-        if (!fieldIndex.isPresent()) {
-            throw new IllegalArgumentException(String.format(
-                "Field [%s] has not been defined",
+        if (fieldIndex.isEmpty()) {
+            throw new IllegalArgumentException(
+                "Field [%s] has not been defined".formatted(
                 fieldName
             ));
         }
@@ -160,14 +161,14 @@ public class CucumberTestHelper {
         List<Object> dataForField =
             allData.stream().map(row -> row.get(fieldName)).collect(Collectors.toList());
 
-        Assert.assertThat(dataForField, new ListPredicateAnyTrueIsSuccessMatcher(predicate));
+        assertThat(dataForField, new ListPredicateAnyTrueIsSuccessMatcher(predicate));
     }
 
     public void assertFieldContainsOnly(String fieldName, Function<Object, Boolean> predicate) {
         Optional<Integer> fieldIndex = getIndexOfField(fieldName);
-        if (!fieldIndex.isPresent()) {
-            throw new IllegalArgumentException(String.format(
-                "Field [%s] has not been defined",
+        if (fieldIndex.isEmpty()) {
+            throw new IllegalArgumentException(
+                "Field [%s] has not been defined".formatted(
                 fieldName
             ));
         }
@@ -175,7 +176,7 @@ public class CucumberTestHelper {
         List<Map<String,Object>> allData = this.generateAndGetData();
         List<Object> dataForField = allData.stream().map(row -> row.get(fieldName)).collect(Collectors.toList());
 
-        Assert.assertThat(dataForField, new ListPredicateMatcher(predicate));
+        assertThat(dataForField, new ListPredicateMatcher(predicate));
     }
 
     private Optional<Integer> getIndexOfField(String fieldName) {

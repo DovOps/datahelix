@@ -92,8 +92,7 @@ public class CreateProfileHandler extends CommandHandler<CreateProfile, Profile>
     {
         return fields.stream()
             .map(constraintService::createSpecificTypeConstraint)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .collect(Collectors.toList());
     }
 

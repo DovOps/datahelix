@@ -38,7 +38,6 @@ import com.scottlogic.datahelix.generator.profile.validators.ConfigValidator;
 import com.scottlogic.datahelix.generator.profile.validators.CreateProfileValidator;
 import com.scottlogic.datahelix.generator.profile.validators.ReadRelationshipsValidator;
 import com.scottlogic.datahelix.generator.profile.validators.profile.ProfileValidator;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -55,6 +54,7 @@ import static com.scottlogic.datahelix.generator.common.util.Defaults.DEFAULT_DA
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.nullValue;
 
 
@@ -131,14 +131,14 @@ public class JsonProfileReaderTests {
 
     private <T> Consumer<Constraint> typedConstraint(Class<T> constraintType, Consumer<T> asserter) {
         return constraint -> {
-            Assert.assertThat(constraint, instanceOf(constraintType));
+            assertThat(constraint, instanceOf(constraintType));
 
             asserter.accept(constraintType.cast(constraint));
         };
     }
 
     private Consumer<Field> fieldWithName(String expectedName) {
-        return field -> Assert.assertThat(field.getName(), equalTo(expectedName));
+        return field -> assertThat(field.getName(), equalTo(expectedName));
     }
 
     @SafeVarargs
@@ -163,7 +163,7 @@ public class JsonProfileReaderTests {
         }
 
         if (aIterator.hasNext() || bIterator.hasNext())
-            Assert.fail("Sequences had different numbers of elements");
+            Assertions.fail("Sequences had different numbers of elements");
     }
 
     @Test
@@ -171,114 +171,132 @@ public class JsonProfileReaderTests {
     {
         givenJson("{}");
 
-        expectValidationErrors(error -> Assert.assertThat(error, equalTo("Fields must be specified"))
-            , error -> Assert.assertThat(error, equalTo("Constraints must be specified")));
+        expectValidationErrors(error -> assertThat(error, equalTo("Fields must be specified"))
+            , error -> assertThat(error, equalTo("Constraints must be specified")));
     }
 
     @Test
     public void shouldRejectMissingFields()
     {
         givenJson(
-            "{" +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "constraints": []\
+            }\
+            """);
 
-        expectValidationErrors(error -> Assert.assertThat(error, equalTo("Fields must be specified")));
+        expectValidationErrors(error -> assertThat(error, equalTo("Fields must be specified")));
     }
 
     @Test
     public void shouldRejectNullFields()
     {
         givenJson(
-            "{" +
-                "    \"fields\": null," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": null,\
+                "constraints": []\
+            }\
+            """);
 
-        expectValidationErrors(error -> Assert.assertThat(error, equalTo("Fields must be specified")));
+        expectValidationErrors(error -> assertThat(error, equalTo("Fields must be specified")));
     }
 
     @Test
     public void shouldRejectEmptyFields()
     {
         givenJson(
-            "{" +
-                "    \"fields\": []," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [],\
+                "constraints": []\
+            }\
+            """);
 
-        expectValidationErrors(error -> Assert.assertThat(error, equalTo("Fields must be specified")));
+        expectValidationErrors(error -> assertThat(error, equalTo("Fields must be specified")));
     }
 
     @Test
     public void shouldRejectFieldsContainingANull()
     {
         givenJson(
-            "{" +
-                "    \"fields\": [" +
-                "        { \"name\": \"f1\", \"type\": \"string\" }," +
-                "        null" +
-                "    ]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [\
+                    { "name": "f1", "type": "string" },\
+                    null\
+                ],\
+                "constraints": []\
+            }\
+            """);
 
-        expectValidationErrors(error -> Assert.assertThat(error, equalTo("Field must not be null")));
+        expectValidationErrors(error -> assertThat(error, equalTo("Field must not be null")));
     }
 
     @Test
     public void shouldRejectFieldWithUnrecognisedType()
     {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"f1\", \"type\": \" string\" } ]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "f1", "type": " string" } ],\
+                "constraints": []\
+            }\
+            """);
 
-        expectValidationErrors(error -> Assert.assertThat(error, equalTo("Field type ' string' is not supported | Field: 'f1'")));
+        expectValidationErrors(error -> assertThat(error, equalTo("Field type ' string' is not supported | Field: 'f1'")));
     }
 
     @Test
     public void shouldRejectMissingConstraints()
     {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"f1\", \"type\": \"string\" } ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "f1", "type": "string" } ]\
+            }\
+            """);
 
-        expectValidationErrors(error -> Assert.assertThat(error, equalTo("Constraints must be specified")));
+        expectValidationErrors(error -> assertThat(error, equalTo("Constraints must be specified")));
     }
 
     @Test
     public void shouldRejectNullConstraints()
     {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"f1\", \"type\": \"string\" } ]," +
-                "    \"constraints\": null" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "f1", "type": "string" } ],\
+                "constraints": null\
+            }\
+            """);
 
-        expectValidationErrors(error -> Assert.assertThat(error, equalTo("Constraints must be specified")));
+        expectValidationErrors(error -> assertThat(error, equalTo("Constraints must be specified")));
     }
 
     @Test
     public void shouldRejectConstraintsContainingNull()
     {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"f1\", \"type\": \"string\" } ]," +
-                "    \"constraints\": [null]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "f1", "type": "string" } ],\
+                "constraints": [null]\
+            }\
+            """);
 
-        expectValidationErrors(error -> Assert.assertThat(error, equalTo("Constraint must not be null")));
+        expectValidationErrors(error -> assertThat(error, equalTo("Constraint must not be null")));
     }
 
     @Test
     public void shouldDeserialiseSingleField() {
         givenJson(
-                "{" +
-                        "    \"fields\": [ { \"name\": \"f1\", \"type\": \"string\" } ]," +
-                        "    \"constraints\": []" +
-                        "}");
+                """
+                {\
+                    "fields": [ { "name": "f1", "type": "string" } ],\
+                    "constraints": []\
+                }\
+                """);
 
         expectFields(fieldWithName("f1"));
     }
@@ -286,12 +304,14 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldDeserialiseMultipleFields() {
         givenJson(
-                "{" +
-                        "    \"fields\": [ " +
-                        "       { \"name\": \"f1\", \"type\": \"string\" }," +
-                        "       { \"name\": \"f2\", \"type\": \"string\" } ]," +
-                        "    \"constraints\": []" +
-                        "}");
+                """
+                {\
+                    "fields": [ \
+                       { "name": "f1", "type": "string" },\
+                       { "name": "f2", "type": "string" } ],\
+                    "constraints": []\
+                }\
+                """);
 
         expectFields(
                 fieldWithName("f1"),
@@ -301,12 +321,14 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldNotThrowIsNullWithValueNull() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"string\" } ]," +
-                "    \"constraints\": [" +
-                "               { \"field\": \"foo\", \"isNull\": true }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "string" } ],\
+                "constraints": [\
+                           { "field": "foo", "isNull": true }\
+                ]\
+            }\
+            """);
 
         Assertions.assertDoesNotThrow(this::getResultingProfile);
     }
@@ -314,12 +336,14 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldNotThrowIsNullWithValuesNull() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"string\" } ]," +
-                "    \"constraints\": [" +
-                "               { \"field\": \"foo\", \"isNull\": true }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "string" } ],\
+                "constraints": [\
+                           { "field": "foo", "isNull": true }\
+                ]\
+            }\
+            """);
 
         Assertions.assertDoesNotThrow(this::getResultingProfile);
     }
@@ -327,30 +351,34 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldDeserialiseIsOfTypeConstraint() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"string\", \"nullable\": true } ]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "string", "nullable": true } ],\
+                "constraints": []\
+            }\
+            """);
 
         expectConstraints();
         expectFields(
             field -> {
-                Assert.assertThat(field.getName(), equalTo("foo"));
-                Assert.assertEquals(FieldType.STRING, field.getType());
+                assertThat(field.getName(), equalTo("foo"));
+                Assertions.assertEquals(FieldType.STRING, field.getType());
             });
     }
 
     @Test
     public void shouldDeserialiseIsOfTypeConstraint_whenInteger() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"integer\", \"nullable\": true } ]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "integer", "nullable": true } ],\
+                "constraints": []\
+            }\
+            """);
 
 
         expectConstraints(typedConstraint(GranularToNumericConstraint.class,
-                    c -> Assert.assertThat(
+                    c -> assertThat(
                             c.granularity,
                             equalTo(new NumericGranularity(0)))
                     ));
@@ -359,36 +387,40 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldDeserialiseIsEqualToConstraint() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"string\", \"nullable\": true } ]," +
-                "    \"constraints\": [" +
-                "        { \"field\": \"foo\",  \"equalTo\": \"equal\" }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "string", "nullable": true } ],\
+                "constraints": [\
+                    { "field": "foo",  "equalTo": "equal" }\
+                ]\
+            }\
+            """);
 
 
 
         expectConstraints(typedConstraint(EqualToConstraint.class,
-            c -> Assert.assertThat( c.value, equalTo("equal"))));
+            c -> assertThat( c.value, equalTo("equal"))));
 
     }
 
     @Test
     public void shouldDeserialiseFormatConstraint() {
         givenJson(
-                "{" +
-                        "    \"fields\": [ { " +
-                        "           \"name\": \"foo\"," +
-                        "           \"formatting\": \"%.5s\"," +
-                        "           \"type\": \"string\"" +
-                        "    } ]," +
-                        "    \"constraints\": []" +
-                        "}");
+                """
+                {\
+                    "fields": [ { \
+                           "name": "foo",\
+                           "formatting": "%.5s",\
+                           "type": "string"\
+                    } ],\
+                    "constraints": []\
+                }\
+                """);
 
         expectFields(
             field -> {
-                Assert.assertThat(field.getName(), equalTo("foo"));
-                Assert.assertThat(field.getFormatting(), equalTo("%.5s"));
+                assertThat(field.getName(), equalTo("foo"));
+                assertThat(field.getFormatting(), equalTo("%.5s"));
             }
         );
     }
@@ -396,95 +428,105 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldDeserialiseIsOfLengthConstraint() {
         givenJson(
-                "{" +
-                        "    \"fields\": [ { \"name\": \"id\", \"type\": \"string\" , \"nullable\": true} ]," +
-                        "    \"constraints\": [" +
-                        "        { \"field\": \"id\",  \"ofLength\": 5 }" +
-                        "    ]" +
-                        "}");
+                """
+                {\
+                    "fields": [ { "name": "id", "type": "string" , "nullable": true} ],\
+                    "constraints": [\
+                        { "field": "id",  "ofLength": 5 }\
+                    ]\
+                }\
+                """);
 
         expectConstraints(typedConstraint(OfLengthConstraint.class,
-                    c -> Assert.assertThat(c.referenceValue, equalTo(5))));
+                    c -> assertThat(c.referenceValue, equalTo(5))));
     }
 
     @Test
     public void shouldDeserialiseNotWrapper() {
         // Arrange
         givenJson(
-                "{" +
-                        "    \"fields\": [ { \"name\": \"foo\", \"type\": \"string\", \"nullable\": true } ]," +
-                        "    \"constraints\": [" +
-                        "        { \"not\": { \"field\": \"foo\",  \"equalTo\": \"string\" } }" +
-                        "    ]" +
-                        "}");
+                """
+                {\
+                    "fields": [ { "name": "foo", "type": "string", "nullable": true } ],\
+                    "constraints": [\
+                        { "not": { "field": "foo",  "equalTo": "string" } }\
+                    ]\
+                }\
+                """);
 
         expectConstraints(typedConstraint(NotEqualToConstraint.class,
-            c ->  Assert.assertThat(c.value, equalTo("string"))));
+            c ->  assertThat(c.value, equalTo("string"))));
     }
 
     @Test
     public void shouldDeserialiseOrConstraint() {
         givenJson(
-                "{" +
-                        "    \"fields\": [ { \"name\": \"foo\", \"type\": \"decimal\", \"nullable\": true } ]," +
-                        "    \"constraints\": [" +
-                        "          {" +
-                        "            \"anyOf\": [" +
-                        "              { \"field\": \"foo\",  \"equalTo\": 1 }," +
-                        "              { \"field\": \"foo\", \"isNull\": true }" +
-                        "            ]" +
-                        "          }" +
-                        "   ]" +
-                        "}");
+                """
+                {\
+                    "fields": [ { "name": "foo", "type": "decimal", "nullable": true } ],\
+                    "constraints": [\
+                          {\
+                            "anyOf": [\
+                              { "field": "foo",  "equalTo": 1 },\
+                              { "field": "foo", "isNull": true }\
+                            ]\
+                          }\
+                   ]\
+                }\
+                """);
 
         expectConstraints(typedConstraint(OrConstraint.class,
-                    c -> Assert.assertThat(c.subConstraints.size(),equalTo(2))));
+                    c -> assertThat(c.subConstraints.size(),equalTo(2))));
     }
 
     @Test
     public void shouldDeserialiseAndConstraint() {
         givenJson(
-                "{" +
-                        "    \"fields\": [ { \"name\": \"foo\", \"type\": \"decimal\", \"nullable\": true } ]," +
-                        "    \"constraints\": [" +
-                        "          {" +
-                        "           \"allOf\": [" +
-                        "             { \"field\": \"foo\",  \"equalTo\": 1 }," +
-                        "             { \"field\": \"foo\", \"isNull\": true }" +
-                        "            ]" +
-                        "          }" +
-                        "    ]" +
-                        "}");
+                """
+                {\
+                    "fields": [ { "name": "foo", "type": "decimal", "nullable": true } ],\
+                    "constraints": [\
+                          {\
+                           "allOf": [\
+                             { "field": "foo",  "equalTo": 1 },\
+                             { "field": "foo", "isNull": true }\
+                            ]\
+                          }\
+                    ]\
+                }\
+                """);
 
         expectConstraints(typedConstraint(AndConstraint.class,
-                    c -> Assert.assertThat(c.getSubConstraints().size(),equalTo(2))));
+                    c -> assertThat(c.getSubConstraints().size(),equalTo(2))));
     }
 
     @Test
     public void shouldDeserialiseIfConstraint() {
         givenJson(
-                "{" +
-                        "    \"fields\": [ { \"name\": \"foo\", \"type\": \"string\", \"nullable\": true } ]," +
-                        "    \"constraints\": [" +
-                        "          {" +
-                        "            \"if\": { \"field\": \"foo\",  \"equalTo\": \"string\" }," +
-                        "            \"then\": { \"field\": \"foo\",  \"inSet\": [ \"str!\" ] }," +
-                        "            \"else\": { \"field\": \"foo\",  \"longerThan\": 3 }" +
-                        "          }" +
-                        "   ]" +
-                        "}");
+                """
+                {\
+                    "fields": [ { "name": "foo", "type": "string", "nullable": true } ],\
+                    "constraints": [\
+                          {\
+                            "if": { "field": "foo",  "equalTo": "string" },\
+                            "then": { "field": "foo",  "inSet": [ "str!" ] },\
+                            "else": { "field": "foo",  "longerThan": 3 }\
+                          }\
+                   ]\
+                }\
+                """);
 
         expectConstraints(typedConstraint( ConditionalConstraint.class,
                                 c -> {
-                                    Assert.assertThat(
+                                    assertThat(
                                             c.condition,
                                             instanceOf(EqualToConstraint.class));
 
-                                    Assert.assertThat(
+                                    assertThat(
                                             c.whenConditionIsTrue,
                                             instanceOf(InSetConstraint.class));
 
-                                    Assert.assertThat(
+                                    assertThat(
                                             c.whenConditionIsFalse,
                                             instanceOf(LongerThanConstraint.class));
                                 }));
@@ -493,27 +535,29 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldDeserialiseIfConstraintWithoutElse() {
         givenJson(
-                "{" +
-                        "    \"fields\": [ { \"name\": \"foo\", \"type\": \"string\", \"nullable\": true } ]," +
-                        "    \"constraints\": [" +
-                        "          {" +
-                        "            \"if\": { \"field\": \"foo\",  \"equalTo\": \"string\" }," +
-                        "            \"then\": { \"field\": \"foo\",  \"equalTo\": \"str!\" }" +
-                        "          }" +
-                        "    ]" +
-                        "}");
+                """
+                {\
+                    "fields": [ { "name": "foo", "type": "string", "nullable": true } ],\
+                    "constraints": [\
+                          {\
+                            "if": { "field": "foo",  "equalTo": "string" },\
+                            "then": { "field": "foo",  "equalTo": "str!" }\
+                          }\
+                    ]\
+                }\
+                """);
 
         expectConstraints(typedConstraint(ConditionalConstraint.class,
                                 c -> {
-                                    Assert.assertThat(
+                                    assertThat(
                                             c.condition,
                                             instanceOf(EqualToConstraint.class));
 
-                                    Assert.assertThat(
+                                    assertThat(
                                             c.whenConditionIsTrue,
                                             instanceOf(EqualToConstraint.class));
 
-                                    Assert.assertThat(
+                                    assertThat(
                                             c.whenConditionIsFalse,
                                             nullValue());
                                 }));
@@ -522,73 +566,83 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldDeserialiseOneAsNumericGranularToConstraint() {
         givenJson(
-            "{" +
-            "    \"fields\": [ { \"name\": \"foo\", \"type\": \"decimal\", \"nullable\": true } ]," +
-            "    \"constraints\": [" +
-            "        { \"field\": \"foo\",  \"granularTo\": 1 }" +
-            "    ]" +
-            "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "decimal", "nullable": true } ],\
+                "constraints": [\
+                    { "field": "foo",  "granularTo": 1 }\
+                ]\
+            }\
+            """);
 
         expectConstraints(typedConstraint(GranularToNumericConstraint.class,
-                    c -> Assert.assertThat(c.granularity,equalTo(new NumericGranularity(0)))));
+                    c -> assertThat(c.granularity,equalTo(new NumericGranularity(0)))));
     }
 
     @Test
     public void shouldDeserialiseTenthAsNumericGranularToConstraint() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"decimal\", \"nullable\": true } ]," +
-                "    \"constraints\": [" +
-                "        { \"field\": \"foo\",  \"granularTo\": 0.1 }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "decimal", "nullable": true } ],\
+                "constraints": [\
+                    { "field": "foo",  "granularTo": 0.1 }\
+                ]\
+            }\
+            """);
 
         expectConstraints(typedConstraint(GranularToNumericConstraint.class,
-                    c -> Assert.assertThat(c.granularity,equalTo(new NumericGranularity(1)))));
+                    c -> assertThat(c.granularity,equalTo(new NumericGranularity(1)))));
     }
 
     @Test
     public void shouldDisregardTrailingZeroesInNumericGranularities() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"decimal\", \"nullable\": true } ]," +
-                "    \"constraints\": [" +
-                "        { \"field\": \"foo\",  \"granularTo\": 0.100000000 }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "decimal", "nullable": true } ],\
+                "constraints": [\
+                    { "field": "foo",  "granularTo": 0.100000000 }\
+                ]\
+            }\
+            """);
 
         expectConstraints(typedConstraint(GranularToNumericConstraint.class,
-                    c -> Assert.assertThat(c.granularity,equalTo(new NumericGranularity(1)))));
+                    c -> assertThat(c.granularity,equalTo(new NumericGranularity(1)))));
     }
 
     @Test
     public void shouldAllowValidISO8601DateTime() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"datetime\", \"nullable\": true } ]," +
-                "    \"constraints\": [" +
-                "        { \"field\": \"foo\",  \"afterOrAt\": \"2019-01-01T00:00:00.000\" }," +
-                "        { \"field\": \"foo\",  \"before\": \"2019-01-03T00:00:00.000\" }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "datetime", "nullable": true } ],\
+                "constraints": [\
+                    { "field": "foo",  "afterOrAt": "2019-01-01T00:00:00.000" },\
+                    { "field": "foo",  "before": "2019-01-03T00:00:00.000" }\
+                ]\
+            }\
+            """);
 
         expectConstraints(
             typedConstraint(AfterOrAtConstraint.class,
-                isAfter ->  Assert.assertEquals(OffsetDateTime.parse("2019-01-01T00:00:00.000Z"), isAfter.referenceValue)),
+                isAfter ->  Assertions.assertEquals(OffsetDateTime.parse("2019-01-01T00:00:00.000Z"), isAfter.referenceValue)),
             typedConstraint(BeforeConstraint.class,
-                isBefore -> Assert.assertEquals(OffsetDateTime.parse("2019-01-03T00:00:00.000Z"), isBefore.referenceValue))
+                isBefore -> Assertions.assertEquals(OffsetDateTime.parse("2019-01-03T00:00:00.000Z"), isBefore.referenceValue))
         );
     }
 
     @Test
     public void shouldRejectGreaterThanOneNumericGranularityConstraint() {
         givenJson(
-            "{" +
-            "    \"fields\": [ { \"name\": \"foo\", \"type\": \"decimal\" } ]," +
-            "    \"constraints\": [" +
-            "        { \"field\": \"foo\",  \"granularTo\": 2 }" +
-            "    ]" +
-            "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "decimal" } ],\
+                "constraints": [\
+                    { "field": "foo",  "granularTo": 2 }\
+                ]\
+            }\
+            """);
 
         expectValidationException("Numeric granularity must be <= 1 | Field: 'foo' | Constraint: 'granularTo'");
     }
@@ -596,12 +650,14 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldRejectNonPowerOfTenNumericGranularityConstraint() {
         givenJson(
-            "{" +
-            "    \"fields\": [ { \"name\": \"foo\", \"type\": \"decimal\" } ]," +
-            "   \"constraints\": [" +
-            "        { \"field\": \"foo\",  \"granularTo\": 0.15 }" +
-            "    ]" +
-            "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "decimal" } ],\
+               "constraints": [\
+                    { "field": "foo",  "granularTo": 0.15 }\
+                ]\
+            }\
+            """);
 
         expectValidationException("Numeric granularity must be fractional power of ten | Field: 'foo' | Constraint: 'granularTo'");
     }
@@ -610,12 +666,14 @@ public class JsonProfileReaderTests {
     public void shouldRejectEqualToWithNullValue()
     {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"datetime\" } ]," +
-                "    \"constraints\": [" +
-                "        { \"field\": \"foo\",  \"equalTo\": null }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "datetime" } ],\
+                "constraints": [\
+                    { "field": "foo",  "equalTo": null }\
+                ]\
+            }\
+            """);
 
         expectValidationException("Values must be specified | Field: 'foo' | Constraint: 'equalTo'");
     }
@@ -624,12 +682,14 @@ public class JsonProfileReaderTests {
     public void shouldRejectLessThanWithNullValue()
     {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"integer\" } ]," +
-                "    \"constraints\": [" +
-                "        { \"field\": \"foo\",  \"lessThan\": null }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "integer" } ],\
+                "constraints": [\
+                    { "field": "foo",  "lessThan": null }\
+                ]\
+            }\
+            """);
         expectValidationException("Number must be specified | Field: 'foo' | Constraint: 'lessThan'");
     }
 
@@ -637,12 +697,14 @@ public class JsonProfileReaderTests {
     public void shouldRejectInSetWithANullValue()
     {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"datetime\" } ]," +
-                "    \"constraints\": [" +
-                "        { \"field\": \"foo\",  \"inSet\": [ null ] }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "datetime" } ],\
+                "constraints": [\
+                    { "field": "foo",  "inSet": [ null ] }\
+                ]\
+            }\
+            """);
 
         expectValidationException("Values must be specified | Field: 'foo' | Constraint: 'inSet'");
     }
@@ -651,12 +713,14 @@ public class JsonProfileReaderTests {
     public void shouldRejectInSetSetToNull()
     {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"datetime\" } ]," +
-                "    \"constraints\": [" +
-                "        { \"field\": \"foo\",  \"inSet\": null }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "datetime" } ],\
+                "constraints": [\
+                    { "field": "foo",  "inSet": null }\
+                ]\
+            }\
+            """);
 
         expectValidationException("In set values must be specified | Field: 'foo' | Constraint: 'inSet'");
     }
@@ -664,12 +728,14 @@ public class JsonProfileReaderTests {
     @Test
     public void shouldRejectIsConstraintSetToNullForNot() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { \"name\": \"foo\", \"type\": \"datetime\" } ]," +
-                "    \"constraints\": [" +
-                "        { \"not\": { \"field\": \"foo\", \"is\": null } }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { "name": "foo", "type": "datetime" } ],\
+                "constraints": [\
+                    { "not": { "field": "foo", "is": null } }\
+                ]\
+            }\
+            """);
 
         expectValidationException("Invalid json: {\"field\":\"foo\",\"is\":null}");
     }
@@ -677,19 +743,21 @@ public class JsonProfileReaderTests {
     @Test
     public void unique_setsFieldPropertyToTrue_whenSetToTrue() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "           \"name\": \"foo\"," +
-                "           \"type\": \"integer\"," +
-                "           \"unique\": true" +
-                "    } ]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                       "name": "foo",\
+                       "type": "integer",\
+                       "unique": true\
+                } ],\
+                "constraints": []\
+            }\
+            """);
 
         expectFields(
             field -> {
-                Assert.assertThat(field.getName(), equalTo("foo"));
-                Assert.assertTrue(field.isUnique());
+                assertThat(field.getName(), equalTo("foo"));
+                Assertions.assertTrue(field.isUnique());
             }
         );
     }
@@ -697,17 +765,19 @@ public class JsonProfileReaderTests {
     @Test
     public void unique_setsFieldPropertyToFalse_whenOmitted() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "           \"name\": \"foo\"," +
-                "           \"type\": \"integer\"" +
-                "    } ]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                       "name": "foo",\
+                       "type": "integer"\
+                } ],\
+                "constraints": []\
+            }\
+            """);
         expectFields(
             field -> {
-                Assert.assertThat(field.getName(), equalTo("foo"));
-                Assert.assertFalse(field.isUnique());
+                assertThat(field.getName(), equalTo("foo"));
+                Assertions.assertFalse(field.isUnique());
             }
         );
     }
@@ -715,19 +785,21 @@ public class JsonProfileReaderTests {
     @Test
     public void unique_setsFieldPropertyToFalse_whenSetToFalse() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "           \"name\": \"foo\"," +
-                "           \"type\": \"integer\"," +
-                "           \"unique\": false" +
-                "    } ]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                       "name": "foo",\
+                       "type": "integer",\
+                       "unique": false\
+                } ],\
+                "constraints": []\
+            }\
+            """);
 
         expectFields(
             field -> {
-                Assert.assertThat(field.getName(), equalTo("foo"));
-                Assert.assertFalse(field.isUnique());
+                assertThat(field.getName(), equalTo("foo"));
+                Assertions.assertFalse(field.isUnique());
             }
         );
     }
@@ -735,31 +807,35 @@ public class JsonProfileReaderTests {
     @Test
     public void nullable_addsConstraintForField_whenSetToFalse() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"decimal\"," +
-                "       \"nullable\": false" +
-                "    } ]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "decimal",\
+                   "nullable": false\
+                } ],\
+                "constraints": []\
+            }\
+            """);
 
         expectConstraints(
             typedConstraint(NotNullConstraint.class,
-                    c -> Assert.assertEquals("foo", c.getField().getName())));
+                    c -> Assertions.assertEquals("foo", c.getField().getName())));
     }
 
     @Test
     public void nullable_DoesNotAddConstraintForField_whenSetToTrue() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"decimal\"," +
-                "       \"nullable\": true" +
-                "    } ]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "decimal",\
+                   "nullable": true\
+                } ],\
+                "constraints": []\
+            }\
+            """);
 
         expectConstraints();
     }
@@ -767,67 +843,73 @@ public class JsonProfileReaderTests {
     @Test
     public void nullable_addsConstraintForFields_whenSetToFalse() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"decimal\"," +
-                "       \"nullable\": false" +
-                "    }, { " +
-                "       \"name\": \"bar\" ," +
-                "       \"type\": \"decimal\"," +
-                "       \"nullable\": false" +
-                "    }]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "decimal",\
+                   "nullable": false\
+                }, { \
+                   "name": "bar" ,\
+                   "type": "decimal",\
+                   "nullable": false\
+                }],\
+                "constraints": []\
+            }\
+            """);
 
         expectConstraints(
             typedConstraint(NotNullConstraint.class,
-                c ->  Assert.assertEquals("foo", c.getField().getName())),
+                c ->  Assertions.assertEquals("foo", c.getField().getName())),
             typedConstraint(NotNullConstraint.class,
-                c -> Assert.assertEquals("bar", c.getField().getName()))
+                c -> Assertions.assertEquals("bar", c.getField().getName()))
             );
     }
 
     @Test
     public void nullable_addsConstraintForFields_whenOneSetToFalse() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"decimal\"," +
-                "       \"nullable\": true" +
-                "    }, { " +
-                "       \"name\": \"bar\" ," +
-                "       \"type\": \"decimal\"," +
-                "       \"nullable\": false" +
-                "    }]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "decimal",\
+                   "nullable": true\
+                }, { \
+                   "name": "bar" ,\
+                   "type": "decimal",\
+                   "nullable": false\
+                }],\
+                "constraints": []\
+            }\
+            """);
 
         expectConstraints(
             typedConstraint(NotNullConstraint.class,
-                    c -> Assert.assertEquals("bar", c.getField().getName())));
+                    c -> Assertions.assertEquals("bar", c.getField().getName())));
     }
 
     @Test
     public void type_setsFieldTypeProperty_whenSetInFieldDefinition() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"decimal\" ," +
-                "       \"nullable\": \"true\"" +
-                "    }, { " +
-                "       \"name\": \"bar\" ," +
-                "       \"type\": \"string\" ," +
-                "       \"nullable\": \"true\"" +
-                "    }]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "decimal" ,\
+                   "nullable": "true"\
+                }, { \
+                   "name": "bar" ,\
+                   "type": "string" ,\
+                   "nullable": "true"\
+                }],\
+                "constraints": []\
+            }\
+            """);
 
         expectFields(
-            field -> Assert.assertThat(field.getType(), equalTo(FieldType.NUMERIC)),
-            field ->  Assert.assertThat(field.getType(), equalTo(FieldType.STRING))
+            field -> assertThat(field.getType(), equalTo(FieldType.NUMERIC)),
+            field ->  assertThat(field.getType(), equalTo(FieldType.STRING))
         );
         expectConstraints();
     }
@@ -835,32 +917,34 @@ public class JsonProfileReaderTests {
     @Test
     void parser_createsInternalField_whenProfileHasAnInMapConstraint() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"string\"" +
-                "    }, { " +
-                "       \"name\": \"bar\" ," +
-                "       \"type\": \"string\"" +
-                "    }]," +
-                "    \"constraints\": [" +
-                "           { \"field\": \"foo\", \"inMap\": \"foobar.csv\", \"key\": \"Foo\" }," +
-                "           { \"field\": \"bar\", \"inMap\": \"foobar.csv\", \"key\": \"Bar\"}" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "string"\
+                }, { \
+                   "name": "bar" ,\
+                   "type": "string"\
+                }],\
+                "constraints": [\
+                       { "field": "foo", "inMap": "foobar.csv", "key": "Foo" },\
+                       { "field": "bar", "inMap": "foobar.csv", "key": "Bar"}\
+                ]\
+            }\
+            """);
 
          expectFields(
             field -> {
-                Assert.assertEquals("foo", field.getName());
-                Assert.assertFalse(field.isInternal());
+                Assertions.assertEquals("foo", field.getName());
+                Assertions.assertFalse(field.isInternal());
             },
             field -> {
-                Assert.assertEquals("bar", field.getName());
-                Assert.assertFalse(field.isInternal());
+                Assertions.assertEquals("bar", field.getName());
+                Assertions.assertFalse(field.isInternal());
             },
             field -> {
-                Assert.assertEquals("foobar.csv", field.getName());
-                Assert.assertTrue(field.isInternal());
+                Assertions.assertEquals("foobar.csv", field.getName());
+                Assertions.assertTrue(field.isInternal());
             }
         );
     }
@@ -868,48 +952,50 @@ public class JsonProfileReaderTests {
     @Test
     void parser_createsInternalField_whenProfileHasANestedInMapConstraint() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"string\"" +
-                "    }, { " +
-                "       \"name\": \"bar\" ," +
-                "       \"type\": \"string\"" +
-                "    }, { " +
-                "       \"name\": \"other\" ," +
-                "       \"type\": \"string\"" +
-                "    }]," +
-                "    \"constraints\": [" +
-                "                {" +
-                "                    \"if\":   { \"field\": \"other\", \"matchingRegex\": \"^[O].*\" }," +
-                "                    \"then\": {" +
-                "                        \"if\":   { \"field\": \"other\", \"matchingRegex\": \"^[O].*\" }," +
-                "                        \"then\": { \"allOf\": [" +
-                "                            { \"field\": \"foo\", \"inMap\": \"foobar.csv\", \"key\": \"Foo\"}," +
-                "                            { \"field\": \"bar\", \"inMap\": \"foobar.csv\", \"key\": \"Bar\"}" +
-                "                        ]}" +
-                "                    }" +
-                "                }" +
-                "    ]" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "string"\
+                }, { \
+                   "name": "bar" ,\
+                   "type": "string"\
+                }, { \
+                   "name": "other" ,\
+                   "type": "string"\
+                }],\
+                "constraints": [\
+                            {\
+                                "if":   { "field": "other", "matchingRegex": "^[O].*" },\
+                                "then": {\
+                                    "if":   { "field": "other", "matchingRegex": "^[O].*" },\
+                                    "then": { "allOf": [\
+                                        { "field": "foo", "inMap": "foobar.csv", "key": "Foo"},\
+                                        { "field": "bar", "inMap": "foobar.csv", "key": "Bar"}\
+                                    ]}\
+                                }\
+                            }\
+                ]\
+            }\
+            """);
 
         expectFields(
             field -> {
-                Assert.assertEquals("foo", field.getName());
-                Assert.assertFalse(field.isInternal());
+                Assertions.assertEquals("foo", field.getName());
+                Assertions.assertFalse(field.isInternal());
             },
             field -> {
-                Assert.assertEquals("bar", field.getName());
-                Assert.assertFalse(field.isInternal());
+                Assertions.assertEquals("bar", field.getName());
+                Assertions.assertFalse(field.isInternal());
             },
             field -> {
-                Assert.assertEquals("other", field.getName());
-                Assert.assertFalse(field.isInternal());
+                Assertions.assertEquals("other", field.getName());
+                Assertions.assertFalse(field.isInternal());
             },
             field -> {
-                Assert.assertEquals("foobar.csv", field.getName());
-                Assert.assertTrue(field.isInternal());
-                Assert.assertEquals(FieldType.NUMERIC, field.getType());
+                Assertions.assertEquals("foobar.csv", field.getName());
+                Assertions.assertTrue(field.isInternal());
+                Assertions.assertEquals(FieldType.NUMERIC, field.getType());
             }
         );
     }
@@ -917,63 +1003,71 @@ public class JsonProfileReaderTests {
     @Test
     public void formatting_withDateType_shouldSetCorrectGranularity() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"date\"," +
-                "       \"nullable\": \"true\"" +
-                "    }]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "date",\
+                   "nullable": "true"\
+                }],\
+                "constraints": []\
+            }\
+            """);
 
         expectConstraints(typedConstraint(GranularToDateConstraint.class,
-                    c -> Assert.assertThat(c.granularity, equalTo(new DateTimeGranularity(ChronoUnit.DAYS)))));
+                    c -> assertThat(c.granularity, equalTo(new DateTimeGranularity(ChronoUnit.DAYS)))));
     }
 
     @Test
     public void formatting_withDateType_shouldSetCorrectFormatting() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"date\"" +
-                "    }]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "date"\
+                }],\
+                "constraints": []\
+            }\
+            """);
 
-        expectFields(field -> Assert.assertEquals(DEFAULT_DATE_FORMATTING,field.getFormatting()) );
+        expectFields(field -> Assertions.assertEquals(DEFAULT_DATE_FORMATTING,field.getFormatting()) );
     }
 
     @Test
     public void formatting_withDateTypeAndFormatting_shouldSetCorrectFormatting() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"date\"," +
-                "       \"formatting\": \"%tD\"" +
-                "    }]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "date",\
+                   "formatting": "%tD"\
+                }],\
+                "constraints": []\
+            }\
+            """);
 
-        expectFields(field -> Assert.assertEquals("%tD",field.getFormatting()));
+        expectFields(field -> Assertions.assertEquals("%tD",field.getFormatting()));
     }
 
     @Test
     public void addsConstraintForGenerator() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"string\"," +
-                "       \"generator\": \"lorem ipsum\"," +
-                "       \"nullable\": true" +
-                "    }]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "string",\
+                   "generator": "lorem ipsum",\
+                   "nullable": true\
+                }],\
+                "constraints": []\
+            }\
+            """);
 
         expectConstraints(typedConstraint(CustomConstraint.class,
-                    c -> Assert.assertEquals("foo", c.getField().getName())));
+                    c -> Assertions.assertEquals("foo", c.getField().getName())));
 
     }
 
@@ -981,15 +1075,17 @@ public class JsonProfileReaderTests {
     @Test
     public void exceptionWhenGeneratorDoesNotExist() {
         givenJson(
-            "{" +
-                "    \"fields\": [ { " +
-                "       \"name\": \"foo\" ," +
-                "       \"type\": \"string\"," +
-                "       \"generator\": \"INCORRECT\"," +
-                "       \"nullable\": true" +
-                "    }]," +
-                "    \"constraints\": []" +
-                "}");
+            """
+            {\
+                "fields": [ { \
+                   "name": "foo" ,\
+                   "type": "string",\
+                   "generator": "INCORRECT",\
+                   "nullable": true\
+                }],\
+                "constraints": []\
+            }\
+            """);
 
         expectValidationException("Custom generator INCORRECT does not exist it needs to be created and added to the CustomGeneratorList class");
     }

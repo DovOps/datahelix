@@ -22,10 +22,11 @@ import com.scottlogic.datahelix.generator.core.profile.constraints.Constraint;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.InSetConstraint;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.IsNullConstraint;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class NotConstraintTests {
     @Test
@@ -34,7 +35,7 @@ public class NotConstraintTests {
         Field field2 = createField("TestField");
         Constraint constraint1 = new IsNullConstraint(field1).negate();
         Constraint constraint2 = new IsNullConstraint(field2).negate();
-        Assert.assertThat(constraint1, Matchers.equalTo(constraint2));
+        assertThat(constraint1, Matchers.equalTo(constraint2));
     }
 
     @Test
@@ -43,7 +44,7 @@ public class NotConstraintTests {
         Field field2 = createField("TestField");
         Constraint constraint1 = new IsNullConstraint(field1).negate();
         Constraint constraint2 = new IsNullConstraint(field2).negate().negate().negate();
-        Assert.assertThat(constraint1, Matchers.equalTo(constraint2));
+        assertThat(constraint1, Matchers.equalTo(constraint2));
     }
 
     @Test
@@ -52,7 +53,7 @@ public class NotConstraintTests {
         Field field2 = createField("TestField");
         Constraint constraint1 = new IsNullConstraint(field1).negate().negate().negate();
         Constraint constraint2 = new IsNullConstraint(field2).negate().negate().negate();
-        Assert.assertThat(constraint1, Matchers.equalTo(constraint2));
+        assertThat(constraint1, Matchers.equalTo(constraint2));
     }
 
     @Test
@@ -61,7 +62,7 @@ public class NotConstraintTests {
         Field field2 = createField("TestField2");
         Constraint constraint1 = new IsNullConstraint(field1).negate();
         Constraint constraint2 = new IsNullConstraint(field2).negate();
-        Assert.assertNotEquals(constraint1, constraint2);
+        Assertions.assertNotEquals(constraint1, constraint2);
     }
 
     @Test
@@ -76,7 +77,7 @@ public class NotConstraintTests {
             field2,
             TestAtomicConstraintBuilder.inSetRecordsFrom("abcd")
             ).negate();
-        Assert.assertNotEquals(constraint1, constraint2);
+        Assertions.assertNotEquals(constraint1, constraint2);
     }
 
     @Test
@@ -85,7 +86,7 @@ public class NotConstraintTests {
         Field field2 = createField("TestField");
         Constraint constraint1 = new IsNullConstraint(field1).negate();
         Constraint constraint2 = new IsNullConstraint(field2).negate().negate();
-        Assert.assertNotEquals(constraint1, constraint2);
+        Assertions.assertNotEquals(constraint1, constraint2);
     }
 
 }

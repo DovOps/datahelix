@@ -32,7 +32,6 @@ import com.scottlogic.datahelix.generator.core.reducer.ConstraintReducer;
 import com.scottlogic.datahelix.generator.core.walker.decisionbased.RowSpecTreeSolver;
 import com.scottlogic.datahelix.generator.core.walker.decisionbased.SequentialOptionPicker;
 import com.scottlogic.datahelix.generator.core.walker.pruner.TreePruner;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -43,8 +42,9 @@ import java.util.stream.Stream;
 
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
 import static com.scottlogic.datahelix.generator.core.builders.TestAtomicConstraintBuilder.inSetRecordsFrom;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -117,7 +117,7 @@ class RowSpecTreeSolverTests {
             .createRowSpecs(merged)
             .collect(Collectors.toList());
 
-        Assert.assertThat(rowSpecs, notNullValue());
+        assertThat(rowSpecs, notNullValue());
     }
 
 }

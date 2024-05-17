@@ -23,7 +23,7 @@ import org.junit.AssumptionViolatedException;
 public class CucumberHooks {
     @Before("@ignore")
     public void beforeEachScenario(Scenario scenario) {
-        throw new AssumptionViolatedException(String.format("Scenario '%s' is ignored (%s)", scenario.getName(), scenario.getId()));
+        throw new AssumptionViolatedException("Scenario '%s' is ignored (%s)".formatted(scenario.getName(), scenario.getId()));
     }
 }
 

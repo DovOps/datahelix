@@ -20,7 +20,6 @@ import com.scottlogic.datahelix.generator.common.ValidationException;
 import com.scottlogic.datahelix.generator.common.util.Defaults;
 import com.scottlogic.datahelix.generator.common.RandomNumberGenerator;
 import com.scottlogic.datahelix.generator.common.TestRandomNumberGenerator;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +34,7 @@ class TimeGranularityTest {
 
         LocalTime time = LocalTime.of(6, 13);
 
-        Assert.assertTrue(granularity.isCorrectScale(time));
+        Assertions.assertTrue(granularity.isCorrectScale(time));
     }
 
     @Test
@@ -44,7 +43,7 @@ class TimeGranularityTest {
 
         LocalTime time = LocalTime.of(1, 39, 43);
 
-        Assert.assertFalse(granularity.isCorrectScale(time));
+        Assertions.assertFalse(granularity.isCorrectScale(time));
     }
 
     @Test
@@ -52,7 +51,7 @@ class TimeGranularityTest {
         TimeGranularity granularity1 = new TimeGranularity(ChronoUnit.MINUTES);
         TimeGranularity granularity2 = new TimeGranularity(ChronoUnit.SECONDS);
 
-        Assert.assertEquals(granularity1, granularity1.merge(granularity2));
+        Assertions.assertEquals(granularity1, granularity1.merge(granularity2));
     }
 
     @Test
@@ -61,7 +60,7 @@ class TimeGranularityTest {
         LocalTime time = LocalTime.of(1, 0);
         LocalTime expected = LocalTime.of(2, 0);
 
-        Assert.assertEquals(expected, granularity.getNext(time));
+        Assertions.assertEquals(expected, granularity.getNext(time));
     }
 
     @Test
@@ -70,7 +69,7 @@ class TimeGranularityTest {
         LocalTime time = LocalTime.of(1, 14, 50);
         LocalTime expected = LocalTime.of(1, 15, 0);
 
-        Assert.assertEquals(expected, granularity.getNext(time));
+        Assertions.assertEquals(expected, granularity.getNext(time));
     }
 
     @Test
@@ -79,7 +78,7 @@ class TimeGranularityTest {
         LocalTime time = LocalTime.of(23, 59, 59, 234);
         LocalTime expected = Defaults.TIME_MAX;
 
-        Assert.assertEquals(expected, granularity.getNext(time));
+        Assertions.assertEquals(expected, granularity.getNext(time));
     }
 
     @Test
@@ -88,7 +87,7 @@ class TimeGranularityTest {
         LocalTime time = LocalTime.of(23, 59, 59, 234);
         LocalTime expected = LocalTime.of(0, 0, 29);
 
-        Assert.assertEquals(expected, granularity.getNext(time, 30));
+        Assertions.assertEquals(expected, granularity.getNext(time, 30));
     }
 
     @Test
@@ -98,7 +97,7 @@ class TimeGranularityTest {
         LocalTime time = LocalTime.ofSecondOfDay(110);
         LocalTime expected = LocalTime.ofSecondOfDay(60);
 
-        Assert.assertEquals(expected, granularity.trimToGranularity(time));
+        Assertions.assertEquals(expected, granularity.trimToGranularity(time));
     }
 
     @Test
@@ -107,7 +106,7 @@ class TimeGranularityTest {
         LocalTime time = LocalTime.of(12, 30, 15);
         LocalTime expected = LocalTime.of(12, 30, 0);
 
-        Assert.assertEquals(expected, granularity.getPrevious(time));
+        Assertions.assertEquals(expected, granularity.getPrevious(time));
     }
 
     @Test
@@ -116,7 +115,7 @@ class TimeGranularityTest {
         LocalTime time = LocalTime.of(12, 0, 0);
         LocalTime expected = LocalTime.of(11, 0, 0);
 
-        Assert.assertEquals(expected, granularity.getPrevious(time));
+        Assertions.assertEquals(expected, granularity.getPrevious(time));
     }
 
     @Test
@@ -125,7 +124,7 @@ class TimeGranularityTest {
         RandomNumberGenerator generator = new TestRandomNumberGenerator();
 
         LocalTime result = granularity.getRandom(LocalTime.MIN, LocalTime.MAX, generator);
-        Assert.assertTrue(granularity.isCorrectScale(result));
+        Assertions.assertTrue(granularity.isCorrectScale(result));
     }
 
     @Test
@@ -140,7 +139,7 @@ class TimeGranularityTest {
         TimeGranularity timeGranularity = TimeGranularity.create("millis");
         TimeGranularity expected = new TimeGranularity(ChronoUnit.MILLIS);
 
-        Assert.assertEquals(expected, timeGranularity);
+        Assertions.assertEquals(expected, timeGranularity);
     }
 
 }

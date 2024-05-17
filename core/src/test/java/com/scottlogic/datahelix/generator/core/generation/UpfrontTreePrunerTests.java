@@ -37,7 +37,8 @@ import java.util.*;
 
 import static com.scottlogic.datahelix.generator.core.builders.TestConstraintNodeBuilder.constraintNode;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Matchers.*;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;

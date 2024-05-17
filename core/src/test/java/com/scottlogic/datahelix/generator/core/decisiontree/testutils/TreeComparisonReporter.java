@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 public class TreeComparisonReporter {
     public void reportMessages(TreeComparisonContext context) {
-        System.out.println(String.format("--- Looking for: %s --- ", context.getExpectedTree()));
+        System.out.println("--- Looking for: %s --- ".formatted(context.getExpectedTree()));
 
         for (TreeComparisonContext.Error error : context.getErrors()){
             writeError(error);
@@ -63,6 +63,6 @@ public class TreeComparisonReporter {
     }
 
     private String getMessage(TreeComparisonContext.TreeElementType type, String prefix, Object value){
-        return String.format("%s %s %s", prefix, type.toString(), value);
+        return "%s %s %s".formatted(prefix, type.toString(), value);
     }
 }

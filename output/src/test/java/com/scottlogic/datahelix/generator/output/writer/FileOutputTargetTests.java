@@ -20,17 +20,18 @@ import com.scottlogic.datahelix.generator.common.util.FileUtils;
 import com.scottlogic.datahelix.generator.output.OutputPath;
 import com.scottlogic.datahelix.generator.output.outputtarget.FileOutputTarget;
 import com.scottlogic.datahelix.generator.output.outputtarget.OutputTargetValidationException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Matchers;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class FileOutputTargetTests {
     @Mock
     private Path mockFilePath;
@@ -43,7 +44,7 @@ public class FileOutputTargetTests {
 
     @Test
     public void validate_generateOutputFileIsADirectory_throwsException() {
-        Mockito.when(mockFileUtils.isDirectory(Matchers.any())).thenReturn(true);
+        Mockito.when(mockFileUtils.isDirectory(ArgumentMatchers.any())).thenReturn(true);
         Mockito.when(mockFilePath.getParent()).thenReturn(mockParentPath);
         OutputPath outputPath = new OutputPath(mockFilePath);
         FileOutputTarget outputTarget = new FileOutputTarget(outputPath, mockOutputFormat, false, mockFileUtils);
@@ -56,7 +57,7 @@ public class FileOutputTargetTests {
         Mockito.when(mockFileUtils.isDirectory(mockFilePath)).thenReturn(false);
         Mockito.when(mockFileUtils.isDirectory(mockParentPath)).thenReturn(true);
         Mockito.when(mockFilePath.getParent()).thenReturn(mockParentPath);
-        Mockito.when(mockFileUtils.exists(Matchers.any())).thenReturn(true);
+        Mockito.when(mockFileUtils.exists(ArgumentMatchers.any())).thenReturn(true);
         OutputPath outputPath = new OutputPath(mockFilePath);
         FileOutputTarget outputTarget = new FileOutputTarget(outputPath, mockOutputFormat, false, mockFileUtils);
 
@@ -68,7 +69,7 @@ public class FileOutputTargetTests {
         Mockito.when(mockFileUtils.isDirectory(mockFilePath)).thenReturn(false);
         Mockito.when(mockFileUtils.isDirectory(mockParentPath)).thenReturn(true);
         Mockito.when(mockFilePath.getParent()).thenReturn(mockParentPath);
-        Mockito.when(mockFileUtils.exists(Matchers.any())).thenReturn(true);
+        Mockito.when(mockFileUtils.exists(ArgumentMatchers.any())).thenReturn(true);
         OutputPath outputPath = new OutputPath(mockFilePath);
         FileOutputTarget outputTarget = new FileOutputTarget(outputPath, mockOutputFormat, true, mockFileUtils);
 
@@ -81,7 +82,7 @@ public class FileOutputTargetTests {
         Mockito.when(mockFilePath.toAbsolutePath()).thenReturn(mockFilePath);
         Mockito.when(mockParentPath.resolve(mockFilePath.getFileName())).thenReturn(mockFilePath);
         Mockito.when(mockFileUtils.isDirectory(mockFilePath)).thenReturn(false);
-        Mockito.when(mockFileUtils.createDirectories(Matchers.any())).thenReturn(true);
+        Mockito.when(mockFileUtils.createDirectories(ArgumentMatchers.any())).thenReturn(true);
         OutputPath outputPath = new OutputPath(mockFilePath);
         FileOutputTarget outputTarget = new FileOutputTarget(outputPath, mockOutputFormat, true, mockFileUtils);
 

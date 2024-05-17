@@ -16,7 +16,7 @@
 
 package com.scottlogic.datahelix.generator.common.profile;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -36,8 +36,8 @@ class ProfileFieldsTests
         boolean result = fields.equals(null);
 
         assertFalse(
-            "Expected when other object is null a false value is returned but was true",
-            result
+            result,
+            "Expected when other object is null a false value is returned but was true"
         );
     }
 
@@ -52,8 +52,8 @@ class ProfileFieldsTests
         boolean result = fields.equals("Test");
 
         assertFalse(
-            "Expected when the other object is a different type a false value is returned but was true",
-            result
+            result,
+            "Expected when the other object is a different type a false value is returned but was true"
         );
     }
 
@@ -75,8 +75,8 @@ class ProfileFieldsTests
         );
 
         assertFalse(
-            "Expected when the fields length do not match a false value is returned but was true",
-            result
+            result,
+            "Expected when the fields length do not match a false value is returned but was true"
         );
     }
 
@@ -99,8 +99,8 @@ class ProfileFieldsTests
         );
 
         assertFalse(
-            "Expected when the values of the fields property differs from the fields of the other object a false value is returned but was true",
-            result
+            result,
+            "Expected when the values of the fields property differs from the fields of the other object a false value is returned but was true"
         );
     }
 
@@ -123,8 +123,8 @@ class ProfileFieldsTests
         );
 
         assertTrue(
-            "Expected when the fields of both objects are equal a true value is returned but was false",
-            result
+            result,
+            "Expected when the fields of both objects are equal a true value is returned but was false"
         );
     }
 
@@ -148,9 +148,9 @@ class ProfileFieldsTests
         int secondHashCode = secondFields.hashCode();
 
         assertNotEquals(
-            "Expected that when the profile fields length differ the hash codes should not be the same but were equal",
             firstHashCode,
-            secondHashCode
+            secondHashCode,
+            "Expected that when the profile fields length differ the hash codes should not be the same but were equal"
         );
     }
 
@@ -173,9 +173,9 @@ class ProfileFieldsTests
         int secondHashCode = secondFields.hashCode();
 
         assertNotEquals(
-            "Expected when the fields length are equal but their values differ unique hash codes are returned but were equal",
             firstHashCode,
-            secondHashCode
+            secondHashCode,
+            "Expected when the fields length are equal but their values differ unique hash codes are returned but were equal"
         );
     }
 
@@ -198,9 +198,9 @@ class ProfileFieldsTests
         int secondHashCode = secondFields.hashCode();
 
         assertEquals(
-            "Expected that when the profile fields are equal an equivalent hash code should be returned for both but were different",
             firstHashCode,
-            secondHashCode
+            secondHashCode,
+            "Expected that when the profile fields are equal an equivalent hash code should be returned for both but were different"
         );
     }
 }

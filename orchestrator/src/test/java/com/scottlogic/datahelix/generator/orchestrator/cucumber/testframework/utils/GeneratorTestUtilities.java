@@ -21,9 +21,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scottlogic.datahelix.generator.orchestrator.cucumber.testframework.steps.DateValueStep;
 import com.scottlogic.datahelix.generator.orchestrator.cucumber.testframework.steps.TimeValueStep;
+import org.junit.jupiter.api.Assertions;
 import com.scottlogic.datahelix.generator.common.ValidationException;
 import com.scottlogic.datahelix.generator.orchestrator.cucumber.testframework.steps.DateTimeValueStep;
-import org.junit.Assert;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
@@ -53,7 +53,7 @@ public class GeneratorTestUtilities {
             return input.equals("true");
         }
 
-        throw new ValidationException(String.format("Unable to determine correct type for `%s`.\nEnsure strings are wrapped in double-quotes.", input));
+        throw new ValidationException("Unable to determine correct type for `%s`.\nEnsure strings are wrapped in double-quotes.".formatted(input));
     }
 
     public static Object parseNumber(String input) throws JsonParseException {
@@ -62,7 +62,7 @@ public class GeneratorTestUtilities {
         } catch (JsonParseException e) {
             throw e;
         } catch (IOException e) {
-            Assert.fail("Unexpected IO exception " + e.toString());
+            Assertions.fail("Unexpected IO exception " + e.toString());
             return "<unexpected IO exception>";
         }
     }

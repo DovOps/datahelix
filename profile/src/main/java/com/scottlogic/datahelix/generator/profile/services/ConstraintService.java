@@ -119,19 +119,19 @@ public class ConstraintService {
             return customConstraintFactory.create(field, ((GeneratorConstraintDTO) dto).generator);
 
         }
-        if (dto instanceof RelationalConstraintDTO) {
-            SpecificFieldType specificFieldType = fields.getByName(((RelationalConstraintDTO) dto).field).getSpecificType();
+        if (dto instanceof RelationalConstraintDTO tO) {
+            SpecificFieldType specificFieldType = fields.getByName(tO.field).getSpecificType();
             FieldType type = specificFieldType.getFieldType();
             return type == FieldType.NUMERIC
-                ? specificRelationFactoryMap.get(specificFieldType).createRelation((RelationalConstraintDTO) dto, fields)
-                : relationFactoryMap.get(type).createRelation((RelationalConstraintDTO) dto, fields);
+                ? specificRelationFactoryMap.get(specificFieldType).createRelation(tO, fields)
+                : relationFactoryMap.get(type).createRelation(tO, fields);
         }
-        if (dto instanceof AtomicConstraintDTO) {
-            FieldType type = fields.getByName(((AtomicConstraintDTO) dto).field).getType();
-            return atomicConstraintFactoryMap.get(type).createAtomicConstraint((AtomicConstraintDTO) dto, fields);
+        if (dto instanceof AtomicConstraintDTO tO) {
+            FieldType type = fields.getByName(tO.field).getType();
+            return atomicConstraintFactoryMap.get(type).createAtomicConstraint(tO, fields);
         }
-        if (dto instanceof GrammaticalConstraintDTO) {
-            return createGrammaticalConstraint((GrammaticalConstraintDTO) dto, fields);
+        if (dto instanceof GrammaticalConstraintDTO tO) {
+            return createGrammaticalConstraint(tO, fields);
         }
         throw new IllegalStateException("Unexpected constraint type: " + dto.getType());
     }

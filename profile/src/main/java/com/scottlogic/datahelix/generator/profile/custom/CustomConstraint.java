@@ -40,7 +40,7 @@ public class CustomConstraint implements AtomicConstraint {
 
         if (!correctType()) {
             throw new ValidationException(
-                String.format("Custom generator %s requires type %s, but field %s is typed %s",
+                "Custom generator %s requires type %s, but field %s is typed %s".formatted(
                     customGenerator.generatorName(),
                     customGenerator.fieldType(),
                     field.getName(),

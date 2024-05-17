@@ -34,7 +34,6 @@ import com.scottlogic.datahelix.generator.profile.validators.ConfigValidator;
 import com.scottlogic.datahelix.generator.profile.validators.CreateProfileValidator;
 import com.scottlogic.datahelix.generator.profile.validators.ReadRelationshipsValidator;
 import com.scottlogic.datahelix.generator.profile.validators.profile.ProfileValidator;
-import org.junit.Assert;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
@@ -44,6 +43,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
@@ -83,7 +83,7 @@ public class ProfileValidationTests {
                 dir.getName(),
                 () -> {
                     Profile profile = profileReader.read(profileFile);
-                    Assert.assertThat(profile, is(not(nullValue())));
+                    assertThat(profile, is(not(nullValue())));
                 });
             dynamicTests.add(test);
         }

@@ -35,7 +35,7 @@ import com.scottlogic.datahelix.generator.core.profile.constraints.grammatical.N
 import com.scottlogic.datahelix.generator.core.profile.constraints.grammatical.OrConstraint;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNull;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -50,6 +50,7 @@ import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.cre
 import static com.shazam.shazamcrest.MatcherAssert.assertThat;
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 
@@ -98,11 +99,11 @@ class DecisionTreeFactoryTests {
 
         DecisionTree testOutput = testObject.analyse(testInput);
 
-        Assert.assertThat(testOutput, not(is(nullValue())));
-        Assert.assertThat(testOutput.getFields().size(), is(0));
-        Assert.assertThat(testOutput.getRootNode(), not(is(nullValue())));
-        Assert.assertThat(testOutput.getRootNode().getAtomicConstraints(), is(empty()));
-        Assert.assertThat(testOutput.getRootNode().getDecisions(), is(empty()));
+        assertThat(testOutput, not(is(nullValue())));
+        assertThat(testOutput.getFields().size(), is(0));
+        assertThat(testOutput.getRootNode(), not(is(nullValue())));
+        assertThat(testOutput.getRootNode().getAtomicConstraints(), is(empty()));
+        assertThat(testOutput.getRootNode().getDecisions(), is(empty()));
     }
 
     @Test
@@ -122,9 +123,9 @@ class DecisionTreeFactoryTests {
     void shouldReturnAnalysedRuleWithNoDecisions_IfProfileContainsOnlyAtomicConstraints() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
         InSetConstraint constraint0 = new InSetConstraint(
-            inputFieldList.get(0),
+            inputFieldList.getFirst(),
             TestAtomicConstraintBuilder.inSetRecordsFrom(10));
-        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.get(0), NumberUtils.coerceToBigDecimal(0));
+        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.getFirst(), NumberUtils.coerceToBigDecimal(0));
         MatchesRegexConstraint constraint2 = new MatchesRegexConstraint(inputFieldList.get(1), Pattern.compile("start.*end"));
         Profile testInput = new Profile(inputFieldList, Arrays.asList(constraint0, constraint1, constraint2), new ArrayList<>());
 
@@ -132,10 +133,10 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
-        Assert.assertThat("Decision tree root has non-null list of decisions",
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        assertThat("Decision tree root has non-null list of decisions",
             outputRule.getRootNode().getDecisions(), Is.is(IsNull.notNullValue()));
-        Assert.assertThat("Decision tree root has empty list of decisions",
+        assertThat("Decision tree root has empty list of decisions",
             outputRule.getRootNode().getDecisions().size(), Is.is(0));
     }
 
@@ -143,9 +144,9 @@ class DecisionTreeFactoryTests {
     void shouldReturnAnalysedRuleWithAllConstraintsInAtomicConstraintsCollection_IfProfileContainsOnlyAtomicConstraints() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
         InSetConstraint constraint0 = new InSetConstraint(
-            inputFieldList.get(0),
+            inputFieldList.getFirst(),
             TestAtomicConstraintBuilder.inSetRecordsFrom(10));
-        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.get(0), NumberUtils.coerceToBigDecimal(0));
+        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.getFirst(), NumberUtils.coerceToBigDecimal(0));
         MatchesRegexConstraint constraint2 = new MatchesRegexConstraint(inputFieldList.get(1), Pattern.compile("start.*end"));
         List<Constraint> inputConstraints = Arrays.asList(constraint0, constraint1, constraint2);
         Profile testInput = new Profile(inputFieldList, inputConstraints, new ArrayList<>());
@@ -153,12 +154,12 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("Decision tree root atomic constraint list is same size as original constraint list",
+        assertThat("Decision tree root atomic constraint list is same size as original constraint list",
             outputRule.getRootNode().getAtomicConstraints().size(), Is.is(inputConstraints.size()));
         for (Constraint constraint : inputConstraints) {
             AtomicConstraint atomicConstraint = (AtomicConstraint) constraint;
 
-            Assert.assertThat("Each input constraint is in the decision tree root node atomic constraint list",
+            assertThat("Each input constraint is in the decision tree root node atomic constraint list",
                 outputRule.getRootNode().getAtomicConstraints(), hasItem(atomicConstraint));
         }
     }
@@ -166,8 +167,8 @@ class DecisionTreeFactoryTests {
     @Test
     void shouldReturnAnalysedRuleWithNoDecisions_IfProfileContainsOnlyAtomicConstraintsAndAndConstraints() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraint0 = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
-        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.get(0), NumberUtils.coerceToBigDecimal(0));
+        InSetConstraint constraint0 = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.getFirst(), NumberUtils.coerceToBigDecimal(0));
         AndConstraint andConstraint0 = new AndConstraint(Arrays.asList(constraint0, constraint1));
         MatchesRegexConstraint constraint2 = new MatchesRegexConstraint(inputFieldList.get(1), Pattern.compile("start.*end"));
         Profile testInput = new Profile(inputFieldList, Arrays.asList(andConstraint0, constraint2), new ArrayList<>());
@@ -175,18 +176,18 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
-        Assert.assertThat("Decision tree root has non-null list of decisions",
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        assertThat("Decision tree root has non-null list of decisions",
             outputRule.getRootNode().getDecisions(), Is.is(IsNull.notNullValue()));
-        Assert.assertThat("Decision tree root has empty list of decisions",
+        assertThat("Decision tree root has empty list of decisions",
             outputRule.getRootNode().getDecisions().size(), Is.is(0));
     }
 
     @Test
     void shouldReturnAnalysedRuleWithAllAtomicConstraintsInAtomicConstraintsCollection_IfProfileContainsOnlyAtomicConstraintsAndAndConstraints() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraint0 = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
-        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.get(0), NumberUtils.coerceToBigDecimal(0));
+        InSetConstraint constraint0 = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.getFirst(), NumberUtils.coerceToBigDecimal(0));
         AndConstraint andConstraint0 = new AndConstraint(Arrays.asList(constraint0, constraint1));
         MatchesRegexConstraint constraint2 = new MatchesRegexConstraint(inputFieldList.get(1), Pattern.compile("start.*end"));
         Profile testInput = new Profile(inputFieldList, Arrays.asList(andConstraint0, constraint2), new ArrayList<>());
@@ -195,22 +196,22 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
-        Assert.assertThat("Decision tree root contains correct number of atomic constraints",
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        assertThat("Decision tree root contains correct number of atomic constraints",
             outputRule.getRootNode().getAtomicConstraints().size(), Is.is(3));
-        Assert.assertThat("Decision tree root atomic constraints list contains constraint 0",
+        assertThat("Decision tree root atomic constraints list contains constraint 0",
             outputRule.getRootNode().getAtomicConstraints().contains(constraint0), Is.is(true));
-        Assert.assertThat("Decision tree root atomic constraints list contains constraint 1",
+        assertThat("Decision tree root atomic constraints list contains constraint 1",
             outputRule.getRootNode().getAtomicConstraints().contains(constraint1), Is.is(true));
-        Assert.assertThat("Decision tree root atomic constraints list contains constraint 2",
+        assertThat("Decision tree root atomic constraints list contains constraint 2",
             outputRule.getRootNode().getAtomicConstraints().contains(constraint2), Is.is(true));
     }
 
     @Test
     void shouldReturnAnalysedRuleWithDecisionForEachOrConstraint() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraint0 = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
-        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.get(0), NumberUtils.coerceToBigDecimal(0));
+        InSetConstraint constraint0 = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        GreaterThanConstraint constraint1 = new GreaterThanConstraint(inputFieldList.getFirst(), NumberUtils.coerceToBigDecimal(0));
         OrConstraint orConstraint0 = new OrConstraint(Arrays.asList(constraint0, constraint1));
         InSetConstraint constraint2 = new InSetConstraint(
             inputFieldList.get(1),
@@ -224,8 +225,8 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
-        Assert.assertThat("Decision tree root contains correct number of decisions",
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        assertThat("Decision tree root contains correct number of decisions",
             outputRule.getRootNode().getDecisions().size(), Is.is(2));
     }
 
@@ -233,8 +234,8 @@ class DecisionTreeFactoryTests {
     @Test
     void shouldReturnAnalysedRuleWithNoAtomicConstraints_IfAllAtomicConstraintsInProfileAreChildrenOfOrConstraints() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraintA = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
-        GreaterThanConstraint constraintB = new GreaterThanConstraint(inputFieldList.get(0), NumberUtils.coerceToBigDecimal(0));
+        InSetConstraint constraintA = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        GreaterThanConstraint constraintB = new GreaterThanConstraint(inputFieldList.getFirst(), NumberUtils.coerceToBigDecimal(0));
         OrConstraint orConstraint0 = new OrConstraint(Arrays.asList(constraintA, constraintB));
         InSetConstraint constraintC = new InSetConstraint(
             inputFieldList.get(1),
@@ -248,8 +249,8 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
-        Assert.assertThat("Decision tree root contains no atomic constraints",
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        assertThat("Decision tree root contains no atomic constraints",
             outputRule.getRootNode().getAtomicConstraints().size(), Is.is(0));
     }
 
@@ -257,8 +258,8 @@ class DecisionTreeFactoryTests {
     @Test
     void shouldReturnAnalysedRuleWithCorrectDecisionStructure_IfAllAtomicConstraintsInProfileAreChildrenOfOrConstraints() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraintA = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
-        GreaterThanConstraint constraintB = new GreaterThanConstraint(inputFieldList.get(0), NumberUtils.coerceToBigDecimal(0));
+        InSetConstraint constraintA = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        GreaterThanConstraint constraintB = new GreaterThanConstraint(inputFieldList.getFirst(), NumberUtils.coerceToBigDecimal(0));
         OrConstraint orConstraint0 = new OrConstraint(Arrays.asList(constraintA, constraintB));
         InSetConstraint constraintC = new InSetConstraint(
             inputFieldList.get(1),
@@ -272,8 +273,8 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
-        Assert.assertTrue(isEquivalentTo(
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        Assertions.assertTrue(isEquivalentTo(
             new ConstraintNodeBuilder().addAtomicConstraints(Collections.emptySet()).setDecisions(SetUtils.setOf(
                 new DecisionNode(
                     new ConstraintNodeBuilder().addAtomicConstraints(constraintA).build(),
@@ -292,9 +293,9 @@ class DecisionTreeFactoryTests {
     @Test
     void shouldReturnAnalysedRuleWithCorrectDecisionStructure_IfAllAtomicConstraintsInProfileAreChildrenOfOrAndAndConstraints() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraintA = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
-        GreaterThanConstraint constraintB = new GreaterThanConstraint(inputFieldList.get(0), NumberUtils.coerceToBigDecimal(0));
-        GreaterThanConstraint constraintC = new GreaterThanConstraint(inputFieldList.get(0), NumberUtils.coerceToBigDecimal(5));
+        InSetConstraint constraintA = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        GreaterThanConstraint constraintB = new GreaterThanConstraint(inputFieldList.getFirst(), NumberUtils.coerceToBigDecimal(0));
+        GreaterThanConstraint constraintC = new GreaterThanConstraint(inputFieldList.getFirst(), NumberUtils.coerceToBigDecimal(5));
         AndConstraint andConstraint0 = new AndConstraint(Arrays.asList(constraintC, constraintB));
         OrConstraint orConstraint0 = new OrConstraint(Arrays.asList(constraintA, andConstraint0));
         InSetConstraint constraintD = new InSetConstraint(
@@ -309,8 +310,8 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
-        Assert.assertTrue(isEquivalentTo(
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        Assertions.assertTrue(isEquivalentTo(
             new ConstraintNodeBuilder().addAtomicConstraints(Collections.emptySet()).setDecisions(SetUtils.setOf(
                 new DecisionNode(
                     new ConstraintNodeBuilder().addAtomicConstraints(constraintA).build(),
@@ -329,7 +330,7 @@ class DecisionTreeFactoryTests {
     @Test
     void shouldReturnAnalysedRuleWithCorrectDecisionStructure_IfConditionalConstraintIsPresent() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraintA = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        InSetConstraint constraintA = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
         GreaterThanConstraint constraintB = new GreaterThanConstraint(inputFieldList.get(1), NumberUtils.coerceToBigDecimal(10));
         GreaterThanConstraint constraintC = new GreaterThanConstraint(inputFieldList.get(1), NumberUtils.coerceToBigDecimal(20));
         ConditionalConstraint conditionalConstraint = new ConditionalConstraint(constraintA, constraintB, constraintC);
@@ -338,8 +339,8 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
-        Assert.assertTrue(isEquivalentTo(
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        Assertions.assertTrue(isEquivalentTo(
             new ConstraintNodeBuilder().addAtomicConstraints(Collections.emptySet()).setDecisions(Collections.singleton(
                 new DecisionNode(
                     new ConstraintNodeBuilder().addAtomicConstraints(SetUtils.setOf(
@@ -369,7 +370,7 @@ class DecisionTreeFactoryTests {
                     aGreaterThan10),
                 bGreaterThan20));
 
-        Assert.assertTrue(
+        Assertions.assertTrue(
             isEquivalentTo(
                 getResultingRootOption(), new ConstraintNodeBuilder().addAtomicConstraints(Collections.emptySet()).setDecisions(Collections.singleton(
                     new DecisionNode(
@@ -390,7 +391,7 @@ class DecisionTreeFactoryTests {
     @Test
     void shouldReturnAnalysedRuleWithCorrectDecisionStructure_IfNegatedConditionalConstraintIsPresent() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraintA = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        InSetConstraint constraintA = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
         GreaterThanConstraint constraintB = new GreaterThanConstraint(inputFieldList.get(1), NumberUtils.coerceToBigDecimal(20));
         GreaterThanConstraint constraintC = new GreaterThanConstraint(inputFieldList.get(1), NumberUtils.coerceToBigDecimal(10));
         ConditionalConstraint conditionalConstraint = new ConditionalConstraint(constraintA, constraintB, constraintC);
@@ -400,8 +401,8 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
-        Assert.assertTrue(isEquivalentTo(
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        Assertions.assertTrue(isEquivalentTo(
             new ConstraintNodeBuilder().addAtomicConstraints(Collections.emptySet()).setDecisions(Collections.singleton(
                 new DecisionNode(
                     new ConstraintNodeBuilder().addAtomicConstraints(SetUtils.setOf(
@@ -434,7 +435,7 @@ class DecisionTreeFactoryTests {
 
         givenConstraints(inputRule);
 
-        Assert.assertTrue(
+        Assertions.assertTrue(
             isEquivalentTo(
                 getResultingRootOption(), expectedOutput
             )
@@ -445,7 +446,7 @@ class DecisionTreeFactoryTests {
     @Test
     void shouldReturnAnalysedRuleWithCorrectDecisionStructure_IfDoubleNegationIsPresent() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraintA = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        InSetConstraint constraintA = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
         Constraint notConstraint0 = constraintA.negate();
         Constraint notConstraint1 = notConstraint0.negate();
         Profile testInput = new Profile(inputFieldList, Collections.singletonList(notConstraint1), new ArrayList<>());
@@ -453,13 +454,13 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
         // Result should just be A.
-        Assert.assertThat("Decision tree root contains one atomic constraint",
+        assertThat("Decision tree root contains one atomic constraint",
             outputRule.getRootNode().getAtomicConstraints().size(), Is.is(1));
-        Assert.assertThat("Decision tree root contains no decisions",
+        assertThat("Decision tree root contains no decisions",
             outputRule.getRootNode().getDecisions().size(), Is.is(0));
-        Assert.assertThat("Atomic constraint of decision tree root is constraint A",
+        assertThat("Atomic constraint of decision tree root is constraint A",
             outputRule.getRootNode().getAtomicConstraints().contains(constraintA), Is.is(true));
     }
 
@@ -467,7 +468,7 @@ class DecisionTreeFactoryTests {
     @Test
     void shouldReturnAnalysedRuleWithCorrectDecisionStructure_IfNegatedAndIsPresent() {
         List<Field> inputFieldList = Arrays.asList(createField("one"), createField("two"), createField("three"));
-        InSetConstraint constraintA = new InSetConstraint(inputFieldList.get(0), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
+        InSetConstraint constraintA = new InSetConstraint(inputFieldList.getFirst(), TestAtomicConstraintBuilder.inSetRecordsFrom(10));
         GreaterThanConstraint constraintB = new GreaterThanConstraint(inputFieldList.get(1), NumberUtils.coerceToBigDecimal(5));
         NegatedGrammaticalConstraint notConstraint = (NegatedGrammaticalConstraint) new AndConstraint(Arrays.asList(constraintA, constraintB)).negate();
         Profile testInput = new Profile(inputFieldList, Collections.singletonList(notConstraint), new ArrayList<>());
@@ -475,9 +476,9 @@ class DecisionTreeFactoryTests {
 
         DecisionTree outputRule = testObject.analyse(testInput);
 
-        Assert.assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
+        assertThat("analyse() output is not null", outputRule, Is.is(IsNull.notNullValue()));
         // Result should be (NOT A) OR (NOT B)
-        Assert.assertTrue(isEquivalentTo(
+        Assertions.assertTrue(isEquivalentTo(
             new ConstraintNodeBuilder().addAtomicConstraints(Collections.emptySet()).setDecisions(Collections.singleton(
                 new DecisionNode(
                     new ConstraintNodeBuilder().addAtomicConstraints(Collections.singleton(constraintA.negate())).setDecisions(Collections.emptySet()).build(),
@@ -500,7 +501,7 @@ class DecisionTreeFactoryTests {
                 new OrConstraint(constraintA, constraintB),
                 constraintC));
 
-        Assert.assertTrue(
+        Assertions.assertTrue(
             isEquivalentTo(
                 getResultingRootOption(),
                 new ConstraintNodeBuilder().addAtomicConstraints(Collections.emptySet()).setDecisions(Collections.singleton(

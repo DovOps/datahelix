@@ -81,11 +81,10 @@ public class ValidationResult
 
     public static String quote(Object value)
     {
-        if (value instanceof Collection) {
-            Collection<Object> values = (Collection<Object>) value;
+        if (value instanceof Collection values) {
             return values.stream().map(ValidationResult::quote).collect(Collectors.joining(", "));
-        } else if (value instanceof String) {
-            return String.format("'%s'", ((String) value).replace("'", "\\'"));
+        } else if (value instanceof String string) {
+            return "'%s'".formatted(string.replace("'", "\\'"));
         } else if (value == null) {
             return "NULL";
         } else {

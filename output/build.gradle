@@ -23,6 +23,8 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:${JACKSON_VERSION}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${JACKSON_VERSION}"
 
+    implementation "jakarta.inject:jakarta.inject-api:2.0.1"
+
     constraints {
         implementation('com.google.guava:guava:30.0-jre') {
             because 'Versions prior to 30.0 are impacted by CVE-2020-8908'
@@ -34,14 +36,14 @@ dependencies {
 
     testImplementation project(":common").sourceSets.test.output
     testImplementation "org.junit.jupiter:junit-jupiter-api:${JUNIT_JUPITER_VERSION}"
-    testImplementation "junit:junit:${JUNIT_4_VERSION}"
     testImplementation "org.junit.platform:junit-platform-runner:${JUNIT_PLATFORM_RUNNER_VERSION}"
-    testImplementation "org.junit.vintage:junit-vintage-engine:${JUNIT_JUPITER_VERSION}"
     testImplementation "org.hamcrest:java-hamcrest:${HAMCREST_VERSION}"
     testImplementation "org.junit.jupiter:junit-jupiter-params:${JUNIT_JUPITER_VERSION}"
-    testImplementation "org.mockito:mockito-all:${MOCKITO_VERSION}"
+    testImplementation("org.mockito:mockito-core:")
+    testImplementation "org.mockito:mockito-junit-jupiter:3.12.4"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:${JUNIT_JUPITER_VERSION}"
     testImplementation("org.junit.jupiter:junit-jupiter:${JUNIT_JUPITER_VERSION}")
+    testImplementation "org.hamcrest:hamcrest:2.2"
 }
 
 test {

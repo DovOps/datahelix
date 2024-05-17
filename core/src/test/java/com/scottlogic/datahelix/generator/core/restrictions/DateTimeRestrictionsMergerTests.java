@@ -17,7 +17,7 @@
 package com.scottlogic.datahelix.generator.core.restrictions;
 import com.scottlogic.datahelix.generator.common.profile.DateTimeGranularity;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.*;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
@@ -27,6 +27,7 @@ import java.util.Optional;
 import static com.scottlogic.datahelix.generator.common.util.Defaults.ISO_MAX_DATE;
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.*;
 import static java.time.temporal.ChronoUnit.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
@@ -50,10 +51,10 @@ class DateTimeRestrictionsMergerTests {
 
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(true));
-        Assert.assertThat(result.get().getMin(), equalTo(REFERENCE_TIME.minusDays(7)));
-        Assert.assertThat(result.get().getMax(), equalTo(REFERENCE_TIME));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get().getMin(), equalTo(REFERENCE_TIME.minusDays(7)));
+        assertThat(result.get().getMax(), equalTo(REFERENCE_TIME));
     }
 
     @Test
@@ -69,10 +70,10 @@ class DateTimeRestrictionsMergerTests {
 
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(true));
-        Assert.assertThat(result.get().getMin(), equalTo(REFERENCE_TIME.minusDays(7)));
-        Assert.assertThat(result.get().getMax(), equalTo(REFERENCE_TIME));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get().getMin(), equalTo(REFERENCE_TIME.minusDays(7)));
+        assertThat(result.get().getMax(), equalTo(REFERENCE_TIME));
     }
 
     @Test
@@ -88,8 +89,8 @@ class DateTimeRestrictionsMergerTests {
 
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(false));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(false));
     }
 
     @Test
@@ -105,8 +106,8 @@ class DateTimeRestrictionsMergerTests {
 
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(false));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(false));
     }
 
     @Test
@@ -120,10 +121,10 @@ class DateTimeRestrictionsMergerTests {
 
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(true));
-        Assert.assertThat(result.get().getMin(), equalTo(REFERENCE_TIME));
-        Assert.assertThat(result.get().getMax(), equalTo(ISO_MAX_DATE));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get().getMin(), equalTo(REFERENCE_TIME));
+        assertThat(result.get().getMax(), equalTo(ISO_MAX_DATE));
     }
 
     @Test
@@ -137,14 +138,14 @@ class DateTimeRestrictionsMergerTests {
 
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
 
-        Assert.assertNotEquals(result, nullValue());
+        Assertions.assertNotEquals(result, nullValue());
 
         LinearRestrictions<OffsetDateTime> restrictions = result.get();
-        Assert.assertNotEquals(restrictions, nullValue());
+        Assertions.assertNotEquals(restrictions, nullValue());
 
 
-        Assert.assertNotEquals(restrictions.getMin(), nullValue());
-        Assert.assertEquals(restrictions.getMax(), REFERENCE_TIME);
+        Assertions.assertNotEquals(restrictions.getMin(), nullValue());
+        Assertions.assertEquals(restrictions.getMax(), REFERENCE_TIME);
 
     }
 
@@ -164,8 +165,8 @@ class DateTimeRestrictionsMergerTests {
 
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(false));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(false));
     }
 
     @Test
@@ -185,8 +186,8 @@ class DateTimeRestrictionsMergerTests {
 
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(false));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(false));
     }
 
     @Test
@@ -204,8 +205,8 @@ class DateTimeRestrictionsMergerTests {
 
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertThat(result.isPresent(), is(false));
+        assertThat(result, not(nullValue()));
+        assertThat(result.isPresent(), is(false));
     }
 
     @Test
@@ -225,12 +226,12 @@ class DateTimeRestrictionsMergerTests {
         Optional<LinearRestrictions<OffsetDateTime>> result = merger.merge(left, right, false);
         LinearRestrictions<OffsetDateTime> restrictions = result.get();
 
-        Assert.assertThat(result, not(nullValue()));
-        Assert.assertEquals(true, result.isPresent());
+        assertThat(result, not(nullValue()));
+        Assertions.assertEquals(true, result.isPresent());
 
-        Assert.assertThat(restrictions, not(nullValue()));
+        assertThat(restrictions, not(nullValue()));
 
-        Assert.assertEquals(restrictions.getMin(), REFERENCE_TIME.plusHours(1));
+        Assertions.assertEquals(restrictions.getMin(), REFERENCE_TIME.plusHours(1));
     }
 
 
@@ -256,9 +257,9 @@ class DateTimeRestrictionsMergerTests {
         LinearRestrictions<OffsetDateTime> restrictions = result.get();
 
         // assert that we get the correct level of granularity
-        Assert.assertNotNull(restrictions);
+        Assertions.assertNotNull(restrictions);
 
         // assert that we return an inclusive restriction for this edge case.
-        Assert.assertEquals(restrictions.getMin(), REFERENCE_TIME.plusHours(1));
+        Assertions.assertEquals(restrictions.getMin(), REFERENCE_TIME.plusHours(1));
     }
 }

@@ -22,11 +22,12 @@ import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestric
 import com.scottlogic.datahelix.generator.core.restrictions.string.StringRestrictions;
 import com.scottlogic.datahelix.generator.core.restrictions.string.StringRestrictionsFactory;
 import org.hamcrest.core.Is;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RestrictionTest {
     @Test
@@ -35,21 +36,21 @@ public class RestrictionTest {
             new Limit<>(new BigDecimal("5"), true),
             new Limit<>(new BigDecimal("10"), false));
 
-        Assert.assertThat(restriction.match(BigDecimal.valueOf(4)), Is.is(false));
-        Assert.assertThat(restriction.match(BigDecimal.valueOf(5)), Is.is(true));
-        Assert.assertThat(restriction.match(BigDecimal.valueOf(9)), Is.is(true));
-        Assert.assertThat(restriction.match(BigDecimal.valueOf(10)), Is.is(false));
+        assertThat(restriction.match(BigDecimal.valueOf(4)), Is.is(false));
+        assertThat(restriction.match(BigDecimal.valueOf(5)), Is.is(true));
+        assertThat(restriction.match(BigDecimal.valueOf(9)), Is.is(true));
+        assertThat(restriction.match(BigDecimal.valueOf(10)), Is.is(false));
     }
 
     @Test
     public void shouldFilterString() {
         StringRestrictions restriction = new StringRestrictionsFactory().forStringMatching(Pattern.compile("H(i|ello) World"), false);
 
-        Assert.assertThat(restriction.match("Hello World"), Is.is(true));
-        Assert.assertThat(restriction.match("Hi World"), Is.is(true));
-        Assert.assertThat(restriction.match("Goodbye"), Is.is(false));
+        assertThat(restriction.match("Hello World"), Is.is(true));
+        assertThat(restriction.match("Hi World"), Is.is(true));
+        assertThat(restriction.match("Goodbye"), Is.is(false));
 
-        Assert.assertThat(restriction.match("5"), Is.is(false));
+        assertThat(restriction.match("5"), Is.is(false));
     }
 
 }

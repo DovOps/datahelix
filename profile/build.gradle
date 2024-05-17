@@ -26,7 +26,7 @@ dependencies {
     implementation group: "com.google.inject", name: "guice", version: "${GUICE_VERSION}"
     implementation "com.worldturner.medeia:medeia-validator-jackson:${MEDEIA_VALIDATOR_JACKSON_VERSION}"
     implementation "org.leadpony.justify:justify:${LEADPONY_JUSTIFY_VERSION}"
-    implementation "org.glassfish:javax.json:${GLASSFISH_VERSION}"
+    implementation("org.glassfish:jakarta.json:2.0.1")
     implementation "com.fasterxml.jackson.core:jackson-core:${JACKSON_VERSION}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${JACKSON_VERSION}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${JACKSON_VERSION}"
@@ -48,9 +48,7 @@ dependencies {
 
     testImplementation project(":common").sourceSets.test.output
     testImplementation "org.junit.jupiter:junit-jupiter-api:${JUNIT_JUPITER_VERSION}"
-    testImplementation "junit:junit:${JUNIT_4_VERSION}"
     testImplementation "org.junit.platform:junit-platform-runner:${JUNIT_PLATFORM_RUNNER_VERSION}"
-    testImplementation "org.junit.vintage:junit-vintage-engine:${JUNIT_JUPITER_VERSION}"
     testImplementation "org.hamcrest:java-hamcrest:${HAMCREST_VERSION}"
     testImplementation "org.junit.jupiter:junit-jupiter-params:${JUNIT_PLATFORM_RUNNER_VERSION}"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:${JUNIT_JUPITER_VERSION}"
@@ -60,6 +58,7 @@ dependencies {
     testImplementation "org.threeten:threeten-extra:${THREE_TEN_VERSION}"
 
     testImplementation project(":core").sourceSets.test.output
+    testImplementation "org.hamcrest:hamcrest:2.2"
 
     implementation('org.jetbrains.kotlin:kotlin-stdlib') {
         version {

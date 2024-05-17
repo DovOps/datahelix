@@ -20,13 +20,14 @@ import com.scottlogic.datahelix.generator.common.profile.NumericGranularity;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.Limit;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestrictions;
 import com.scottlogic.datahelix.generator.core.restrictions.linear.LinearRestrictionsFactory;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.NUMERIC_MAX_LIMIT;
 import static com.scottlogic.datahelix.generator.core.utils.GeneratorDefaults.NUMERIC_MIN_LIMIT;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 
@@ -43,7 +44,7 @@ public class NumericRestrictionsTests {
 
         boolean result = restriction1.equals(restriction2);
 
-        Assert.assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -57,7 +58,7 @@ public class NumericRestrictionsTests {
 
         boolean result = restriction1.equals(restriction2);
 
-        Assert.assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
@@ -71,7 +72,7 @@ public class NumericRestrictionsTests {
 
         boolean result = restriction1.equals(restriction2);
 
-        Assert.assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
@@ -86,7 +87,7 @@ public class NumericRestrictionsTests {
 
         boolean result = restriction1.equals(restriction2);
 
-        Assert.assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
@@ -100,7 +101,7 @@ public class NumericRestrictionsTests {
 
         boolean result = restriction1.equals(restriction2);
 
-        Assert.assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
@@ -114,7 +115,7 @@ public class NumericRestrictionsTests {
 
         boolean result = restriction1.equals(restriction2);
 
-        Assert.assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
@@ -128,7 +129,7 @@ public class NumericRestrictionsTests {
 
         boolean result = restriction1.equals(restriction2);
 
-        Assert.assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
 
@@ -143,7 +144,7 @@ public class NumericRestrictionsTests {
 
         boolean result = restriction1.equals(restriction2);
 
-        Assert.assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
 
@@ -158,7 +159,7 @@ public class NumericRestrictionsTests {
 
         boolean result = restriction1.equals(restriction2);
 
-        Assert.assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -173,7 +174,7 @@ public class NumericRestrictionsTests {
         int hashCode1 = restriction1.hashCode();
         int hashCode2 = restriction2.hashCode();
 
-        Assert.assertEquals(hashCode1, hashCode2);
+        Assertions.assertEquals(hashCode1, hashCode2);
     }
 
     @Test
@@ -188,7 +189,7 @@ public class NumericRestrictionsTests {
         int hashCode1 = restriction1.hashCode();
         int hashCode2 = restriction2.hashCode();
 
-        Assert.assertNotEquals(hashCode1, hashCode2);
+        Assertions.assertNotEquals(hashCode1, hashCode2);
     }
 
     @Test
@@ -203,7 +204,7 @@ public class NumericRestrictionsTests {
         int hashCode1 = restriction1.hashCode();
         int hashCode2 = restriction2.hashCode();
 
-        Assert.assertNotEquals(hashCode1, hashCode2);
+        Assertions.assertNotEquals(hashCode1, hashCode2);
     }
 
     @Test
@@ -218,7 +219,7 @@ public class NumericRestrictionsTests {
         int hashCode1 = restriction1.hashCode();
         int hashCode2 = restriction2.hashCode();
 
-        Assert.assertNotEquals(hashCode1, hashCode2);
+        Assertions.assertNotEquals(hashCode1, hashCode2);
     }
 
     @Test
@@ -233,7 +234,7 @@ public class NumericRestrictionsTests {
         int hashCode1 = restriction1.hashCode();
         int hashCode2 = restriction2.hashCode();
 
-        Assert.assertEquals(hashCode1, hashCode2);
+        Assertions.assertEquals(hashCode1, hashCode2);
     }
 
     @Test
@@ -241,8 +242,8 @@ public class NumericRestrictionsTests {
         LinearRestrictions<BigDecimal> a = restrictions(0.1);
         LinearRestrictions<BigDecimal> b = restrictions(0.1);
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -250,7 +251,7 @@ public class NumericRestrictionsTests {
         LinearRestrictions<BigDecimal> a = restrictions(0.1);
         LinearRestrictions<BigDecimal> b = restrictions(0.01);
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -258,7 +259,7 @@ public class NumericRestrictionsTests {
         Limit<BigDecimal> limit = new Limit<>(new BigDecimal("1e21"),true);
         LinearRestrictions<BigDecimal> restrictions = LinearRestrictionsFactory.createNumericRestrictions(NUMERIC_MIN_LIMIT, limit);
 
-        Assert.assertFalse(restrictions.getMax().compareTo(NUMERIC_MAX_LIMIT.getValue()) > 0);
+        Assertions.assertFalse(restrictions.getMax().compareTo(NUMERIC_MAX_LIMIT.getValue()) > 0);
 
     }
 
@@ -267,7 +268,7 @@ public class NumericRestrictionsTests {
         Limit<BigDecimal> limit = new Limit<>(new BigDecimal("-1e21"),true);
         LinearRestrictions<BigDecimal> restrictions = LinearRestrictionsFactory.createNumericRestrictions(limit, NUMERIC_MAX_LIMIT);
 
-        Assert.assertFalse(restrictions.getMin().compareTo(NUMERIC_MIN_LIMIT.getValue()) < 0);
+        Assertions.assertFalse(restrictions.getMin().compareTo(NUMERIC_MIN_LIMIT.getValue()) < 0);
 
     }
 

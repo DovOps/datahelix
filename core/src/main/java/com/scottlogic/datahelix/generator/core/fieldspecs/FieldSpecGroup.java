@@ -51,17 +51,15 @@ public final class FieldSpecGroup {
             FieldSpec leftSpec = fieldSpecs.get(left);
             FieldSpec rightSpec = fieldSpecs.get(right);
 
-            if (leftSpec instanceof RestrictionsFieldSpec && rightSpec instanceof RestrictionsFieldSpec) {
-                RestrictionsFieldSpec leftCast = (RestrictionsFieldSpec) leftSpec;
-                RestrictionsFieldSpec rightCast = (RestrictionsFieldSpec) rightSpec;
+            if (leftSpec instanceof RestrictionsFieldSpec leftCast && rightSpec instanceof RestrictionsFieldSpec rightCast) {
                 TypedRestrictions<?> leftRestrictions = leftCast.getRestrictions();
                 TypedRestrictions<?> rightRestrictions = rightCast.getRestrictions();
-                if (leftRestrictions instanceof LinearRestrictions<?> && rightRestrictions instanceof LinearRestrictions<?>) {
-                    LinearRestrictions<?> leftRestrictionsCast = (LinearRestrictions) leftRestrictions;
-                    LinearRestrictions<?> rightRestrictionsCast = (LinearRestrictions) rightRestrictions;
+                if (leftRestrictions instanceof LinearRestrictions<?> leftRestrictionsCast && rightRestrictions instanceof LinearRestrictions<?> rightRestrictionsCast) {
                     if (!leftRestrictionsCast.getGranularity().equals(rightRestrictionsCast.getGranularity())) {
-                        throw new IllegalArgumentException("Cannot have two related fields with different granularity."
-                        + " Consider using a format restriction instead.");
+                        throw new IllegalArgumentException("""
+                        Cannot have two related fields with different granularity.\
+                         Consider using a format restriction instead.\
+                        """);
                     }
                 }
             }

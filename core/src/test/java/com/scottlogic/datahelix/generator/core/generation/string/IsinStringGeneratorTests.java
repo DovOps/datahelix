@@ -20,7 +20,7 @@ import com.scottlogic.datahelix.generator.core.generation.string.generators.Rege
 import com.scottlogic.datahelix.generator.core.generation.string.generators.StringGenerator;
 import com.scottlogic.datahelix.generator.core.utils.FinancialCodeUtils;
 import com.scottlogic.datahelix.generator.core.utils.JavaUtilRandomNumberGenerator;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
@@ -123,7 +123,7 @@ public class IsinStringGeneratorTests {
 
         boolean matches = isinGenerator.matches("GB0002634946");
 
-        Assert.assertTrue(matches);
+        Assertions.assertTrue(matches);
     }
 
     @Test
@@ -132,6 +132,6 @@ public class IsinStringGeneratorTests {
 
         boolean matches = isinGenerator.matches("not an isin");
 
-        Assert.assertFalse(matches);
+        Assertions.assertFalse(matches);
     }
 }

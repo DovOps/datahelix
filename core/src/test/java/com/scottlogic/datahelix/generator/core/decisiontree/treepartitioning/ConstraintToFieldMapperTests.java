@@ -27,7 +27,6 @@ import com.scottlogic.datahelix.generator.core.decisiontree.DecisionTree;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.AtomicConstraint;
 import com.scottlogic.datahelix.generator.core.profile.constraints.atomic.InSetConstraint;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +35,7 @@ import java.util.stream.Collectors;
 
 import static com.scottlogic.datahelix.generator.common.profile.FieldBuilder.createField;
 import static com.scottlogic.datahelix.generator.core.builders.TestAtomicConstraintBuilder.inSetRecordsFrom;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 class ConstraintToFieldMapperTests {
 
@@ -154,7 +154,7 @@ class ConstraintToFieldMapperTests {
             .map(FieldBuilder::createField)
             .toArray(Field[]::new);
 
-        Assert.assertThat(mappings.get(new RootLevelConstraint(constraint)), Matchers.hasItems(fields));
+        assertThat(mappings.get(new RootLevelConstraint(constraint)), Matchers.hasItems(fields));
     }
 
     private void expectMapping(DecisionNode decision, String... fieldsAsString) {
@@ -165,13 +165,13 @@ class ConstraintToFieldMapperTests {
             .map(FieldBuilder::createField)
             .toArray(Field[]::new);
 
-        Assert.assertThat(mappings.get(new RootLevelConstraint(decision)), Matchers.hasItems(fields));
+        assertThat(mappings.get(new RootLevelConstraint(decision)), Matchers.hasItems(fields));
     }
 
     private void expectMappingCount(int mappingsCount) {
         if (mappings == null)
             getMappings();
 
-        Assert.assertThat(mappings, Matchers.aMapWithSize(mappingsCount));
+        assertThat(mappings, Matchers.aMapWithSize(mappingsCount));
     }
 }

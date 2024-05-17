@@ -72,6 +72,6 @@ public class GranularToNumericConstraint implements AtomicConstraint {
 
     @Override
     public String toString() {
-        return String.format("%s granular to %s", field.getName(), granularity);
+        return "%s granular to %s".formatted(field.getName(), granularity);
     }
 }

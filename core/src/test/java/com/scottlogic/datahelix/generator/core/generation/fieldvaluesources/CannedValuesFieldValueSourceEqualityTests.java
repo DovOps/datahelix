@@ -17,13 +17,13 @@
 package com.scottlogic.datahelix.generator.core.generation.fieldvaluesources;
 
 import com.scottlogic.datahelix.generator.common.distribution.DistributedList;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
 
@@ -40,8 +40,8 @@ class CannedValuesFieldValueSourceEqualityTests {
         FieldValueSource<Object> a = valueSourceOf("a", "b", "c");
         FieldValueSource<Object> b = valueSourceOf("a", "b", "c");
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 
     @Test
@@ -49,7 +49,7 @@ class CannedValuesFieldValueSourceEqualityTests {
         FieldValueSource<Object> a = valueSourceOf("a", "b", "c");
         FieldValueSource<Object> b = valueSourceOf("a", "b");
 
-        Assert.assertThat(a, not(equalTo(b)));
+        assertThat(a, not(equalTo(b)));
     }
 
     @Test
@@ -57,7 +57,7 @@ class CannedValuesFieldValueSourceEqualityTests {
         FieldValueSource<Object> a = valueSourceOf();
         FieldValueSource<Object> b = valueSourceOf();
 
-        Assert.assertThat(a, equalTo(b));
-        Assert.assertThat(a.hashCode(), equalTo(b.hashCode()));
+        assertThat(a, equalTo(b));
+        assertThat(a.hashCode(), equalTo(b.hashCode()));
     }
 }

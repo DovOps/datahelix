@@ -31,7 +31,7 @@ public class IsNullConstraint implements AtomicConstraint {
 
     @Override
     public String toString() {
-        return String.format("%s is null", field.getName());
+        return "%s is null".formatted(field.getName());
     }
 
     @Override

@@ -41,8 +41,8 @@ public class ConditionalConstraint implements GrammaticalConstraint
 
     @Override
     public String toString() {
-        return String.format(
-            "if (%s) then %s%s",
+        return 
+            "if (%s) then %s%s".formatted(
             condition,
             whenConditionIsTrue.toString(),
             whenConditionIsFalse != null ? " else " + whenConditionIsFalse.toString() : ""
