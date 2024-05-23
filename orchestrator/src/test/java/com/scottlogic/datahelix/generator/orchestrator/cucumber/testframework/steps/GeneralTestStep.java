@@ -180,7 +180,7 @@ public class GeneralTestStep {
         } else {
             Assert.assertThat(
                 "Expected profile validation error",
-                errors.get(0), equalTo(expectedError));
+                errors.getFirst(), equalTo(expectedError));
         }
     }
 
@@ -214,7 +214,7 @@ public class GeneralTestStep {
         } else {
             Assert.assertThat(
                 "Expected profile validation error",
-                errors.get(0), containsString(expectedError));
+                errors.getFirst(), containsString(expectedError));
         }
     }
 

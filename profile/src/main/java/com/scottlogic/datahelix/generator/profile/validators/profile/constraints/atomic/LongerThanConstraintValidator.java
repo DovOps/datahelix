@@ -54,7 +54,6 @@ public class LongerThanConstraintValidator extends AtomicConstraintValidator<Lon
         BigDecimal max = BigDecimal.valueOf(Defaults.MAX_STRING_LENGTH);
         return integer.compareTo(max) <= 0
             ? ValidationResult.success()
-            : ValidationResult.failure(String.format("String length must have a value <= %s, currently is %s"
-            , max.toPlainString(), integer.toPlainString()));
+            : ValidationResult.failure("String length must have a value <= %s, currently is %s".formatted(max.toPlainString(), integer.toPlainString()));
     }
 }

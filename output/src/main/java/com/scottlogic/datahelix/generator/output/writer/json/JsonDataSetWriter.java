@@ -63,8 +63,8 @@ class JsonDataSetWriter implements DataSetWriter {
             .forEach(field ->
                 jsonObject.put(field, convertValue(row.getFormattedValue(field))));
 
-        if (row instanceof RelationalGeneratedObject) {
-            writeRelatedObjects(jsonObject, (RelationalGeneratedObject)row);
+        if (row instanceof RelationalGeneratedObject object) {
+            writeRelatedObjects(jsonObject, object);
         }
 
         return jsonObject;
@@ -87,7 +87,7 @@ class JsonDataSetWriter implements DataSetWriter {
     }
 
     private void writeRelatedObject(Map<Field, Object> jsonObject, SubGeneratedObject value, JsonDataSetWriter subWriter, Field fieldForRelationship) {
-        GeneratedObject singleSubObject = value.getData().get(0);
+        GeneratedObject singleSubObject = value.getData().getFirst();
         Map<Field, Object> subObject = subWriter.convertRow(singleSubObject);
         jsonObject.put(fieldForRelationship, subObject);
     }
@@ -115,8 +115,8 @@ class JsonDataSetWriter implements DataSetWriter {
             return value;
         } else if (value instanceof String) {
             return value;
-        } else if (value instanceof OffsetDateTime) {
-            return standardDateFormat.format((OffsetDateTime) value);
+        } else if (value instanceof OffsetDateTime time) {
+            return standardDateFormat.format(time);
         } else {
             return value.toString();
         }

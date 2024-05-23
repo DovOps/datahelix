@@ -46,13 +46,13 @@ abstract public class RelationalConstraintValidator<T extends RelationalConstrai
         Optional<FieldType> fieldType = findField(dto.field)
             .map(f -> FieldValidator.getSpecificFieldType(f).getFieldType());
 
-        if (!fieldType.isPresent() || withoutOffsetUnit) return ValidationResult.success();
+        if (fieldType.isEmpty() || withoutOffsetUnit) return ValidationResult.success();
 
         switch (fieldType.get()) {
             case BOOLEAN:
-                return ValidationResult.failure(String.format("Offset is not supported for boolean fields%s", getErrorInfo(dto)));
+                return ValidationResult.failure("Offset is not supported for boolean fields%s".formatted(getErrorInfo(dto)));
             case STRING:
-                return ValidationResult.failure(String.format("Offset is not supported for string fields%s", getErrorInfo(dto)));
+                return ValidationResult.failure("Offset is not supported for string fields%s".formatted(getErrorInfo(dto)));
             case DATETIME:
                 return new DateTimeGranularityValidator(getErrorInfo(dto)).validate(dto.offsetUnit);
             case NUMERIC:
@@ -64,11 +64,11 @@ abstract public class RelationalConstraintValidator<T extends RelationalConstrai
     protected ValidationResult fieldMustBeValid(T dto, String fieldName, String fieldDescription)
     {
         if (fieldName == null || fieldName.isEmpty()) {
-            return ValidationResult.failure(String.format("%s must be specified%s", fieldDescription, getErrorInfo(dto)));
+            return ValidationResult.failure("%s must be specified%s".formatted(fieldDescription, getErrorInfo(dto)));
         }
 
         return findField(fieldName).isPresent()
             ? ValidationResult.success()
-            : ValidationResult.failure(String.format("%s must be defined in fields%s", quote(fieldName), getErrorInfo(dto)));
+            : ValidationResult.failure("%s must be defined in fields%s".formatted(quote(fieldName), getErrorInfo(dto)));
     }
 }

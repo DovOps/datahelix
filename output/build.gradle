@@ -23,6 +23,8 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:${JACKSON_VERSION}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${JACKSON_VERSION}"
 
+    implementation "jakarta.inject:jakarta.inject-api:1.0.3"
+
     constraints {
         implementation('com.google.guava:guava:30.0-jre') {
             because 'Versions prior to 30.0 are impacted by CVE-2020-8908'

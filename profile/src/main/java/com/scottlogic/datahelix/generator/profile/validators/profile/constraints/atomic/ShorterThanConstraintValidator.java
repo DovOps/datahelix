@@ -53,7 +53,6 @@ public class ShorterThanConstraintValidator extends AtomicConstraintValidator<Sh
         BigDecimal min = BigDecimal.ZERO;
         return integer.compareTo(min) >= 0
             ? ValidationResult.success()
-            : ValidationResult.failure(String.format("String length must have a value >= %s, currently is %s"
-            , min.toPlainString(), integer.toPlainString()));
+            : ValidationResult.failure("String length must have a value >= %s, currently is %s".formatted(min.toPlainString(), integer.toPlainString()));
     }
 }

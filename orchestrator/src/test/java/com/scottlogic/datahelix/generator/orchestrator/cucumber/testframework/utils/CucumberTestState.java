@@ -113,7 +113,7 @@ public class CucumberTestState {
 
     public List<String> getValuesFromMap(String name, String key) {
         List<List<String>> map = this.inMapFiles.get(name);
-        int index = map.get(0).indexOf(key);
+        int index = map.getFirst().indexOf(key);
         List<String> rtnList = new ArrayList<>();
 
         for (int i = 1; i < map.size(); i++) {
@@ -147,10 +147,10 @@ public class CucumberTestState {
                     value = _value;
                 }};
             case IN_SET:
-                return _value instanceof String
+                return _value instanceof String s
                     ? new InSetFromFileConstraintDTO() {{
                     field = fieldName;
-                    file = (String) _value;
+                    file = s;
                 }}
                     : new InSetFromListConstraintDTO() {{
                     field = fieldName;
@@ -314,12 +314,12 @@ public class CucumberTestState {
     private void createIfConstraint(int total) {
         ConditionalConstraintDTO dto = new ConditionalConstraintDTO();
         if (total == 3) {
-            dto.elseConstraint = constraints.remove(constraints.size() - 1);
+            dto.elseConstraint = constraints.removeLast();
             total--;
         }
         if (total == 2) {
-            dto.thenConstraint = constraints.remove(constraints.size() - 1);
-            dto.ifConstraint = constraints.remove(constraints.size() - 1);
+            dto.thenConstraint = constraints.removeLast();
+            dto.ifConstraint = constraints.removeLast();
         }
         this.addConstraintToList(dto);
     }
@@ -329,7 +329,7 @@ public class CucumberTestState {
         dto.constraints = new ArrayList<>();
 
         for (int i = 0; i < total; i++) {
-            dto.constraints.add(constraints.remove(constraints.size() - 1));
+            dto.constraints.add(constraints.removeLast());
         }
         this.addConstraintToList(dto);
     }
@@ -339,7 +339,7 @@ public class CucumberTestState {
         dto.constraints = new ArrayList<>();
 
         for (int i = 0; i < total; i++) {
-            dto.constraints.add(constraints.remove(constraints.size() - 1));
+            dto.constraints.add(constraints.removeLast());
         }
         this.addConstraintToList(dto);
     }

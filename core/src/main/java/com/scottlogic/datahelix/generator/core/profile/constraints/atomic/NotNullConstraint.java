@@ -30,7 +30,7 @@ public class NotNullConstraint implements AtomicConstraint {
 
     @Override
     public String toString() {
-        return String.format("%s is not null", field.getName());
+        return "%s is not null".formatted(field.getName());
     }
 
     @Override

@@ -51,8 +51,8 @@ public class TemporalRelationalConstraintValidator<T extends RelationalConstrain
         Optional<FieldType> fieldType = findField(fieldName)
             .map(f -> FieldValidator.getSpecificFieldType(f).getFieldType());
 
-        return !fieldType.isPresent() || fieldType.get() == FieldType.DATETIME || fieldType.get() == FieldType.TIME
+        return fieldType.isEmpty() || fieldType.get() == FieldType.DATETIME || fieldType.get() == FieldType.TIME
             ? ValidationResult.success()
-            : ValidationResult.failure(String.format("%s must be time/datetime however it has type %s%s", fieldDescription, quote(fieldType.get()), getErrorInfo(dto)));
+            : ValidationResult.failure("%s must be time/datetime however it has type %s%s".formatted(fieldDescription, quote(fieldType.get()), getErrorInfo(dto)));
     }
 }

@@ -42,6 +42,6 @@ public class SingleConstraintBuilder extends ConstraintChainBuilder<Constraint> 
             throw new RuntimeException("Unable to build single constraint, more than 1 constraint specified.");
         }
 
-        return tailConstraints.get(0);
+        return tailConstraints.getFirst();
     }
 }

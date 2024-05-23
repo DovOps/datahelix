@@ -53,7 +53,7 @@ public class FieldService {
     private Field createRegularField(FieldDTO fieldDTO) {
         String formatting = formatting(fieldDTO);
         SpecificFieldType type = specificFieldTypeFromString(fieldDTO.type, formatting)
-            .orElseThrow(() -> new IllegalStateException(String.format("No data types with type '%s'", fieldDTO.type)));
+            .orElseThrow(() -> new IllegalStateException("No data types with type '%s'".formatted(fieldDTO.type)));
         return new Field(
             fieldDTO.name,
             type,

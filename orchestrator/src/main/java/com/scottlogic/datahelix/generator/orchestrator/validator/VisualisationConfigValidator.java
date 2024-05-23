@@ -46,8 +46,10 @@ public class VisualisationConfigValidator {
         }
         if (!outputConfigSource.overwriteOutputFiles() && fileUtils.exists(outputConfigSource.getOutputPath())) {
             throw new ValidationException(
-                "Invalid Output - file already exists, please use a different output filename " +
-                    "or use the --overwrite option"
+                """
+                Invalid Output - file already exists, please use a different output filename \
+                or use the --overwrite option\
+                """
             );
         }
     }

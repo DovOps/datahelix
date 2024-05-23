@@ -63,12 +63,12 @@ public class NumericConstraintValidator extends AtomicConstraintValidator<Numeri
         BigDecimal min = NumericDefaults.get().min();
         if (number.compareTo(min) < 0)
         {
-            return ValidationResult.failure(String.format("Number must have a value >= %s, currently is %s", min.toPlainString(), number.toPlainString()));
+            return ValidationResult.failure("Number must have a value >= %s, currently is %s".formatted(min.toPlainString(), number.toPlainString()));
         }
         BigDecimal max = NumericDefaults.get().max();
         if (number.compareTo(max) > 0)
         {
-            return ValidationResult.failure(String.format("Number must have a value <= %s, currently is %s", max.toPlainString(), number.toPlainString()));
+            return ValidationResult.failure("Number must have a value <= %s, currently is %s".formatted(max.toPlainString(), number.toPlainString()));
         }
         return ValidationResult.success();
     }

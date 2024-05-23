@@ -65,7 +65,7 @@ public abstract class ConstraintValidator<T extends ConstraintDTO> implements Va
 
     protected String getErrorInfo(T constraint)
     {
-        return String.format(" | Constraint: %s", ValidationResult.quote(constraint.getType().propertyName));
+        return " | Constraint: %s".formatted(ValidationResult.quote(constraint.getType().propertyName));
     }
 
     protected static ValidationResult validateConstraint(ConstraintDTO dto, List<FieldDTO> fields)
@@ -136,9 +136,9 @@ public abstract class ConstraintValidator<T extends ConstraintDTO> implements Va
         {
             return  ValidationResult.failure("Constraint must not be null");
         }
-        if(dto instanceof InvalidConstraintDTO)
+        if(dto instanceof InvalidConstraintDTO tO)
         {
-            return ValidationResult.failure("Invalid json: " + ((InvalidConstraintDTO)dto).json);
+            return ValidationResult.failure("Invalid json: " + tO.json);
         }
         if(dto.getType() == null)
         {
@@ -155,7 +155,7 @@ public abstract class ConstraintValidator<T extends ConstraintDTO> implements Va
     protected FieldDTO getField(String field)
     {
         return findField(field)
-            .orElseThrow(() -> new IllegalStateException(String.format("Field '%s' referenced but can not be found", field)));
+            .orElseThrow(() -> new IllegalStateException("Field '%s' referenced but can not be found".formatted(field)));
     }
 
     protected ValidationResult validateGranularity(T dto, String field, Object value)
@@ -164,9 +164,9 @@ public abstract class ConstraintValidator<T extends ConstraintDTO> implements Va
         switch (fieldType)
         {
             case BOOLEAN:
-                return ValidationResult.failure(String.format("Granularity %s is not supported for boolean fields%s", ValidationResult.quote(value), getErrorInfo(dto)));
+                return ValidationResult.failure("Granularity %s is not supported for boolean fields%s".formatted(ValidationResult.quote(value), getErrorInfo(dto)));
             case STRING:
-                return ValidationResult.failure(String.format("Granularity %s is not supported for string fields%s", ValidationResult.quote(value), getErrorInfo(dto)));
+                return ValidationResult.failure("Granularity %s is not supported for string fields%s".formatted(ValidationResult.quote(value), getErrorInfo(dto)));
             case DATETIME:
                 return new DateTimeGranularityValidator(getErrorInfo(dto)).validate((String) value);
             case NUMERIC:

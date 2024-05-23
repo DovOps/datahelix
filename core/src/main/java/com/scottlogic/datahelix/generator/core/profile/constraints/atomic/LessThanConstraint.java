@@ -67,5 +67,5 @@ public class LessThanConstraint implements AtomicConstraint {
     }
 
     @Override
-    public String toString() { return String.format("`%s` < %s", field.getName(), referenceValue); }
+    public String toString() { return "`%s` < %s".formatted(field.getName(), referenceValue); }
 }

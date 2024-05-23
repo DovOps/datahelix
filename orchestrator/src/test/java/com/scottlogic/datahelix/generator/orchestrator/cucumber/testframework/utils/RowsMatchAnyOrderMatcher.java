@@ -42,6 +42,6 @@ public class RowsMatchAnyOrderMatcher extends RowsPresentMatcher {
 
         super.describeMismatch(item, description);
 
-        description.appendText(String.format("\n  counts: expected %d, but got %d", expectedRows.size(), actualRows.size()));
+        description.appendText("\n  counts: expected %d, but got %d".formatted(expectedRows.size(), actualRows.size()));
     }
 }

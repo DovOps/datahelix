@@ -53,14 +53,14 @@ public class DataBag implements GeneratedObject {
             if (field.getType() == FieldType.NUMERIC && (formatting.contains("d") || formatting.contains("x") || formatting.contains("o")))
             {
                 long l = ((BigDecimal) value).longValueExact();
-                return String.format(formatting, l);
+                return formatting.formatted(l);
             }
             if (field.getType() == FieldType.NUMERIC && (formatting.contains("a")))
             {
                 double d = ((BigDecimal) value).doubleValue();
-                return String.format(formatting, d);
+                return formatting.formatted(d);
             }
-            return String.format(formatting, value);
+            return formatting.formatted(value);
         }
         catch (IllegalFormatException e)
         {

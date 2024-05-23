@@ -151,11 +151,11 @@ public class DecisionTreeVisualisationWriter implements AutoCloseable {
             declareParenthood(parentNodeId, infoNodeId);
         }
 
-        writeLine(String.format(
-            "%s[fontcolor=\"%s\"][label=\"%s\"][fontsize=\"10\"][shape=box][style=\"dotted\"]",
+        writeLine(
+            "%s[fontcolor=\"%s\"][label=\"%s\"][fontsize=\"10\"][shape=box][style=\"dotted\"]".formatted(
             infoNodeId,
             fontColour,
-            String.format("Counts:\nDecisions: %d\nAtomic constraints: %d\nConstraints: %d\nExpected RowSpecs: %s",
+            "Counts:\nDecisions: %d\nAtomic constraints: %d\nConstraints: %d\nExpected RowSpecs: %s".formatted(
                 info.decisions,
                 info.atomicConstraints,
                 info.constraintNodes,

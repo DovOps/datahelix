@@ -61,8 +61,8 @@ public class RowMatcher extends BaseMatcher<Map<String, Object>> {
         if (actual == null || expected == null)
             return false;
 
-        if (actual instanceof Number && expected instanceof Number && actual.getClass() != expected.getClass()){
-            return numbersEqual((Number) actual, (Number) expected);
+        if (actual instanceof Number number && expected instanceof Number number && actual.getClass() != expected.getClass()){
+            return numbersEqual(number, number);
         }
 
         return actual.equals(expected);
@@ -97,8 +97,8 @@ public class RowMatcher extends BaseMatcher<Map<String, Object>> {
     }
 
     private static Object formatDate(Object value){
-        if (value instanceof OffsetDateTime){
-            return ((OffsetDateTime) value).format(dateTimeFormat);
+        if (value instanceof OffsetDateTime time){
+            return time.format(dateTimeFormat);
         }
         return value;
     }

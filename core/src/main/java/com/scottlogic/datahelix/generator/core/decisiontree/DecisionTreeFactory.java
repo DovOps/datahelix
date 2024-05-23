@@ -44,15 +44,14 @@ public class DecisionTreeFactory {
         if (constraintToConvert instanceof NegatedGrammaticalConstraint) {
             return convertNegatedConstraint(constraintToConvert);
         }
-        else if (constraintToConvert instanceof AndConstraint) {
-            return convertAndConstraint((AndConstraint) constraintToConvert);
+        else if (constraintToConvert instanceof AndConstraint constraint) {
+            return convertAndConstraint(constraint);
         }
-        else if (constraintToConvert instanceof OrConstraint) {
-            return convertOrConstraint((OrConstraint) constraintToConvert);
-        } else if (constraintToConvert instanceof ConditionalConstraint) {
-            return convertConditionalConstraint((ConditionalConstraint) constraintToConvert);
-        } else if (constraintToConvert instanceof FieldSpecRelation) {
-            FieldSpecRelation relation = (FieldSpecRelation) constraintToConvert;
+        else if (constraintToConvert instanceof OrConstraint constraint) {
+            return convertOrConstraint(constraint);
+        } else if (constraintToConvert instanceof ConditionalConstraint constraint) {
+            return convertConditionalConstraint(constraint);
+        } else if (constraintToConvert instanceof FieldSpecRelation relation) {
             return asConstraintNode(relation);
         } else {
             AtomicConstraint atomicConstraint = (AtomicConstraint) constraintToConvert;
@@ -64,23 +63,22 @@ public class DecisionTreeFactory {
         Constraint negatedConstraint = ((NegatedGrammaticalConstraint) constraintToConvert).getNegatedConstraint();
 
         // ¬AND(X, Y, Z) reduces to OR(¬X, ¬Y, ¬Z)
-        if (negatedConstraint instanceof AndConstraint) {
-            Collection<Constraint> subConstraints = ((AndConstraint) negatedConstraint).getSubConstraints();
+        if (negatedConstraint instanceof AndConstraint constraint) {
+            Collection<Constraint> subConstraints = constraint.getSubConstraints();
 
             return convertOrConstraint(
                 new OrConstraint(negateEach(subConstraints)));
         }
         // ¬OR(X, Y, Z) reduces to AND(¬X, ¬Y, ¬Z)
-        else if (negatedConstraint instanceof OrConstraint) {
-            Collection<Constraint> subConstraints = ((OrConstraint) negatedConstraint).subConstraints;
+        else if (negatedConstraint instanceof OrConstraint constraint) {
+            Collection<Constraint> subConstraints = constraint.subConstraints;
 
             return convertAndConstraint(
                 new AndConstraint(negateEach(subConstraints)));
         }
         // ¬IF(X, then: Y) reduces to AND(X, ¬Y)
         // ¬IF(X, then: Y, else: Z) reduces to OR(AND(X, ¬Y), AND(¬X, ¬Z))
-        else if (negatedConstraint instanceof ConditionalConstraint) {
-            ConditionalConstraint conditional = (ConditionalConstraint) negatedConstraint;
+        else if (negatedConstraint instanceof ConditionalConstraint conditional) {
 
             AndConstraint positiveNegation =
                 new AndConstraint(conditional.condition, conditional.whenConditionIsTrue.negate());
@@ -98,8 +96,8 @@ public class DecisionTreeFactory {
         }
         // if we got this far, it must be an atomic constraint
         else {
-            if (constraintToConvert instanceof FieldSpecRelation) {
-                return asConstraintNode((FieldSpecRelation) constraintToConvert);
+            if (constraintToConvert instanceof FieldSpecRelation relation) {
+                return asConstraintNode(relation);
             }
             AtomicConstraint atomicConstraint = (AtomicConstraint) constraintToConvert;
             return asConstraintNode(atomicConstraint);

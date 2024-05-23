@@ -33,10 +33,10 @@ public class SingleRegexPattern implements RegexPattern {
     @Override
     public String getRepresentation() {
         if (matchFullString) {
-            return String.format("/%s/", regex);
+            return "/%s/".formatted(regex);
         }
 
-        return String.format("*/%s/*", regex);
+        return "*/%s/*".formatted(regex);
     }
 
     @Override

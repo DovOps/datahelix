@@ -47,8 +47,8 @@ public class OutputWriterFactoryProvider implements Provider<OutputWriterFactory
                 return jsonOutputWriterFactory;
         }
 
-        throw new RuntimeException(String.format(
-            "Unknown output format %s, options are CSV or JSON",
+        throw new RuntimeException(
+            "Unknown output format %s, options are CSV or JSON".formatted(
             configSource.getOutputFormat()
         ));
     }

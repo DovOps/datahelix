@@ -59,7 +59,7 @@ public class RestrictionsFieldSpec extends FieldSpec {
         final TypedRestrictions otherRestrictions = ((RestrictionsFieldSpec) other).getRestrictions();
         final Optional<TypedRestrictions> restrictions = restrictionMergeOperation.applyMergeOperation(getRestrictions(), otherRestrictions, useFinestGranularityAvailable);
 
-        if (!restrictions.isPresent()) {
+        if (restrictions.isEmpty()) {
             return notNullable ? Optional.empty() : Optional.of(FieldSpecFactory.nullOnly());
         }
 
@@ -88,7 +88,7 @@ public class RestrictionsFieldSpec extends FieldSpec {
 
     @Override
     public String toString() {
-        return String.format("%s%s",
+        return "%s%s".formatted(
             nullable ? " " : " Not Null ",
             restrictions == null ? "" : restrictions);
     }

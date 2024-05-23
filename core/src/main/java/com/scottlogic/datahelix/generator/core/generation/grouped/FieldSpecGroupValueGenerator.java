@@ -74,7 +74,7 @@ public class FieldSpecGroupValueGenerator {
                 FieldSpecRelation::other,
                 r -> 1, Integer::sum)).entrySet());
         list.sort(Comparator.comparing(Map.Entry::getValue, Comparator.reverseOrder()));
-        return list.isEmpty() ? SetUtils.firstIteratorElement(keySet.fieldSpecs().keySet()) : list.get(0).getKey();
+        return list.isEmpty() ? SetUtils.firstIteratorElement(keySet.fieldSpecs().keySet()) : list.getFirst().getKey();
     }
 
     private FieldSpec updateFirstSpecFromRelations(Field first, FieldSpecGroup group) {

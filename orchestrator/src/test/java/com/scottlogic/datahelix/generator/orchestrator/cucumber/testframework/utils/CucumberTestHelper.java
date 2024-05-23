@@ -149,9 +149,9 @@ public class CucumberTestHelper {
 
     public void assertFieldContains(String fieldName, Function<Object, Boolean> predicate) {
         Optional<Integer> fieldIndex = getIndexOfField(fieldName);
-        if (!fieldIndex.isPresent()) {
-            throw new IllegalArgumentException(String.format(
-                "Field [%s] has not been defined",
+        if (fieldIndex.isEmpty()) {
+            throw new IllegalArgumentException(
+                "Field [%s] has not been defined".formatted(
                 fieldName
             ));
         }
@@ -165,9 +165,9 @@ public class CucumberTestHelper {
 
     public void assertFieldContainsOnly(String fieldName, Function<Object, Boolean> predicate) {
         Optional<Integer> fieldIndex = getIndexOfField(fieldName);
-        if (!fieldIndex.isPresent()) {
-            throw new IllegalArgumentException(String.format(
-                "Field [%s] has not been defined",
+        if (fieldIndex.isEmpty()) {
+            throw new IllegalArgumentException(
+                "Field [%s] has not been defined".formatted(
                 fieldName
             ));
         }

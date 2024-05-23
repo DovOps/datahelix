@@ -48,7 +48,7 @@ public class DateTimeValueStep {
 
     private String extractConstraint(String gherkinConstraint) {
         List<String> allConstraints = Arrays.asList(gherkinConstraint.split(" "));
-        return allConstraints.get(0) + allConstraints
+        return allConstraints.getFirst() + allConstraints
             .stream()
             .skip(1)
             .map(value -> value.substring(0, 1).toUpperCase() + value.substring(1))

@@ -35,11 +35,11 @@ public class ListPredicateMatcher extends BaseMatcher<List<Object>> {
     @Override
     public void describeMismatch(Object item, Description description) {
         description
-            .appendText(String.format("%d of %d rows do not match\n", rowsThatDoNotMatch.size(), checkedRows));
+            .appendText("%d of %d rows do not match\n".formatted(rowsThatDoNotMatch.size(), checkedRows));
 
         rowsThatDoNotMatch
             .entrySet()
-            .forEach(entry -> description.appendText(String.format("Row %d: (%s) does not match predicate\n", entry.getKey(), entry.getValue())));
+            .forEach(entry -> description.appendText("Row %d: (%s) does not match predicate\n".formatted(entry.getKey(), entry.getValue())));
     }
 
     @Override

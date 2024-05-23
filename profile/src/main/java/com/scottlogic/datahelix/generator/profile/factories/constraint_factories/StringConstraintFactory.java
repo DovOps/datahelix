@@ -122,7 +122,7 @@ public class StringConstraintFactory extends AtomicConstraintFactory
 
     private Pattern createPattern(Object value)
     {
-        return value instanceof Pattern ? (Pattern) value : Pattern.compile((String) value);
+        return value instanceof Pattern p ? p : Pattern.compile((String) value);
     }
 }
 

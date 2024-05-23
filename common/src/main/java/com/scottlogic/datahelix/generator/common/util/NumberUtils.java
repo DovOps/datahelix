@@ -35,20 +35,20 @@ public class NumberUtils {
         // stolen from http://www.java2s.com/Code/Java/Data-Type/ConvertObjecttoBigDecimal.htm
         if (value == null) {
             return null;
-        } else if (value instanceof BigDecimal) {
-            return (BigDecimal) value;
-        } else if (value instanceof String) {
-            return tryParse((String) value);
-        } else if (value instanceof BigInteger) {
-            return new BigDecimal((BigInteger) value);
-        } else if (value instanceof Integer) {
-            return new BigDecimal((Integer) value);
-        } else if (value instanceof Long) {
-            return new BigDecimal((Long) value);
-        } else if (value instanceof Double) {
-            return BigDecimal.valueOf((Double) value);
-        } else if (value instanceof Float) {
-            return BigDecimal.valueOf((Float) value);
+        } else if (value instanceof BigDecimal decimal) {
+            return decimal;
+        } else if (value instanceof String string) {
+            return tryParse(string);
+        } else if (value instanceof BigInteger integer) {
+            return new BigDecimal(integer);
+        } else if (value instanceof Integer integer) {
+            return new BigDecimal(integer);
+        } else if (value instanceof Long long1) {
+            return new BigDecimal(long1);
+        } else if (value instanceof Double double1) {
+            return BigDecimal.valueOf(double1);
+        } else if (value instanceof Float float1) {
+            return BigDecimal.valueOf(float1);
         } else {
             return null;
         }

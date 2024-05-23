@@ -20,7 +20,7 @@ plugins {
 
 group "com.scottlogic.datahelix.generator"
 
-sourceCompatibility = 1.8
+sourceCompatibility = 21
 
 repositories {
     mavenCentral()

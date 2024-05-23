@@ -29,7 +29,7 @@ public class FieldValidator implements Validator<FieldDTO>
     public static SpecificFieldType getSpecificFieldType(FieldDTO field)
     {
         return extractSpecificFieldType(field)
-            .orElseThrow(() -> new IllegalStateException(String.format("Invalid field type occurred: '%s'", field.type)));
+            .orElseThrow(() -> new IllegalStateException("Invalid field type occurred: '%s'".formatted(field.type)));
     }
 
     private static Optional<SpecificFieldType> extractSpecificFieldType(FieldDTO field)
@@ -72,13 +72,13 @@ public class FieldValidator implements Validator<FieldDTO>
         String fieldName = field.name == null ? "Unnamed" : ValidationResult.quote(field.name);
         return field.type != null
             ? ValidationResult.success()
-            : ValidationResult.failure(String.format("Field type must be specified | Field: %s", fieldName));
+            : ValidationResult.failure("Field type must be specified | Field: %s".formatted(fieldName));
     }
 
     private ValidationResult typeMustBeSupported(FieldDTO field)
     {
         return extractSpecificFieldType(field).map(t -> ValidationResult.success())
-            .orElse(ValidationResult.failure(String.format("Field type %s is not supported | Field: %s", ValidationResult.quote(field.type), ValidationResult.quote(field.name))));
+            .orElse(ValidationResult.failure("Field type %s is not supported | Field: %s".formatted(ValidationResult.quote(field.type), ValidationResult.quote(field.name))));
     }
 }
 

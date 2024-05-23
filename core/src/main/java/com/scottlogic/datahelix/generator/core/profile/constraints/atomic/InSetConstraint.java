@@ -77,7 +77,7 @@ public class InSetConstraint implements AtomicConstraint {
             .map(Object::toString)
             .collect(Collectors.joining(", "));
 
-        return String.format("%s%s in [%s%s](%d values)",
+        return "%s%s in [%s%s](%d values)".formatted(
             field.getName(),
             negated ? "not " : "",
             legalValuesSummary,

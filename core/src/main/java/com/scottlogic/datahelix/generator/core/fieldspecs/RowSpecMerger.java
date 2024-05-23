@@ -40,7 +40,7 @@ public class RowSpecMerger {
         for (Field field : left.getFields()) {
             Optional<FieldSpec> merge = fieldSpecMerger.merge(left.getSpecForField(field), right.getSpecForField(field), false);
 
-            if (!merge.isPresent()){
+            if (merge.isEmpty()){
                 return Optional.empty();
             }
             newMap.put(field, merge.get());

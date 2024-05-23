@@ -42,13 +42,13 @@ public class ValueTypeValidator implements Validator<Object>
             case BOOLEAN:
                 return value instanceof Boolean
                     ? ValidationResult.success()
-                    : ValidationResult.failure(String.format("Value %s must be a boolean%s", ValidationResult.quote(value), errorInfo));
+                    : ValidationResult.failure("Value %s must be a boolean%s".formatted(ValidationResult.quote(value), errorInfo));
             case NUMERIC:
-                return value instanceof Number || value instanceof String && isNumber((String) value)
+                return value instanceof Number || value instanceof String s && isNumber(s)
                     ? ValidationResult.success()
-                    : ValidationResult.failure(String.format("Value %s must be a number%s", ValidationResult.quote(value), errorInfo));
+                    : ValidationResult.failure("Value %s must be a number%s".formatted(ValidationResult.quote(value), errorInfo));
             default:
-                return value instanceof String ? ValidationResult.success() : ValidationResult.failure(String.format("Value %s must be a string%s", ValidationResult.quote(value), errorInfo));
+                return value instanceof String ? ValidationResult.success() : ValidationResult.failure("Value %s must be a string%s".formatted(ValidationResult.quote(value), errorInfo));
         }
     }
 

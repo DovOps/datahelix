@@ -88,20 +88,20 @@ public class OneToManyRangeResolver {
     }
 
     private static int getExtent(AtomicConstraint atomicConstraint) {
-        if (atomicConstraint instanceof EqualToConstraint) {
-            return getIntegerValue(((EqualToConstraint) atomicConstraint).value);
+        if (atomicConstraint instanceof EqualToConstraint constraint) {
+            return getIntegerValue(constraint.value);
         }
 
         throw new RuntimeException("Unsure how to extract an extent from a " + atomicConstraint.getClass().getName());
     }
 
     private static int getIntegerValue(Object value) {
-        if (value instanceof Integer){
-            return (int) value;
+        if (value instanceof Integer integer){
+            return integer;
         }
 
-        if (value instanceof BigDecimal){
-            return ((BigDecimal) value).intValue();
+        if (value instanceof BigDecimal decimal){
+            return decimal.intValue();
         }
 
         throw new RuntimeException("Unable to extract an integer value from a " + value.getClass().getName());

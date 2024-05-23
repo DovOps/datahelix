@@ -128,7 +128,7 @@ public class RegexConstraintValidatorTests
         // Assert
         assertFalse(validationResult.isSuccess);
         assertThat(validationResult.errors, iterableWithSize(1));
-        assertThat(validationResult.errors, hasItem(String.format("Regex is invalid | Dangling meta character '*' near index 2%s/*****/%s  ^", newLine, newLine)));
+        assertThat(validationResult.errors, hasItem("Regex is invalid | Dangling meta character '*' near index 2%s/*****/%s  ^".formatted(newLine, newLine)));
     }
 
     @Test

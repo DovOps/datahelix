@@ -55,11 +55,11 @@ public class OfLengthConstraintValidator extends AtomicConstraintValidator<OfLen
         BigDecimal min = BigDecimal.ZERO;
         if (integer.compareTo(min) < 0)
         {
-            return ValidationResult.failure(String.format("String length must have a value >= %s, currently is %s", min.toPlainString(), integer.toPlainString()));
+            return ValidationResult.failure("String length must have a value >= %s, currently is %s".formatted(min.toPlainString(), integer.toPlainString()));
         }
         if (integer.compareTo(max) > 0)
         {
-            return ValidationResult.failure(String.format("String length must have a value <= %s, currently is %s", max.toPlainString(), integer.toPlainString()));
+            return ValidationResult.failure("String length must have a value <= %s, currently is %s".formatted(max.toPlainString(), integer.toPlainString()));
         }
         return ValidationResult.success();
     }

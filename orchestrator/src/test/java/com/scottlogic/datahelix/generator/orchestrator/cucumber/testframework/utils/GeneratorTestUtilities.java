@@ -53,7 +53,7 @@ public class GeneratorTestUtilities {
             return input.equals("true");
         }
 
-        throw new ValidationException(String.format("Unable to determine correct type for `%s`.\nEnsure strings are wrapped in double-quotes.", input));
+        throw new ValidationException("Unable to determine correct type for `%s`.\nEnsure strings are wrapped in double-quotes.".formatted(input));
     }
 
     public static Object parseNumber(String input) throws JsonParseException {

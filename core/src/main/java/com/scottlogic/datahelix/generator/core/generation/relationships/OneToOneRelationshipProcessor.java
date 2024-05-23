@@ -31,7 +31,7 @@ public class OneToOneRelationshipProcessor implements RelationshipProcessor {
     @Override
     public void processRelationship(Fields profileFields, Relationship relationship, GeneratedRelationalData generatedObject, DataGenerator dataGenerator) {
         Optional<GeneratedObject> subObject = dataGenerator.generateData(relationship.getProfile()).limit(1).findFirst();
-        if (!subObject.isPresent()) {
+        if (subObject.isEmpty()) {
             return;
         }
 

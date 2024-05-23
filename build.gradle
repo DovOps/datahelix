@@ -33,7 +33,7 @@ subprojects {
         }
     }
 
-    sourceCompatibility = '1.8'
+    sourceCompatibility = '21'
 
     publishing {
         publications {

@@ -116,7 +116,7 @@ public class TreePruner {
         Map<Field, FieldSpec> newFieldSpecs = new HashMap<>();
         for (Map.Entry<Field, Collection<AtomicConstraint>> fieldToConstraints : relevantConstraints.entrySet()) {
             Optional<FieldSpec> fieldSpec = constraintReducer.reduceConstraintsToFieldSpec(fieldToConstraints.getKey(), fieldToConstraints.getValue());
-            if (!fieldSpec.isPresent()) {
+            if (fieldSpec.isEmpty()) {
                 return Merged.contradictory();
             }
             newFieldSpecs.put(fieldToConstraints.getKey(), fieldSpec.get());
@@ -131,7 +131,7 @@ public class TreePruner {
                 newMap.put(entry.getKey(), entry.getValue());
             }else {
                 Optional<FieldSpec> mergedSpec = merger.merge(entry.getValue(), newMap.get(entry.getKey()), false);
-                if (!mergedSpec.isPresent()){
+                if (mergedSpec.isEmpty()){
                     return Merged.contradictory();
                 }
                 newMap.put(entry.getKey(), mergedSpec.get());

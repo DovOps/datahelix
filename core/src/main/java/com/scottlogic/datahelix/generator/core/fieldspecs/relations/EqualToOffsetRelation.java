@@ -45,8 +45,7 @@ public class EqualToOffsetRelation<T extends Comparable<T>> implements FieldSpec
         if (otherFieldSpec instanceof NullOnlyFieldSpec) {
             return FieldSpecFactory.nullOnly();
         }
-        if (otherFieldSpec instanceof ValuesFieldSpec) {
-            ValuesFieldSpec valuesFieldSpec = (ValuesFieldSpec) otherFieldSpec;
+        if (otherFieldSpec instanceof ValuesFieldSpec valuesFieldSpec) {
             return valuesFieldSpec.withMappedValues(x-> offsetGranularity.getNext((T) x, offset));
         }
 

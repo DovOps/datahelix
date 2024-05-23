@@ -51,8 +51,8 @@ public class NumericRelationalConstraintValidator<T extends RelationalConstraint
         Optional<FieldType> fieldType = findField(fieldName)
             .map(f -> FieldValidator.getSpecificFieldType(f).getFieldType());
 
-        return !fieldType.isPresent() || fieldType.get() == FieldType.NUMERIC
+        return fieldType.isEmpty() || fieldType.get() == FieldType.NUMERIC
             ? ValidationResult.success()
-            : ValidationResult.failure(String.format("%s must be numeric however it has type %s%s", fieldDescription, quote(fieldType.get()), getErrorInfo(dto)));
+            : ValidationResult.failure("%s must be numeric however it has type %s%s".formatted(fieldDescription, quote(fieldType.get()), getErrorInfo(dto)));
     }
 }

@@ -34,7 +34,7 @@ public class NotMatchesStandardConstraint implements AtomicConstraint {
 
     @Override
     public String toString(){
-        return String.format("%s is a %s", field.getName(), standard.getClass().getName());
+        return "%s is a %s".formatted(field.getName(), standard.getClass().getName());
     }
 
     @Override

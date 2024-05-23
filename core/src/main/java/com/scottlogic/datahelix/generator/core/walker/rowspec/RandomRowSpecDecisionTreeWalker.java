@@ -70,7 +70,7 @@ public class RandomRowSpecDecisionTreeWalker implements DecisionTreeWalker {
 
     private Stream<RowSpec> getRowSpecAndRestart(DecisionTree tree) {
         Optional<RowSpec> firstRowSpecOpt = getFirstRowSpec(tree);
-        if (!firstRowSpecOpt.isPresent()) {
+        if (firstRowSpecOpt.isEmpty()) {
             return Stream.empty();
         }
 

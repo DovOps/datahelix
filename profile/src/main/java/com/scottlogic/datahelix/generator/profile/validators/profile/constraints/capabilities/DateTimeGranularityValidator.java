@@ -51,7 +51,7 @@ public class DateTimeGranularityValidator implements Validator<String>
                     throw new IllegalStateException("Unsupported granularity: " + chronoUnit);
             }
         } catch (Exception e) {
-            return ValidationResult.failure(String.format("Granularity %s is not supported%s", ValidationResult.quote(value), errorInfo));
+            return ValidationResult.failure("Granularity %s is not supported%s".formatted(ValidationResult.quote(value), errorInfo));
         }
     }
 }

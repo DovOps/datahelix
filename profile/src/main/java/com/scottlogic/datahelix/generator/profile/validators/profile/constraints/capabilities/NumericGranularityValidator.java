@@ -37,7 +37,7 @@ public class NumericGranularityValidator implements Validator<Object>
             NumericGranularity.create(granularity);
             return ValidationResult.success();
         } catch (ValidationException e) {
-            return ValidationResult.failure(String.format("%s%s", e.getMessage(), errorInfo));
+            return ValidationResult.failure("%s%s".formatted(e.getMessage(), errorInfo));
         }
     }
 }
